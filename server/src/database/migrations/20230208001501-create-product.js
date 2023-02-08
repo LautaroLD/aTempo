@@ -12,7 +12,7 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
-      descrition: {
+      description: {
         type: Sequelize.STRING
       },
       quantityInStock: {

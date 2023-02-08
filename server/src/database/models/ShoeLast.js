@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   ShoeLast.init({
-    lastName: DataTypes.STRING,
+    nameShoelast: DataTypes.STRING,
     description: DataTypes.STRING
   }, {
     sequelize,
