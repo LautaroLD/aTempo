@@ -45,7 +45,7 @@ const updateColor = async (req, res) => {
         prevColor.colorValue = data.colorValue;
 
         prevColor.save(prevColor).then(color => {
-            return req.status(200).json({message:'Color updated successfuly',color});
+            return req.status(200).json({message:'Color updated successfully',color});
         });
     } else {
         return res.status(404).json({message:'color not found'});
