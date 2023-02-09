@@ -22,9 +22,12 @@ module.exports = (sequelize, DataTypes) => {
     username: DataTypes.STRING,
     name: DataTypes.STRING,
     lastName: DataTypes.STRING,
+    documentId: DataTypes.STRING,
+    phoneNumber: DataTypes.STRING,
+    birthdate: DataTypes.DATE,
     email: DataTypes.STRING,
     password: DataTypes.STRING,
-    userRole: DataTypes.STRING,
+    isAdmin: DataTypes.BOOLEAN,
     active: DataTypes.BOOLEAN
   }, {
     sequelize,
