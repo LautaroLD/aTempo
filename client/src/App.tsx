@@ -1,7 +1,7 @@
 import AppRoute from "./router/AppRoute";
-import './styles/index.scss'
+import "./styles/index.scss";
 function App() {
-  return   <AppRoute />;
+  return <AppRoute />;
 }
 
 export default App;
