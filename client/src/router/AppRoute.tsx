@@ -6,7 +6,6 @@ import LogIn from "../pages/LogIn/LogIn";
 import Products from "../pages/Products/Products";
 import Profile from "../pages/Profile/Profile";
 import SignUp from "../pages/SignUp/SignUp";
-
 export default function AppRoute() {
   return (
     <BrowserRouter>
