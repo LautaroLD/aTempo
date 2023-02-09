@@ -1,4 +1,4 @@
-import Navbar from "../../components/Mavbar/Navbar";
+import Navbar from "../../components/Navbar/Navbar";
 
 export default function Home() {
   return (
