@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { PrivateRoutes, PublicRoutes } from "../models/routes";
 import { Roles } from "../models/roles";
 import Cart from "../pages/Cart/Cart";
@@ -20,16 +20,19 @@ export default function AppRoute() {
     <Suspense fallback={renderLoader()}>
       <BrowserRouter>
         <Layout>
-          <Route path="/" element={<Home />} />
-          <Route path="/products" element={<Products />} />
-          <Route path="/detail" element={<Detail />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/login" element={<LogIn />} />
-          <Route path={PublicRoutes.SIGNUP} element={<SignUp />} />
-          <Route element={<RoleGuard rol={Roles.ADMIN} />}>
-            <Route path={`${PrivateRoutes.ADMIN}/*`} element={<AdminDashboard />} />
-          </Route>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="/detail" element={<Detail />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/login" element={<LogIn />} />
+            <Route path={PublicRoutes.SIGNUP} element={<SignUp />} />
+            <Route element={<RoleGuard rol={Roles.ADMIN} />}>
+              <Route path={`${PrivateRoutes.ADMIN}/*`} element={<AdminDashboard />} />
+            </Route>
+            <Route path="*" element={<div>404</div>} />
+          </Routes>
         </Layout>
       </BrowserRouter>
     </Suspense>

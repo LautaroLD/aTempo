@@ -1,14 +1,13 @@
-import { Route, Routes } from "react-router-dom";
-
 interface Props {
   children: JSX.Element[] | JSX.Element;
 }
 function Layout({ children }: Props) {
   return (
-    <Routes>
+    <>
+      <p>HEADER</p>
       {children}
-      <Route path="*" element={<div>Not Found</div>} />
-    </Routes>
+      <p>FOOTER</p>
+    </>
   );
 }
 export default Layout;
