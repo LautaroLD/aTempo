@@ -6,7 +6,7 @@ const {
   login,
   updateUser,
 } = require("../controllers/users.controller");
-const {checkMultipart, handleUploadFirebase} = require("../middlewares/upload.middleware")
+const { checkMultipart, handleUploadFirebase } = require("../middlewares/upload.middleware")
 
 userRouter.post(
   "/",

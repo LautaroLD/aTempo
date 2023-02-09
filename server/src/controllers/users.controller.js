@@ -25,7 +25,7 @@ const createUser = async (req, res) => {
         const { name, lastName, email, password } = req.body;
         const hashedPassword = await hashPassword(password, 10);
         const [user, created] = await User.findOrCreate({
-            where: email ? { email: email} : { userName: userName},
+            where: email ? { email: email } : { userName: userName },
             defaults: {
                 name: name,
                 lastName: lastName,
@@ -73,18 +73,20 @@ const login = async (req, res) => {
             token
         });
     } catch (error) {
-        return res.status(500).json({message: error.message});
+        return res.status(500).json({ message: error.message });
     }
 };
 
 const updateUser = async (req, res) => {
     try {
-        const { name, lastName, email, userRole } = req.body;
-        
+        const { name, lastName, email, documentId, phoneNumber, birthdate } = req.body;
+
         const dataToUpdate = {
             name,
             lastName,
-            userRole
+            documentId,
+            phoneNumber,
+            birthdate
         }
 
         const userExists = await User.findOne({
