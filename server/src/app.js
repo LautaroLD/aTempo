@@ -1,14 +1,14 @@
 const app = require('./server');
 const http = require('http').createServer(app);
-const {sequelize} = require('./database/models/index');
+const { sequelize } = require('./database/models/index');
 
 const PORT = process.env.PORT || 3000;
 
-http.listen(PORT,()=>{
+http.listen(PORT, () => {
     console.log(`Running on port: ${PORT}`);
-    sequelize.sync({force:false}).then(()=>{
+    sequelize.sync({ force: false }).then(() => {
         console.log('conection to DB success');
-    }).catch(error =>{
+    }).catch(error => {
         console.log('conection error: ', error);
     })
 });

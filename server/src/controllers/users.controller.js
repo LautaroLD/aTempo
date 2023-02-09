@@ -1,6 +1,6 @@
 const { User } = require("../database/models");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+const { generateToken } = require("../helpers/jwtHandler");
 
 const hashPassword = async (password, saltRound) => {
     const salt = await bcrypt.genSalt(saltRound);
@@ -64,9 +64,7 @@ const login = async (req, res) => {
 
         await delete user.dataValues.password;
 
-        const secret = process.env.SECRET;
-
-        const token = jwt.sign({ user: user.dataValues }, secret, { expiresIn: "2h" });
+        const token = generateToken(user.dataValues);
 
         return res.status(200).json({
             message: "User access successfully",
