@@ -11,6 +11,7 @@ const app = express();
 const routerCategories = require('./routes/categoty.routes')
 const routerProduct = require('./routes/product.routes')
 const routerUsers = require('./routes/users.routes')
+const routerColor = require('./routes/color.routes')
 
 //Settings
 app.use(cors());
@@ -22,6 +23,7 @@ app.use(cookieParser());
 app.use('/category', routerCategories);
 app.use('/products', routerProduct);
 app.use('/users', routerUsers);
+app.use('/colors',routerColor);
 
 app.use((req, res, next) => {
     res.status(404).json({
