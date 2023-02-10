@@ -7,7 +7,7 @@ import { BiCheckbox, BiCheckboxChecked } from "react-icons/bi";
 
 import "./signup.sass";
 
-type InitialValues = {
+type SignUpFormValues = {
   nombre: string;
   apellido: string;
   email: string;
@@ -33,7 +33,7 @@ const signUpSchema = Yup.object().shape({
 
 export default function SignUp() {
   const [remember, setRemember] = useState<boolean>(false);
-  const INITIAL__VALUES: InitialValues = {
+  const INITIAL__VALUES__SIGNUP__FORM: SignUpFormValues = {
     nombre: "",
     apellido: "",
     email: "",
@@ -46,7 +46,7 @@ export default function SignUp() {
         <h1 className="signup__title">ATEMPO</h1>
         <h4 className="signup__subtitle">Ingresa tus datos para registrarte</h4>
         <Formik
-          initialValues={INITIAL__VALUES}
+          initialValues={INITIAL__VALUES__SIGNUP__FORM}
           validationSchema={signUpSchema}
           onSubmit={values => console.log(values)}
         >

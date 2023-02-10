@@ -8,19 +8,19 @@ import { FcGoogle } from "react-icons/fc";
 
 import "./login.sass";
 
-type InitialValues = {
+type LoginFormValues = {
   email: string;
   password: string;
 };
 
-const LoginSchema = Yup.object().shape({
+const loginSchema = Yup.object().shape({
   email: Yup.string().email("Email invalido").required("Email requerido"),
   password: Yup.string().min(6, "Contraseña minimo 6 caracteres").required("Contraseña requerida")
 });
 
 export default function LogIn() {
   const [remember, setRemember] = useState<boolean>(false);
-  const INITIAL__VALUES: InitialValues = {
+  const INITIAL__VALUES__LOGIN__FORM: LoginFormValues = {
     email: "",
     password: ""
   };
@@ -30,8 +30,8 @@ export default function LogIn() {
         <h1 className="login__title">ATEMPO</h1>
         <h4 className="login__subtitle">Inicia sesión para ingresar tu cuenta</h4>
         <Formik
-          initialValues={INITIAL__VALUES}
-          validationSchema={LoginSchema}
+          initialValues={INITIAL__VALUES__LOGIN__FORM}
+          validationSchema={loginSchema}
           onSubmit={values => console.log(values)}
         >
           {({ errors, touched }) => (
