@@ -1,10 +1,12 @@
 import React from "react";
-import Carousel from "../../components/Carousel/Carousel";
+import ProductCarousel from "../../components/ProductCarousel/ProductCarousel";
+import InstaCarousel from "../../components/InstaCarousel/InstaCarousel";
 
 export default function Products() {
   return (
     <div>
-      <Carousel />
+      <ProductCarousel />
+      <InstaCarousel />
     </div>
   );
 }

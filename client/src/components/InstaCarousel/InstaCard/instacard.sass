@@ -1,0 +1,46 @@
+.instacard
+    display: flex
+    justify-content: space-between
+    width: 170px
+    margin-bottom: 2em
+    gap: 20px
+    
+    .instacard__img
+        height: 230px
+        background: #000
+        min-width: 100%
+        object-fit: cover
+        border-radius: 5px
+        max-width: 100%
+
+        &:hover
+            filter: brightness(40%)
+            cursor: pointer
+    .instacard__body
+        display: flex
+        flex-direction: column
+        justify-content: center
+        position: absolute
+        width: 100%
+        padding: 15px
+        text-align: center
+        color: #fff
+        opacity: 0
+        height: 89%
+        width: 100%
+        margin: auto
+
+        &:hover 
+            opacity: 1
+            backdrop-filter: brightness(40%)
+            cursor: pointer
+        .instacard__body__icon
+            vertical-align: center
+            max-width: 62px
+            max-height: 62px
+            font-size: 62px
+            margin: 0 auto
+        .instacard__body__text
+            font-weight: 700
+            font-size: 18px
+            line-height: 22px

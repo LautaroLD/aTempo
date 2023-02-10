@@ -13,9 +13,10 @@ import "../../styles/carousel.sass";
 import { Navigation, Pagination, Mousewheel, Keyboard } from "swiper";
 import ProductCard from "./ProductCard/ProductCard";
 
-const Carousel = () => {
+const ProductCarousel = () => {
   return (
     <div>
+      <p className="carousel__title">Nuestros últimos productos</p>
       <Swiper
         cssMode={true}
         navigation={true}
@@ -44,4 +45,4 @@ const Carousel = () => {
   );
 };
 
-export default Carousel;
+export default ProductCarousel;

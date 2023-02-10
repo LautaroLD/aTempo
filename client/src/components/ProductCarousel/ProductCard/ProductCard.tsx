@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-import "../../../styles/productcard.sass";
+import "./productcard.sass";
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
+import { BsCircleFill } from "react-icons/bs";
+
 const ProductCard = () => {
   const [isFav, setIsFav] = useState(false);
 
@@ -7,19 +10,13 @@ const ProductCard = () => {
     <div className="card">
       <div className="card__header">
         {isFav ? (
-          <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSG9jEvk6sYDlxkfcOAws4s88s4l52lyNnOhzVOcZTI6w&s"
+          <AiFillHeart
+            color="#E42E2E"
             className="card__header__icon"
-            alt=""
-            onClick={() => setIsFav(false)}
+            onClick={() => setIsFav(!isFav)}
           />
         ) : (
-          <img
-            src="https://cdn-icons-png.flaticon.com/512/2/2267.png"
-            className="card__header__icon"
-            alt=""
-            onClick={() => setIsFav(true)}
-          />
+          <AiOutlineHeart className="card__header__icon" onClick={() => setIsFav(!isFav)} />
         )}
 
         <img
@@ -29,7 +26,11 @@ const ProductCard = () => {
         />
       </div>
       <div className="card__body">
-        <div className="card__body__colors"></div>
+        <div className="card__body__colors">
+          <BsCircleFill color="#000000" className="card__body__colors__icon" />
+          <BsCircleFill color="#9B5555" className="card__body__colors__icon" />
+          <BsCircleFill color="#4B2417" className="card__body__colors__icon" />
+        </div>
         <p className="card__body__title">Titulo del producto</p>
         <p className="card__body__subtitle">Ref:1475</p>
         <div className="card__body__star">
@@ -39,6 +40,7 @@ const ProductCard = () => {
               alt=""
             />
           </li>
+
           <li className="card__body__star__icon">
             <img
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSJclu3VU-1qgTkfdTd9K7hfza90UHjb_4RqTBz13y4lT14zCGqgUzHBX1hrqu2HE8Ta4&usqp=CAU"
