@@ -14,6 +14,7 @@ import RoleGuard from "./guards/RoleGuard";
 const renderLoader = () => <p>Loading Page</p>;
 const AdminDashboard = lazy(() => import("../pages/Private/Admin/AdminDashboard/AdminDashboard"));
 const SignUp = lazy(() => import("../pages/SignUp/SignUp"));
+const NotFound = lazy(() => import("../pages/NotFound/NotFound"));
 
 export default function AppRoute() {
   return (
@@ -31,7 +32,7 @@ export default function AppRoute() {
             <Route element={<RoleGuard rol={Roles.ADMIN} />}>
               <Route path={`${PrivateRoutes.ADMIN}/*`} element={<AdminDashboard />} />
             </Route>
-            <Route path="*" element={<div>404</div>} />
+            <Route path="*" element={<NotFound/>} />
           </Routes>
         </Layout>
       </BrowserRouter>
