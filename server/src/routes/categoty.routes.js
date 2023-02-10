@@ -3,6 +3,6 @@ const routerCategories = Router();
 
 const { showAllCategories } = require('../controllers/categories.controller');
 
-routerCategories.get('/',  showAllCategories);
+routerCategories.get('/', showAllCategories);
 
 module.exports = routerCategories;
