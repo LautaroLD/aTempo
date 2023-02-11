@@ -12,9 +12,6 @@ module.exports = {
       imgUrl: {
         type: Sequelize.STRING
       },
-      productId: {
-        type: Sequelize.INTEGER
-      },
       status: {
         type: Sequelize.INTEGER
       },

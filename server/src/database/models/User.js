@@ -16,6 +16,20 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.Address, {
         foreignKey: 'userId'
       })
+      User.belongsToMany(models.Product, {
+        through: 'Favorites',
+        foreignKey: {
+          name: 'userId'
+        }
+      })
+      User.hasMany(models.Review);
+      //A la tabla de muchos a muchos Reviews habria q agregarle los atributos score(int) y comment(string)  
+      // User.belongsToMany(models.Product, {
+      //   through: 'Reviews',
+      //   foreignKey: {
+      //     name: 'userId'
+      //   }
+      // })
     }
   }
   User.init({
