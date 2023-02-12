@@ -1,4 +1,4 @@
-const Color = require('../database/models/index');
+const { Color } = require('../database/models/index');
 
 const showAllColors = async (req, res) => {
     const colors = await Color.findAll();
@@ -45,7 +45,7 @@ const updateColor = async (req, res) => {
         prevColor.colorValue = data.colorValue;
 
         prevColor.save(prevColor).then(color => {
-            return req.status(200).json({message:'Color updated successfully',color});
+            return ewa.status(200).json({message:'Color updated successfully',color});
         });
     } else {
         return res.status(404).json({message:'color not found'});
