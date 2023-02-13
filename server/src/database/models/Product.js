@@ -4,11 +4,6 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Product extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
       Product.belongsToMany(models.Category, {
         through: 'ProductCategories',
@@ -43,16 +38,6 @@ module.exports = (sequelize, DataTypes) => {
       Product.belongsTo(models.Brand);
       Product.hasMany(models.ProductImg);
       Product.hasMany(models.Review);
-      // Product.hasMany(models.Order); 
-      // Product.hasMany(models.Favorite);
-
-      //A la tabla de muchos a muchos Reviews habria q agregarle los atributos score(int) y comment(string)  
-      // Product.belongsToMany(models.User, {
-      //   through: 'Reviews',
-      //   foreignKey: {
-      //     name: 'productId'
-      //   }
-      // })
     }
   }
   Product.init({
