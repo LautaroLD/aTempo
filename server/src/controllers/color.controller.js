@@ -45,7 +45,7 @@ const updateColor = async (req, res) => {
         prevColor.colorValue = data.colorValue;
 
         prevColor.save(prevColor).then(color => {
-            return ewa.status(200).json({message:'Color updated successfully',color});
+            return res.status(200).json({message:'Color updated successfully',color});
         });
     } else {
         return res.status(404).json({message:'color not found'});
