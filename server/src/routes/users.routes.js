@@ -1,4 +1,5 @@
 const Router = require('express');
+const protectRouters = require('../middlewares/protect.middleware')
 const userRouter = Router();
 const {
   getUser,
@@ -19,6 +20,8 @@ userRouter.post(
   '/login',
   login
 )
+
+userRouter.use(protectRouters)
 
 userRouter.get('/', getUser)
 
