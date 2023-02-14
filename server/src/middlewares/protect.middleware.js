@@ -1,16 +1,16 @@
-const jwt =  require('jsonwebtoken')
+const jwt = require('jsonwebtoken')
 const { User } = require("../database/models");
+const { validateToken } = require("../helpers/jwtHandler");
 
 const protectRouters = async (req, res, next) => {
+    let token;
     try {
-        let token = ''
 
         if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
             token = req.headers.authorization.split(' ')[1]
         }
 
-        const secret = process.env.SECRET
-        const decoded = jwt.verify(token, secret)
+        const decoded = validateToken(token);
 
         const user = await User.findOne({ where: { id: decoded.user.id } })
 
