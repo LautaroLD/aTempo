@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { PrivateRoutes, PublicRoutes } from "../models/routes";
 import { Roles } from "../models/roles";
 import Cart from "../pages/Cart/Cart";
-import Detail from "../pages/Detail/Detail";
+import ProductDetail from "../pages/ProductDetail/ProductDetail";
 import Home from "../pages/Home/Home";
 import LogIn from "../pages/LogIn/LogIn";
 import Products from "../pages/Products/Products";
@@ -24,7 +24,7 @@ export default function AppRoute() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/products" element={<Products />} />
-            <Route path="/detail" element={<Detail />} />
+            <Route path={PublicRoutes.PRODUCTDETAIL} element={<ProductDetail />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/login" element={<LogIn />} />
