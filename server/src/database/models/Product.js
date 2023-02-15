@@ -38,6 +38,8 @@ module.exports = (sequelize, DataTypes) => {
       Product.belongsTo(models.Brand);
       Product.hasMany(models.ProductImg);
       Product.hasMany(models.Review);
+      Product.hasMany(models.ProductsInOrder);
+      Product.hasOne(models.ProductsInCart)
     }
   }
   Product.init({
@@ -48,6 +50,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Product',
+    paranoid: true
   });
   return Product;
 };

@@ -5,16 +5,18 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class Cart extends Model {
     static associate(models) {
-      // define association here
+      Cart.belongsTo(models.User,{
+        foreignKey:'userId'
+      })
+      Cart.hasMany(models.ProductsInCart)
     }
   }
   Cart.init({
-    orderNumber: DataTypes.INTEGER,
-    userId: DataTypes.INTEGER,
-    total: DataTypes.INTEGER
+    userId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Cart',
+    paranoid: true
   });
   return Cart;
 };
