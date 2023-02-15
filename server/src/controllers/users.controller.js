@@ -48,7 +48,7 @@ const createUser = async (req, res) => {
     }
 }
 
-const login = async (req, res) => {
+const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
 
@@ -65,10 +65,12 @@ const login = async (req, res) => {
         await delete user.dataValues.password;
 
         const token = generateToken(user.dataValues);
+        const jsonUserData = user.dataValues;
 
         return res.status(200).json({
             message: "User access successfully",
-            token
+            token,
+            jsonUserData
         });
     } catch (error) {
         return res.status(500).json({ message: error.message });
@@ -114,6 +116,6 @@ const updateUser = async (req, res) => {
 module.exports = {
     getUser,
     createUser,
-    login,
+    loginUser,
     updateUser
 }
