@@ -41,14 +41,17 @@ const createUser = async (req, res) => {
 
         await delete user.dataValues.password;
 
-        res.status(200).json({ success: `User added with e-mail ${req.body.email}`, user: user.dataValues })
+        res.status(200).json({
+            success: `User added with e-mail ${req.body.email}`,
+            user: user.dataValues
+        })
 
     } catch (error) {
         res.status(400).json(({ message: error.message }))
     }
 }
 
-const login = async (req, res) => {
+const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
 
@@ -68,7 +71,8 @@ const login = async (req, res) => {
 
         return res.status(200).json({
             message: "User access successfully",
-            token
+            token,
+            user: user.dataValues
         });
     } catch (error) {
         return res.status(500).json({ message: error.message });
@@ -114,6 +118,6 @@ const updateUser = async (req, res) => {
 module.exports = {
     getUser,
     createUser,
-    login,
+    loginUser,
     updateUser
 }
