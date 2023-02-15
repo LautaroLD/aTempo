@@ -9,7 +9,7 @@ type Props = {
   openNavBar: boolean;
   openNavBarFunction: React.MouseEventHandler<SVGElement>;
   desktopScreen: boolean;
-  isLogin: boolean
+  isLogin: boolean;
 };
 
 export default function Navbar({ openNavBar, openNavBarFunction, desktopScreen, isLogin }: Props) {
@@ -80,26 +80,27 @@ export default function Navbar({ openNavBar, openNavBarFunction, desktopScreen, 
         </div>
         <div hidden={desktopScreen} className="navbar__element__bottom bottom">
           <ul className="bottom__list">
-            {isLogin &&
+            {isLogin && (
               <li className="bottom__list__item item">
                 <Link className="item__link" to={"./"}>
                   <BsHeart className="item__link__icon" />
                   LISTA DE DESEADOS
                 </Link>
               </li>
-            }
+            )}
             <li className="bottom__list__item item">
               <Link className="item__link" to={isLogin ? "/profile" : "/login"}>
-                {isLogin ? <>
-                  <FaUser className="item__link__icon" />
-                  JHON
-                </>
-                  :
+                {isLogin ? (
                   <>
-                  <FaRegUser className="item__link__icon" />
-                  MI CUENTA
+                    <FaUser className="item__link__icon" />
+                    JHON
                   </>
-                }
+                ) : (
+                  <>
+                    <FaRegUser className="item__link__icon" />
+                    MI CUENTA
+                  </>
+                )}
               </Link>
             </li>
           </ul>
