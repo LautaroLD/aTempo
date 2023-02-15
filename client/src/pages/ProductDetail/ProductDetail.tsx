@@ -28,7 +28,7 @@ const shoesName = ["R", "A"];
 
 const sizes = [...new Array(39)];
 
-export default function Detail() {
+export default function ProductDetail() {
   const ref = useRef<SwiperRef>(null);
   const [isFav, setIsFav] = useState<boolean>(false);
   const [isZoom, setIsZoom] = useState<boolean>(false);
@@ -41,7 +41,7 @@ export default function Detail() {
     if (quantity <= 0) setQuantity(0);
   };
 
-  const handleClickZoom = () => {
+  const handleClickZoom = (): void => {
     if (ref.current) {
       if (isZoom) {
         ref.current.swiper.zoom.out();
@@ -95,7 +95,10 @@ export default function Detail() {
             <TbMoodBoy className="tags__icons" /> Niños
           </div>
         </div>
-        <img src="https://firebasestorage.googleapis.com/v0/b/c8t54pern.appspot.com/o/images%2Fbrands%2FSansha.png?alt=media&token=94eb82b7-0c8f-4ef6-b126-3dce43bf8feb" alt="sansha" />
+        <img
+          src="https://firebasestorage.googleapis.com/v0/b/c8t54pern.appspot.com/o/images%2Fbrands%2FSansha.png?alt=media&token=94eb82b7-0c8f-4ef6-b126-3dce43bf8feb"
+          alt="sansha"
+        />
 
         <div className="body__star">
           <div className="body__price">$86</div>
