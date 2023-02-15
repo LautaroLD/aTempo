@@ -5,21 +5,25 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class Order extends Model {
     static associate(models) {
-      // Order.belongsTo(models.User)
-      // Order.belongsTo(models.Product, {
-      //   foreignKey: 'productId'
-      // })
+      Order.belongsTo(models.User, {
+        foreignKey: 'userId'
+      })
+      Order.belongsToMany(models.Status, {
+        through: 'statusOrders',
+        foreignKey: {
+          name: 'orderId'
+        }
+      })
+      Order.hasMany(models.ProductsInOrder)
     }
   }
   Order.init({
-    salePrice: DataTypes.INTEGER,
-    quantity: DataTypes.INTEGER,
-    subtotal: DataTypes.INTEGER,
-    state: DataTypes.INTEGER,
-    cartId: DataTypes.INTEGER
+    userId: DataTypes.INTEGER,
+    totalPrice: DataTypes.FLOAT
   }, {
     sequelize,
     modelName: 'Order',
+    paranoid: true
   });
   return Order;
 };

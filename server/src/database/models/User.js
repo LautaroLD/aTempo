@@ -5,10 +5,10 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
-      User.hasMany(models.Order, {
+      User.hasMany(models.Address, {
         foreignKey: 'userId'
       })
-      User.hasMany(models.Address, {
+      User.hasMany(models.Order, {
         foreignKey: 'userId'
       })
       User.belongsToMany(models.Product, {
@@ -18,10 +18,12 @@ module.exports = (sequelize, DataTypes) => {
         }
       })
       User.hasMany(models.Review);
+      User.hasOne(models.Cart,{
+        foreignKey:'userId'
+      });
     }
   }
   User.init({
-    username: DataTypes.STRING,
     name: DataTypes.STRING,
     lastName: DataTypes.STRING,
     documentId: DataTypes.STRING,
@@ -30,10 +32,10 @@ module.exports = (sequelize, DataTypes) => {
     email: DataTypes.STRING,
     password: DataTypes.STRING,
     isAdmin: DataTypes.BOOLEAN,
-    active: DataTypes.BOOLEAN
   }, {
     sequelize,
     modelName: 'User',
+    paranoid: true
   });
   return User;
 };
