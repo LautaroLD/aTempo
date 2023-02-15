@@ -32,7 +32,7 @@ export default function AppRoute() {
             <Route element={<RoleGuard rol={Roles.ADMIN} />}>
               <Route path={`${PrivateRoutes.ADMIN}/*`} element={<AdminDashboard />} />
             </Route>
-            <Route path="*" element={<NotFound/>} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Layout>
       </BrowserRouter>
