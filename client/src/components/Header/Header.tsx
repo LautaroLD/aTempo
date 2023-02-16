@@ -7,7 +7,7 @@ import { BsHeart, BsCart3 } from "react-icons/bs";
 import FormSearch from "./FormSearch/FormSearch";
 import { Link } from "react-router-dom";
 
-import "./header.sass";
+import "../../styles/header.sass";
 
 export default function Header() {
   const [isOpenSearch, setIsOpenSearch] = useState<boolean>(false);
@@ -45,12 +45,12 @@ export default function Header() {
         </div>
         <div className="header__containerIcons">
           {isDesktopScreen && isLogin && (
-            <i>
+            <Link to={"./"}>
               <BsHeart className="header__containerIcons__item" />
-            </i>
+            </Link>
           )}
           {isDesktopScreen && (
-            <p className="header__containerIcons__user">
+            <i className="header__containerIcons__user">
               {isLogin ? (
                 <>
                   <FaUser />
@@ -63,17 +63,17 @@ export default function Header() {
                   <FaAngleDown />
                 </>
               )}
-            </p>
+            </i>
           )}
           {!isDesktopScreen && (
             <i className="header__containerIcons__search">
               <BiSearch onClick={openSearchFunction} className="header__containerIcons__item" />
             </i>
           )}
-          <i className="cart">
+          <Link to={"/cart"} className="cart">
             <div className="cart__number"><p>+9</p></div>
             <BsCart3 className="header__containerIcons__item" />
-          </i>
+          </Link>
           {!isDesktopScreen && (
             <i className="header__containerIcons__menu">
               <BiMenu onClick={openNavBarFunction} className="header__containerIcons__item" />

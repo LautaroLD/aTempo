@@ -61,9 +61,12 @@
     align-items: center
     justify-content: space-around
     padding-left: 10px
-    i
+    i, a
       height: 25px
       width: auto
+      font-style: normal
+      &:hover
+        cursor: pointer
     &__fav
       color: white
     &__user
@@ -87,7 +90,6 @@
         right: -25%
         top: -15%
         font-weight: 700
-        // padding: 2px 5px 0 1px 
         padding: 3px 4px 1px 2px
         border-radius: 50px
         font-size: 12px
@@ -106,8 +108,5 @@
     &__containerIcons
       i
         margin: 5px
-      .cart__number
-        width: auto
-        height: 16px
       &__item
         font-size: 25px
