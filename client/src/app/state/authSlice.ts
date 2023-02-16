@@ -49,12 +49,3 @@ export const loginUser = (dataLogin: LoginValues) => async (dispatch: any) => {
     console.log(error);
   }
 };
-
-export const getProductsById = (id: string) => async (dispatch: any) => {
-  try {
-    const { product } = await getRequest(`/products/${id}`);
-    // dispatch(setDetailProduct(product));
-  } catch (error) {
-    console.log(error);
-  }
-};
