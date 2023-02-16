@@ -1,17 +1,16 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../app/store";
 import { Link } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { FaEye } from "react-icons/fa";
+import { LoginValues } from "../../models/LoginValues";
+import { loginUser } from "../../app/state/authSlice";
 import { BiCheckbox, BiCheckboxChecked } from "react-icons/bi";
 import { FcGoogle } from "react-icons/fc";
+import { FaEye } from "react-icons/fa";
 
 import "./login.sass";
-
-type LoginFormValues = {
-  email: string;
-  password: string;
-};
 
 const loginSchema = Yup.object().shape({
   email: Yup.string().email("Email invalido").required("Email requerido"),
@@ -19,8 +18,14 @@ const loginSchema = Yup.object().shape({
 });
 
 export default function LogIn() {
+  const dispatch = useDispatch<AppDispatch>();
+
+  const handleLogin = (values: LoginValues) => {
+    dispatch(loginUser(values));
+  };
+
   const [remember, setRemember] = useState<boolean>(false);
-  const INITIAL__VALUES__LOGIN__FORM: LoginFormValues = {
+  const INITIAL__VALUES__LOGIN__FORM: LoginValues = {
     email: "",
     password: ""
   };
@@ -32,8 +37,7 @@ export default function LogIn() {
         <Formik
           initialValues={INITIAL__VALUES__LOGIN__FORM}
           validationSchema={loginSchema}
-          onSubmit={values => console.log(values)}
-        >
+          onSubmit={values => handleLogin(values)}>
           {({ errors, touched }) => (
             <Form className="login__form">
               <Field className="login__form__field" name="email" placeholder="E-mail" />

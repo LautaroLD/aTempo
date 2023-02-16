@@ -1,10 +1,14 @@
+@mixin respond-to ()
+    @media only screen and (min-width: 768px)
+        @content
+
 .container__login
     display: flex
     flex-direction: column
     align-items: center
     width: 100%
     height: 100%
-    .login 
+    .login
         display: flex
         flex-direction: column
         justify-content: center
@@ -12,6 +16,7 @@
         background-color: #111
         height: 100%
         width: 90%
+        max-width: 23rem
         margin-top: 20px
         border-radius: 5px
         .login__title
@@ -83,7 +88,7 @@
                 width: 100%
                 margin-top: 20px
                 padding: 8px
-                border-radius: 5px    
+                border-radius: 5px
                 border: none
                 background-color: #E42E2E
                 color: #fff
@@ -97,7 +102,7 @@
                 width: 100%
                 margin-top: 20px
                 padding: 8px
-                border-radius: 5px    
+                border-radius: 5px
                 border: none
                 background-color: #fff
                 color: #111
@@ -113,6 +118,7 @@
         justify-content: flex-start
         align-items: flex-start
         width: 90%
+        max-width: 23rem
         margin-top: 20px
         margin-bottom: 30px
         border-radius: 5px
@@ -153,13 +159,20 @@
             background-color: #fff
             color: #111
             padding: 8px
-            margin:20px 0px
+            margin: 20px 0px
             border-radius: 5px
             text-align: center
             text-decoration: none
             cursor: pointer
             font-size: 18px
-        
 
-
-
+.container__login
+    @include respond-to ()
+        display: flex
+        flex-direction: row
+        justify-content: center
+        gap: 3rem
+        align-items: center
+        .login
+            margin-top: 2rem
+            margin-bottom: 2rem
