@@ -30,9 +30,9 @@ const InstaCarousel = () => {
         keyboard={true}
         modules={[Navigation, Pagination, Mousewheel, Keyboard]}
         className="carousel">
-        {images.map(image => {
+        {images.map((image, index) => {
           return (
-            <SwiperSlide>
+            <SwiperSlide key={`insta-carrousel-${index}`}>
               <InstaCard image={image} />
             </SwiperSlide>
           );

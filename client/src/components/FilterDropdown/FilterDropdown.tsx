@@ -11,36 +11,31 @@ const mockup = [
     id: 1,
     title: "Categoría",
     content: [
-      { icon: `<GiBabyFace />`, name: "BALLET", color: null },
-      { icon: `<IoMdMan />`, name: "JAZZ", color: null },
-      { icon: `<IoMdMan />`, name: "PERSONAJE", color: null },
-      { icon: `<IoMdMan />`, name: "DANSNEAKERS", color: null },
-      { icon: `<IoMdMan />`, name: "BALLROOM", color: null },
-      { icon: `<IoMdMan />`, name: "MODERNO", color: null },
-      { icon: `<IoMdMan />`, name: "TANGO", color: null },
-      { icon: `<IoMdMan />`, name: "OUTLET", color: null }
+      { icon: `s`, name: "BALLET" },
+      { icon: `s`, name: "JAZZ" },
+      { icon: `s`, name: "PERSONAJE" },
+      { icon: `s`, name: "DANSNEAKERS" },
+      { icon: `s`, name: "BALLROOM" },
+      { icon: `s`, name: "MODERNO" },
+      { icon: `s`, name: "TANGO" },
+      { icon: `s`, name: "OUTLET" }
     ]
   },
   {
     id: 2,
 
     title: "Marcas",
-    content: [
-      { icon: null, name: "CAPEZIO", color: null },
-      { icon: null, name: "SANSHA", color: null },
-      { icon: null, name: "LaDuca", color: null },
-      { icon: null, name: "BLOCH", color: null }
-    ]
+    content: [{ name: "CAPEZIO" }, { name: "SANSHA" }, { name: "LaDuca" }, { name: "BLOCH" }]
   },
   {
     id: 3,
 
     title: "Colores",
     content: [
-      { color: "#000", name: "NEGRO", icon: null },
-      { color: "#E42E2E", name: "ROJO", icon: null },
-      { color: "#D8BEAF", name: "BEIGE", icon: null },
-      { color: "#4B2417", name: "MARRÓN", icon: null }
+      { color: "#000", name: "NEGRO" },
+      { color: "#E42E2E", name: "ROJO" },
+      { color: "#D8BEAF", name: "BEIGE" },
+      { color: "#4B2417", name: "MARRÓN" }
     ]
   },
   {
@@ -48,8 +43,8 @@ const mockup = [
 
     title: "Edad",
     content: [
-      { icon: `<GiBabyFace />`, name: "Niños", color: null },
-      { icon: `<IoMdMan />`, name: "Adultos", color: null }
+      { icon: `s`, name: "Niños" },
+      { icon: `s`, name: "Adultos" }
     ]
   },
   {
@@ -57,9 +52,9 @@ const mockup = [
 
     title: "Sexo",
     content: [
-      { icon: `<GiBabyFace />`, name: "Unisex", color: null },
-      { icon: `<IoMdMan />`, name: "Hombre", color: null },
-      { icon: `<IoMdMan />`, name: "Mujer", color: null }
+      { icon: `s`, name: "Unisex" },
+      { icon: `s`, name: "Hombre" },
+      { icon: `s`, name: "Mujer" }
     ]
   },
   {
@@ -67,8 +62,8 @@ const mockup = [
 
     title: "Talles",
     content: [
-      { icon: `<GiBabyFace />`, name: "Niños", color: null },
-      { icon: `<IoMdMan />`, name: "Adultos", color: null }
+      { icon: `s`, name: "Niños" },
+      { icon: `s`, name: "Adultos" }
     ]
   },
   {
@@ -76,35 +71,32 @@ const mockup = [
 
     title: "Orden",
     content: [
-      { icon: null, name: "Relevante", color: null },
-      { icon: null, name: "Más populares", color: null },
-      { icon: null, name: "Nombre: A-Z", color: null },
-      { icon: null, name: "Nombre: Z-A", color: null },
-      { icon: null, name: "Precio: Alto a bajo", color: null },
-      { icon: null, name: "Precio: Bajo a alto", color: null },
-      { icon: null, name: "Puntuación más alta", color: null }
+      { name: "Relevante" },
+      { name: "Más populares" },
+      { name: "Nombre: A-Z" },
+      { name: "Nombre: Z-A" },
+      { name: "Precio: Alto a bajo" },
+      { name: "Precio: Bajo a alto" },
+      { name: "Puntuación más alta" }
     ]
   }
 ];
 
+type Properties = {
+  color?: string;
+  icon?: string;
+  name: string;
+};
 const FilterDropdown = () => {
-  const [show, setShow] = useState(null);
-  const [close, setClose] = useState(false);
-  const [selected, setSelected] = useState([]);
+  const [show, setShow] = useState<Number | null>(null);
+  const [close, setClose] = useState<Boolean>(false);
 
-  const handleSelectedFilter = () => {
+  const toggle = (id: Number | null) => {
     try {
-    } catch (error) {
-      return error;
-    }
-  };
-
-  const toggle = (i: any) => {
-    try {
-      if (show === i) {
+      if (show === id) {
         setShow(null);
       } else {
-        return setShow(i);
+        return setShow(id);
       }
       return setShow(null);
     } catch (error) {
@@ -117,10 +109,11 @@ const FilterDropdown = () => {
         <p className="filterdropdown__header__text">Definir filtros y orden</p>
         <AiOutlineClose className="filterdropdown__header__close" onClick={() => setClose(true)} />
       </div>
+
       <div className="filterdropdown__items">
         {mockup.map(item => {
           return (
-            <div className="filterdropdown__items__item" key={item.id}>
+            <div className="filterdropdown__items__item" key={`dropdown-${item.id}`}>
               <div className="filterdropdown__items__item__closed" onClick={() => toggle(item.id)}>
                 <p className="filterdropdown__items__item__closed__text">{item.title}</p>
                 {show === item.id ? (
@@ -131,10 +124,10 @@ const FilterDropdown = () => {
               </div>
 
               {show === item.id &&
-                item.content.map(e => {
-                  const { color, icon, name } = e;
+                item.content.map((properties: Properties, index) => {
+                  const { color, icon, name } = properties;
                   return (
-                    <div className="filterdropdown__items__item__open">
+                    <div className="filterdropdown__items__item__open" key={index}>
                       {icon && <GiBabyFace className="filterdropdown__items__item__open__icon" />}
                       {color && (
                         <BsCircleFill
@@ -142,6 +135,7 @@ const FilterDropdown = () => {
                           className="filterdropdown__items__item__open__icon"
                         />
                       )}
+
                       <p className="filterdropdown__items__item__open__text">{name}</p>
                     </div>
                   );

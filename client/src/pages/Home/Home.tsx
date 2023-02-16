@@ -1,10 +1,13 @@
 import Navbar from "../../components/Navbar/Navbar";
+import ProductCarousel from "../../components/ProductCarousel/ProductCarousel";
+import InstaCarousel from "../../components/InstaCarousel/InstaCarousel";
 
 export default function Home() {
   return (
     <div className="">
       <Navbar />
-      <h1>Este es el home</h1>
+      <ProductCarousel />
+      <InstaCarousel />
     </div>
   );
 }
