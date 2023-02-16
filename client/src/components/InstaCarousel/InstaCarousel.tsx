@@ -29,7 +29,8 @@ const InstaCarousel = () => {
         mousewheel={true}
         keyboard={true}
         modules={[Navigation, Pagination, Mousewheel, Keyboard]}
-        className="carousel">
+        className="carousel"
+      >
         {images.map((image, index) => {
           return (
             <SwiperSlide key={`insta-carrousel-${index}`}>

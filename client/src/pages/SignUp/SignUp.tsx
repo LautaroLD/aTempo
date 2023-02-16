@@ -40,7 +40,7 @@ export default function SignUp() {
     password: "",
     confirmPassword: ""
   };
-  
+
   return (
     <div className="container__signup">
       <div className="signup">
