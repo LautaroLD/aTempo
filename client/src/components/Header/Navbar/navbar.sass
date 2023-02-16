@@ -8,20 +8,20 @@
     left: 0
     right: 0
     bottom: 0
-    width: 100vw
-    height: 100%
     position: fixed
     background-color: #0000006c
-    overflow-y: scroll
+    overflow-y: hidden
 
     &__element
         background-color: #000
         width: 70%
-        min-height: 100%
+        height: 100%
         color: white
         display: flex
         flex-direction: column
-
+        overflow-y: scroll 
+        @include respond-to ()
+            overflow-y: hidden
         &__top
             padding: 40px 20px
             display: flex
@@ -105,5 +105,5 @@
                             border-block: none
                         a
                             img
-                                width: 30px
-                                height: 30px
+                                width: 35px
+                                height: 35px

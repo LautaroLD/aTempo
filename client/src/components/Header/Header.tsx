@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
-import "./header.sass";
 import { BiChevronDown, BiMenu, BiSearch } from "react-icons/bi";
 import { Icons } from "../../assets/icons/icons";
 import Navbar from "./Navbar/Navbar";
 import { FaAngleDown, FaUser } from "react-icons/fa";
-import { BsHeart } from "react-icons/bs";
+import { BsHeart, BsCart3 } from "react-icons/bs";
 import FormSearch from "./FormSearch/FormSearch";
-import { AiOutlineShoppingCart } from "react-icons/ai";
+import { Link } from "react-router-dom";
+
+import "../../styles/header.sass";
+
 export default function Header() {
   const [isOpenSearch, setIsOpenSearch] = useState<boolean>(false);
   const [isOpenNavBar, setIsOpenNavBar] = useState<boolean>(false);
@@ -19,9 +21,9 @@ export default function Header() {
   }, []);
 
   if (isOpenNavBar && !isDesktopScreen) {
-    document.querySelector("html").style.overflow = "hidden";
+    document.body.style.overflow = "hidden"
   } else {
-    document.querySelector("html").style.overflow = "auto";
+    document.body.style.overflow = "auto"
   }
   const openSearchFunction = (): void => {
     setIsOpenSearch(!isOpenSearch);
@@ -34,19 +36,21 @@ export default function Header() {
     <>
       <header className="header">
         <div className="header__containerLogo">
-          <img className="header__containerLogo__logo" src={Icons.Logo} alt="Logo" />
+          <Link className="header__containerLogo__logo" to={"./"}>
+            <img src={Icons.Logo} alt="Logo" />
+          </Link>
         </div>
         <div hidden={!isOpenSearch && !isDesktopScreen} className="header__containerSearch">
           <FormSearch />
         </div>
         <div className="header__containerIcons">
           {isDesktopScreen && isLogin && (
-            <i>
+            <Link to={"./"}>
               <BsHeart className="header__containerIcons__item" />
-            </i>
+            </Link>
           )}
           {isDesktopScreen && (
-            <p className="header__containerIcons__user">
+            <i className="header__containerIcons__user">
               {isLogin ? (
                 <>
                   <FaUser />
@@ -59,17 +63,17 @@ export default function Header() {
                   <FaAngleDown />
                 </>
               )}
-            </p>
+            </i>
           )}
           {!isDesktopScreen && (
             <i className="header__containerIcons__search">
               <BiSearch onClick={openSearchFunction} className="header__containerIcons__item" />
             </i>
           )}
-          <i className="cart">
-            <p className="cart__number"></p>{" "}
-            <AiOutlineShoppingCart className="header__containerIcons__item" />
-          </i>
+          <Link to={"/cart"} className="cart">
+            <div className="cart__number"><p>+9</p></div>
+            <BsCart3 className="header__containerIcons__item" />
+          </Link>
           {!isDesktopScreen && (
             <i className="header__containerIcons__menu">
               <BiMenu onClick={openNavBarFunction} className="header__containerIcons__item" />
