@@ -1,8 +1,7 @@
 import { LoginValues } from "../../models/LoginValues";
 import { postRequest } from "../../services/httpRequest";
 import { User } from "../../models/User";
-import { createSlice } from "@reduxjs/toolkit";
-import { getRequest } from "../../services/httpRequest";
+import { createSlice, Dispatch } from "@reduxjs/toolkit";
 
 type InitialAuth = {
   user: User;
@@ -41,7 +40,7 @@ export const { setLogin } = authSlice.actions;
 
 export default authSlice.reducer;
 
-export const loginUser = (dataLogin: LoginValues) => async (dispatch: any) => {
+export const loginUser = (dataLogin: LoginValues) => async (dispatch: Dispatch) => {
   try {
     const user = await postRequest(dataLogin, "/users/login");
     dispatch(setLogin(user));
