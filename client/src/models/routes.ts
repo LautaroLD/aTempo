@@ -2,7 +2,7 @@ export const PublicRoutes = {
   LOGIN: "login",
   SIGNUP: "signup",
   HOME: "/",
-  PRODUCTDETAIL:"product/:id"
+  PRODUCTDETAIL: "product/:id"
 };
 
 export const PrivateRoutes = {

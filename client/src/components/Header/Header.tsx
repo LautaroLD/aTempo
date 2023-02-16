@@ -21,9 +21,9 @@ export default function Header() {
   }, []);
 
   if (isOpenNavBar && !isDesktopScreen) {
-    document.body.style.overflow = "hidden"
+    document.body.style.overflow = "hidden";
   } else {
-    document.body.style.overflow = "auto"
+    document.body.style.overflow = "auto";
   }
   const openSearchFunction = (): void => {
     setIsOpenSearch(!isOpenSearch);
@@ -71,7 +71,9 @@ export default function Header() {
             </i>
           )}
           <Link to={"/cart"} className="cart">
-            <div className="cart__number"><p>+9</p></div>
+            <div className="cart__number">
+              <p>+9</p>
+            </div>
             <BsCart3 className="header__containerIcons__item" />
           </Link>
           {!isDesktopScreen && (

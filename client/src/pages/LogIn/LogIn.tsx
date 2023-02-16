@@ -37,7 +37,8 @@ export default function LogIn() {
         <Formik
           initialValues={INITIAL__VALUES__LOGIN__FORM}
           validationSchema={loginSchema}
-          onSubmit={values => handleLogin(values)}>
+          onSubmit={values => handleLogin(values)}
+        >
           {({ errors, touched }) => (
             <Form className="login__form">
               <Field className="login__form__field" name="email" placeholder="E-mail" />

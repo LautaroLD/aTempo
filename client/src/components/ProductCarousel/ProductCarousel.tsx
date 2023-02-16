@@ -27,7 +27,8 @@ const ProductCarousel = () => {
         mousewheel={true}
         keyboard={true}
         modules={[Navigation, Pagination, Mousewheel, Keyboard]}
-        className="carousel">
+        className="carousel"
+      >
         <SwiperSlide>
           <ProductCard />
         </SwiperSlide>

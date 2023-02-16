@@ -72,7 +72,8 @@ export default function ProductDetail() {
           keyboard={true}
           modules={[Navigation, Pagination, Mousewheel, Keyboard, Zoom]}
           zoom={true}
-          onClick={handleClickZoom}>
+          onClick={handleClickZoom}
+        >
           {images.map((image, index) => {
             return (
               <SwiperSlide key={`prod-${index}`} zoom>
@@ -159,12 +160,14 @@ export default function ProductDetail() {
             <button
               id="detail"
               onClick={event => handleActiveDetail(event)}
-              className={`tab__btn ${isActive.details ? "tab__btn__active" : ""}`}>
+              className={`tab__btn ${isActive.details ? "tab__btn__active" : ""}`}
+            >
               Detalles
             </button>
             <button
               onClick={event => handleActiveDetail(event)}
-              className={`tab__btn ${isActive.reviews ? "tab__btn__active" : ""}`}>
+              className={`tab__btn ${isActive.reviews ? "tab__btn__active" : ""}`}
+            >
               Reseñas
             </button>
           </div>
