@@ -1,5 +1,5 @@
 import Footer from "../components/footer/Footer";
-import Navbar from "../components/Navbar/Navbar";
+import Header from "../components/Header/Header";
 
 interface Props {
   children: JSX.Element[] | JSX.Element;
@@ -7,7 +7,7 @@ interface Props {
 function Layout({ children }: Props) {
   return (
     <>
-      <Navbar />
+      <Header />
       {children}
       <Footer />
     </>

@@ -8,13 +8,14 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.UUID
       },
+      isAdmin: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+      },
       name: {
         type: Sequelize.STRING
       },
       lastName: {
-        type: Sequelize.STRING
-      },
-      username: {
         type: Sequelize.STRING
       },
       email: {
@@ -26,9 +27,6 @@ module.exports = {
       userRole: {
         type: Sequelize.STRING
       },
-      active: {
-        type: Sequelize.BOOLEAN
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -36,6 +34,9 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
+      },
+      deletedAt: {
+        type: DataTypes.STRING
       }
     });
   },

@@ -41,14 +41,17 @@ const createUser = async (req, res) => {
 
         await delete user.dataValues.password;
 
-        res.status(200).json({ success: `User added with e-mail ${req.body.email}`, user: user.dataValues })
+        res.status(200).json({
+            success: `User added with e-mail ${req.body.email}`,
+            user: user.dataValues
+        })
 
     } catch (error) {
         res.status(400).json(({ message: error.message }))
     }
 }
 
-const login = async (req, res) => {
+const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
 
@@ -68,7 +71,8 @@ const login = async (req, res) => {
 
         return res.status(200).json({
             message: "User access successfully",
-            token
+            token,
+            user: user.dataValues
         });
     } catch (error) {
         return res.status(500).json({ message: error.message });
@@ -110,10 +114,50 @@ const updateUser = async (req, res) => {
     }
 }
 
+const updateUserPassword = async (req, res) => {
+    try {
+        const { email, password, newPassword } = req.body;
+
+
+        const userExists = await User.findOne({
+            where: { email },
+        });
+
+        if (userExists === null) {
+            throw new Error(`E-mail ${req.body.email} not found in database`)
+        }
+
+        if (!(await bcrypt.compare(password, userExists.password))) {
+            return res.status(401).json({
+                message: "The current password is not correct",
+            });
+        }
+        const hashedNewPassword = await hashPassword(newPassword, 10);
+
+        const dataToUpdate = {
+            password: hashedNewPassword
+        }
+
+        const userUpdated = await User.update(dataToUpdate, {
+            where: { email },
+        });
+
+        if (!userUpdated) {
+            throw new Error(`E-mail ${req.body.email} not found in database`)
+        }
+
+        res.status(200).json({ success: `Your password has been changed successfully` })
+
+    } catch (error) {
+        res.status(400).json(({ message: error.message }))
+    }
+}
+
 // Exports
 module.exports = {
     getUser,
     createUser,
-    login,
-    updateUser
+    loginUser,
+    updateUser,
+    updateUserPassword
 }

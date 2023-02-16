@@ -1,31 +1,53 @@
 const Router = require('express');
+const protectRouters = require('../middlewares/protect.middleware')
+const { user } = require("../schemas/users.schema");
+const { login } = require("../schemas/login.schema");
+const { updateUserSchema } = require("../schemas/update.user.schema");
+const { updatePasswordSchema } = require("../schemas/update.password.schema");
+const { checkSchema } = require("express-validator");
+const { handleValidator } = require('../helpers/validatorHandler');
+
 const userRouter = Router();
+
 const {
   getUser,
   createUser,
-  login,
+  loginUser,
   updateUser,
+  updateUserPassword,
 } = require("../controllers/users.controller");
-const { checkMultipart, handleUploadFirebase } = require("../middlewares/upload.middleware")
+
 
 userRouter.post(
   "/",
-  checkMultipart,
-  handleUploadFirebase,
+  checkSchema(user),
+  handleValidator,
   createUser
 );
 
 userRouter.post(
   '/login',
-  login
+  checkSchema(login),
+  handleValidator,
+  loginUser
 )
+
+userRouter.use(protectRouters)
 
 userRouter.get('/', getUser)
 
+userRouter.patch(
+  '/:id',
+  checkSchema(updatePasswordSchema),
+  handleValidator,
+  updateUserPassword
+)
+
 userRouter.put(
   '/:id',
-  checkMultipart,
-  handleUploadFirebase,
+  checkSchema(updateUserSchema),
+  handleValidator,
   updateUser
 )
+
 module.exports = userRouter;
