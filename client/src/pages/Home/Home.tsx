@@ -1,7 +1,11 @@
+import ProductCarousel from "../../components/ProductCarousel/ProductCarousel";
+import InstaCarousel from "../../components/InstaCarousel/InstaCarousel";
+
 export default function Home() {
   return (
     <div className="">
-      <h1>Este es el home</h1>
+      <ProductCarousel />
+      <InstaCarousel />
     </div>
   );
 }
