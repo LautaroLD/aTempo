@@ -114,10 +114,50 @@ const updateUser = async (req, res) => {
     }
 }
 
+const updateUserPassword = async (req, res) => {
+    try {
+        const { email, password, newPassword } = req.body;
+
+
+        const userExists = await User.findOne({
+            where: { email },
+        });
+
+        if (userExists === null) {
+            throw new Error(`E-mail ${req.body.email} not found in database`)
+        }
+
+        if (!(await bcrypt.compare(password, userExists.password))) {
+            return res.status(401).json({
+                message: "The current password is not correct",
+            });
+        }
+        const hashedNewPassword = await hashPassword(newPassword, 10);
+
+        const dataToUpdate = {
+            password: hashedNewPassword
+        }
+
+        const userUpdated = await User.update(dataToUpdate, {
+            where: { email },
+        });
+
+        if (!userUpdated) {
+            throw new Error(`E-mail ${req.body.email} not found in database`)
+        }
+
+        res.status(200).json({ success: `Your password has been changed successfully` })
+
+    } catch (error) {
+        res.status(400).json(({ message: error.message }))
+    }
+}
+
 // Exports
 module.exports = {
     getUser,
     createUser,
     loginUser,
-    updateUser
+    updateUser,
+    updateUserPassword
 }
