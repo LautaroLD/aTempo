@@ -5,8 +5,6 @@ import * as Yup from "yup";
 import { FaEye } from "react-icons/fa";
 import { BiCheckbox, BiCheckboxChecked } from "react-icons/bi";
 
-import "./signup.sass";
-
 type SignUpFormValues = {
   nombre: string;
   apellido: string;

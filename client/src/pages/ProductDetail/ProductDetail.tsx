@@ -10,7 +10,6 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/zoom";
-import "../../styles/productDetail.sass";
 
 type IsActive = {
   details: boolean;

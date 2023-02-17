@@ -10,8 +10,6 @@ import { BiCheckbox, BiCheckboxChecked } from "react-icons/bi";
 import { FcGoogle } from "react-icons/fc";
 import { FaEye } from "react-icons/fa";
 
-import "./login.sass";
-
 const loginSchema = Yup.object().shape({
   email: Yup.string().email("Email invalido").required("Email requerido"),
   password: Yup.string().min(6, "Contraseña minimo 6 caracteres").required("Contraseña requerida")

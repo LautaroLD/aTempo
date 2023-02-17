@@ -7,8 +7,6 @@ import { BsHeart, BsCart3 } from "react-icons/bs";
 import FormSearch from "./FormSearch/FormSearch";
 import { Link } from "react-router-dom";
 
-import "../../styles/header.sass";
-
 export default function Header() {
   const [isOpenSearch, setIsOpenSearch] = useState<boolean>(false);
   const [isOpenNavBar, setIsOpenNavBar] = useState<boolean>(false);
