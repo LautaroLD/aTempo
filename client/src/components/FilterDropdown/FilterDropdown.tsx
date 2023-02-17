@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Dispatch, FC, SetStateAction, useState } from "react";
 import "./filterdropdown.sass";
 import { AiFillHeart, AiOutlineClose } from "react-icons/ai";
 import { GiBabyFace } from "react-icons/gi";
@@ -82,14 +82,39 @@ const mockup = [
   }
 ];
 
+interface Props {
+  setFiltersOpen: (active: boolean) => void;
+  filtersOpen: boolean;
+}
+
 type Properties = {
   color?: string;
   icon?: string;
   name: string;
 };
-const FilterDropdown = () => {
+const FilterDropdown = ({ setFiltersOpen, filtersOpen }: Props) => {
   const [show, setShow] = useState<Number | null>(null);
-  const [close, setClose] = useState<Boolean>(false);
+  const [filterOptions, setFilterOptions] = useState<Properties[]>([]);
+  console.log(filterOptions);
+
+  const handleAddFilter = (item: Properties) => {
+    const itemFinded = filterOptions.find((option: Properties) => option.name === item.name);
+
+    try {
+      if (!itemFinded) setFilterOptions([...filterOptions, item]);
+    } catch (error) {
+      return error;
+    }
+  };
+
+  const handleDeleteFilter = (name: string) => {
+    try {
+      const itemFiltered = filterOptions.filter((option: Properties) => option.name !== name);
+      setFilterOptions(itemFiltered);
+    } catch (error) {
+      return error;
+    }
+  };
 
   const toggle = (id: Number | null) => {
     try {
@@ -107,9 +132,33 @@ const FilterDropdown = () => {
     <div className="filterdropdown">
       <div className="filterdropdown__header">
         <p className="filterdropdown__header__text">Definir filtros y orden</p>
-        <AiOutlineClose className="filterdropdown__header__close" onClick={() => setClose(true)} />
+        <AiOutlineClose
+          className="filterdropdown__header__close"
+          onClick={() => setFiltersOpen(!filtersOpen)}
+        />
       </div>
-
+      {filterOptions.length > 0 && (
+        <div className="filterdropdown__filtered">
+          <p className="filterdropdown__filtered__text">Filtros seleccionados:</p>
+          <div className="filterdropdown__filtered__items">
+            {filterOptions.map(option => {
+              return (
+                <div className="filterdropdown__filtered__items__item">
+                  <GiBabyFace className="filterdropdown__filtered__items__item__icon" />
+                  <p className="filterdropdown__filtered__items__item__name">{option.name}</p>
+                  <AiOutlineClose
+                    className="filterdropdown__filtered__items__item__close"
+                    onClick={() => handleDeleteFilter(option.name)}
+                  />
+                </div>
+              );
+            })}
+          </div>
+          <p className="filterdropdown__filtered__clean" onClick={() => setFilterOptions([])}>
+            Limpiar filtros
+          </p>
+        </div>
+      )}
       <div className="filterdropdown__items">
         {mockup.map(item => {
           return (
@@ -127,7 +176,10 @@ const FilterDropdown = () => {
                 item.content.map((properties: Properties, index) => {
                   const { color, icon, name } = properties;
                   return (
-                    <div className="filterdropdown__items__item__open" key={index}>
+                    <div
+                      className="filterdropdown__items__item__open"
+                      key={index}
+                      onClick={() => handleAddFilter(properties)}>
                       {icon && <GiBabyFace className="filterdropdown__items__item__open__icon" />}
                       {color && (
                         <BsCircleFill

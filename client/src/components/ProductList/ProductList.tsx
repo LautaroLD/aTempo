@@ -1,14 +1,22 @@
-import React from "react";
-import "./productlist.sass";
+import React, { useState } from "react";
 import ProductCard from "../ProductCarousel/ProductCard/ProductCard";
 import { MdArrowForwardIos } from "react-icons/md";
+import FilterDropdown from "../FilterDropdown/FilterDropdown";
+import "./productlist.sass";
 
-const ProductList = () => {
+interface Props {
+  setFiltersOpen: (active: boolean) => void;
+  filtersOpen: boolean;
+}
+
+const ProductList = ({ setFiltersOpen, filtersOpen }: Props): JSX.Element => {
   return (
     <div className="productlist">
       <p className="productlist__text">Inicio - Resultados: "zapato"</p>
       <p className="productlist__title">Resultados: "zapato"</p>
-      <button className="productlist__btn">Definir filtros</button>
+      <button className="productlist__btn" onClick={() => setFiltersOpen(true)}>
+        Definir filtros
+      </button>
       <p className="productlist__text__pagination">1-24/74 Productos</p>
       <div className="productlist__card__group">
         <ProductCard />
@@ -30,6 +38,7 @@ const ProductList = () => {
           <MdArrowForwardIos />
         </button>
       </div>
+      {filtersOpen && <FilterDropdown setFiltersOpen={setFiltersOpen} filtersOpen={filtersOpen} />}
     </div>
   );
 };
