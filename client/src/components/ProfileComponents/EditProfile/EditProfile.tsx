@@ -5,8 +5,6 @@ import * as Yup from "yup";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-import "./editprofile.sass";
-
 type UserInformation = {
   email: string;
   name: string;

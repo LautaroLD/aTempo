@@ -7,8 +7,6 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-import "../../styles/carousel.sass";
-
 // import required modules
 import { Navigation, Pagination, Mousewheel, Keyboard } from "swiper";
 import ProductCard from "./ProductCard/ProductCard";

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import EditPassword from "../../components/ProfileComponents/EditPassword/EditPassword";
 import EditProfile from "../../components/ProfileComponents/EditProfile/EditProfile";
-import "./profile.sass";
 
 export default function Profile() {
   const [editProfile, setEditProfile] = useState<boolean>(false);

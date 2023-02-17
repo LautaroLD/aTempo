@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { FaAngleDown, FaAngleUp, FaFacebookF, FaInstagram, FaTwitter } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import "./footer.sass";
 
 export default function Footer() {
   const [openProfile, setOpenProfile] = useState<boolean>(false);
