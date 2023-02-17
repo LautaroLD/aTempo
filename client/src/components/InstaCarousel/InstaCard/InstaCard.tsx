@@ -1,6 +1,5 @@
 import React, { useState, FC } from "react";
 import { AiOutlineInstagram } from "react-icons/ai";
-import "./instacard.sass";
 
 interface Props {
   image: string;

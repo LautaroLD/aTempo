@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { FaEye } from "react-icons/fa";
-import "./editpassword.sass";
 
 type ChangePasswords = {
   actualPassword: string;

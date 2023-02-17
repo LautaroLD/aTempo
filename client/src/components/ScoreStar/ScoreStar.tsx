@@ -1,6 +1,5 @@
 import { FC } from "react";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
-import "../../styles/scoreStar.sass";
 
 interface Iprops {
   scoreStar: number;

@@ -4,8 +4,6 @@ import { Link } from "react-router-dom";
 import { Icons } from "../../../assets/icons/icons";
 import { FaRegUser, FaUser } from "react-icons/fa";
 
-import "./navbar.sass";
-
 type Props = {
   openNavBar: boolean;
   openNavBarFunction: React.MouseEventHandler<SVGElement>;
