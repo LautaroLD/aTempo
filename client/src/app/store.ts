@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { User } from "../models/User";
 import { Product } from "./../models/Products";
+import { InitialAuth } from "../models/InitialAuth";
 import products from "./state/productsSlice";
 import auth from "./state/authSlice";
 
@@ -9,7 +9,7 @@ export interface AppStore {
     list: Array<Product>;
     detail: Product;
   };
-  auth: { user: User; token: string };
+  auth: InitialAuth;
 }
 
 export type AppDispatch = typeof store.dispatch;

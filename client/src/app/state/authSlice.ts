@@ -1,12 +1,7 @@
 import { LoginValues } from "../../models/LoginValues";
 import { postRequest } from "../../services/httpRequest";
-import { User } from "../../models/User";
 import { createSlice, Dispatch } from "@reduxjs/toolkit";
-
-type InitialAuth = {
-  user: User;
-  token: string;
-};
+import { InitialAuth } from "../../models/InitialAuth";
 
 export const initialAuth: InitialAuth = {
   token: "",
