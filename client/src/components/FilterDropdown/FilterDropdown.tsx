@@ -1,5 +1,5 @@
-import React, { Dispatch, FC, SetStateAction, useState } from "react";
-import "./filterdropdown.sass";
+import React, { useState } from "react";
+import "../../styles/components/_filterdropdown.sass";
 import { AiFillHeart, AiOutlineClose } from "react-icons/ai";
 import { GiBabyFace } from "react-icons/gi";
 import { IoMdMan } from "react-icons/io";

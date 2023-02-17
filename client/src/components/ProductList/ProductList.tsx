@@ -1,8 +1,7 @@
-import React, { useState } from "react";
 import ProductCard from "../ProductCarousel/ProductCard/ProductCard";
 import { MdArrowForwardIos } from "react-icons/md";
 import FilterDropdown from "../FilterDropdown/FilterDropdown";
-import "./productlist.sass";
+import "../../styles/components/_productlist.sass";
 
 interface Props {
   setFiltersOpen: (active: boolean) => void;
