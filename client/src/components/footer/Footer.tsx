@@ -13,10 +13,10 @@ export default function Footer() {
     });
   }, []);
   const openProfileFunction = (): void => {
-    !isDesktopScreen ? setOpenProfile(!openProfile) : false
+    !isDesktopScreen ? setOpenProfile(!openProfile) : false;
   };
   const openHelpFunction = (): void => {
-    !isDesktopScreen ? setOpenHelp(!openHelp) : false
+    !isDesktopScreen ? setOpenHelp(!openHelp) : false;
   };
   return (
     <footer className="footer">
@@ -27,47 +27,46 @@ export default function Footer() {
       </div>
       <div className="footer__content drop">
         <div className="drop__component" hidden={!isDesktopScreen}>
-          <p className="drop__component__title">
-            Categorías
-          </p>
+          <p className="drop__component__title">Categorías</p>
           <ul className="drop__component__list">
             <li className="drop__component__list__item">
               <Link to={"./"}>Ballet</Link>
             </li>
             <li className="drop__component__list__item">
-              <Link to={'./'}>Tap</Link>
+              <Link to={"./"}>Tap</Link>
             </li>
             <li className="drop__component__list__item">
-              <Link to={'./'}>Jazz</Link>
+              <Link to={"./"}>Jazz</Link>
             </li>
             <li className="drop__component__list__item">
-              <Link to={'./'}>Personaje</Link>
+              <Link to={"./"}>Personaje</Link>
             </li>
             <li className="drop__component__list__item">
-              <Link to={'./'}>Ballroom</Link>
+              <Link to={"./"}>Ballroom</Link>
             </li>
             <li className="drop__component__list__item">
-              <Link to={'./'}>Dansneakers</Link>
+              <Link to={"./"}>Dansneakers</Link>
             </li>
             <li className="drop__component__list__item">
-              <Link to={'./'}>Moderno</Link>
+              <Link to={"./"}>Moderno</Link>
             </li>
             <li className="drop__component__list__item">
-              <Link to={'./'}>Outlet</Link>
+              <Link to={"./"}>Outlet</Link>
             </li>
           </ul>
         </div>
         <div className="drop__component">
           <p className="drop__component__title" onClick={openProfileFunction}>
             Mi perfil
-            {!isDesktopScreen && <>
-              {!openProfile ? (
-                <FaAngleDown className="drop__icon" />
-              ) : (
-                <FaAngleUp className="drop__icon" />
-              )}
-            </>
-            }
+            {!isDesktopScreen && (
+              <>
+                {!openProfile ? (
+                  <FaAngleDown className="drop__icon" />
+                ) : (
+                  <FaAngleUp className="drop__icon" />
+                )}
+              </>
+            )}
           </p>
           <ul className="drop__component__list" hidden={!openProfile && !isDesktopScreen}>
             <li className="drop__component__list__item">
@@ -87,14 +86,15 @@ export default function Footer() {
         <div className="drop__component">
           <p className="drop__component__title" onClick={openHelpFunction}>
             Ayuda
-            {!isDesktopScreen && <>
-              {!openHelp ? (
-                <FaAngleDown className="drop__component__icon" />
-              ) : (
-                <FaAngleUp className="drop__component__icon" />
-              )}
-            </>
-            }
+            {!isDesktopScreen && (
+              <>
+                {!openHelp ? (
+                  <FaAngleDown className="drop__component__icon" />
+                ) : (
+                  <FaAngleUp className="drop__component__icon" />
+                )}
+              </>
+            )}
           </p>
           <ul className="drop__component__list" hidden={!openHelp && !isDesktopScreen}>
             <li className="drop__component__list__item">
