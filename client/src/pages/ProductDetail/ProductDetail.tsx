@@ -1,11 +1,14 @@
-import { useRef, useState, MouseEvent } from "react";
+import { useRef, useState, MouseEvent, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Mousewheel, Keyboard, Zoom } from "swiper";
-import { BsCircleFill } from "react-icons/bs";
+import { ScoreStar } from "../../components/ScoreStar/ScoreStar";
+import { Tags } from "../../components/Tags/Tags";
 import { TbMoodBoy } from "react-icons/tb";
 import { GiPerson, GiBallerinaShoes } from "react-icons/gi";
 import { AiFillHeart, AiOutlineHeart, AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
-import { ScoreStar } from "../../components/ScoreStar/ScoreStar";
+import { ProductInCart } from "../../models/ProductInCart";
+import { TypeTagsEmun } from "../../models/TypeTagsEmun";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -21,23 +24,62 @@ const images = [
   "https://firebasestorage.googleapis.com/v0/b/c8t54pern.appspot.com/o/images%2Fproductpics%2Fzapato_marron.png?alt=media&token=d56ecd56-b79b-4a2b-98d7-d4a3273ea8b6"
 ];
 
-const colors = ["#000000", "#D8BEAF"];
+const colors = [
+  { id: "456", name: "negro", value: "#000000" },
+  { id: "457", name: "marron", value: "#D8BEAF" },
+  { id: "458", name: "rojo", value: "#DF3A01" },
+  { id: "459", name: "rosa", value: "#F5A9F2" },
+  { id: "460", name: "naranja", value: "#FF8000" },
+  { id: "461", name: "amarillo", value: "#FFFF00" }
+];
 
-const shoesName = ["R", "A"];
+const shoesLast = [
+  { id: "10", name: "R", value: "R" },
+  { id: "11", name: "A", value: "A" }
+];
 
-const sizes = [...new Array(39)];
+const sizes = [
+  { id: "256", name: "negro", value: "17" },
+  { id: "257", name: "marron", value: "17.5" },
+  { id: "258", name: "rojo", value: "18" },
+  { id: "259", name: "rosa", value: "18.5" },
+  { id: "260", name: "naranja", value: "19" },
+  { id: "261", name: "amarillo", value: "19.5" },
+  { id: "262", name: "naranja", value: "20" },
+  { id: "263", name: "amarillo", value: "20.5" },
+  { id: "264", name: "naranja", value: "21" },
+  { id: "265", name: "amarillo", value: "21.5" },
+  { id: "266", name: "naranja", value: "22" },
+  { id: "267", name: "amarillo", value: "22.5" }
+];
 
 export default function ProductDetail() {
   const ref = useRef<SwiperRef>(null);
+
   const [isFav, setIsFav] = useState<boolean>(false);
   const [isZoom, setIsZoom] = useState<boolean>(false);
   const [isActive, setIsActive] = useState<IsActive>({ details: true, reviews: false });
-  const [quantity, setQuantity] = useState<number>(0);
+  const [addCart, setAddCart] = useState<ProductInCart>({
+    productId: "",
+    quantity: 0,
+    colors: "",
+    sizes: "",
+    shoeLast: ""
+  });
+
+  const { id } = useParams();
+
+  useEffect(() => {
+    if (id) setAddCart({ ...addCart, productId: id });
+  }, []);
 
   const handleQuantity = (event: MouseEvent) => {
-    if (event.currentTarget.id === "plus") return setQuantity(quantity + 1);
-    setQuantity(quantity - 1);
-    if (quantity <= 0) setQuantity(0);
+    if (event.currentTarget.id === "plus")
+      return setAddCart({ ...addCart, quantity: addCart.quantity + 1 });
+
+    setAddCart({ ...addCart, quantity: addCart.quantity - 1 });
+
+    if (addCart.quantity <= 0) setAddCart({ ...addCart, quantity: 0 });
   };
 
   const handleClickZoom = (): void => {
@@ -84,15 +126,15 @@ export default function ProductDetail() {
       </div>
       <section className="body__container">
         <p className="prod__title">Cadence</p>
-        <div className="tags__container">
-          <div className="tags__icons__text">
-            <GiBallerinaShoes className="tags__icons" /> TAP
+        <div className="category__container">
+          <div className="category__icons__text">
+            <GiBallerinaShoes className="category__icons" /> TAP
           </div>
-          <div className="tags__icons__text">
-            <GiPerson className="tags__icons" /> Unisex
+          <div className="category__icons__text">
+            <GiPerson className="category__icons" /> Unisex
           </div>
-          <div className="tags__icons__text">
-            <TbMoodBoy className="tags__icons" /> Niños
+          <div className="category__icons__text">
+            <TbMoodBoy className="category__icons" /> Niños
           </div>
         </div>
         <img
@@ -107,37 +149,30 @@ export default function ProductDetail() {
         <hr className="body__line" />
         <div>
           <p className="title__prop">Color</p>
-          <div className="body__colors">
-            {colors.map((color, index) => {
-              return (
-                <BsCircleFill key={`color-${index}`} color={color} className="body__colors__icon" />
-              );
-            })}
-          </div>
+          <Tags
+            dataTag={colors}
+            type={TypeTagsEmun.colors}
+            addCart={addCart}
+            setAddCart={setAddCart}
+          />
           <p className="title__prop">Horma</p>
-          <div className="body__tag">
-            {shoesName.map((shoe, index) => {
-              return (
-                <div key={`shoes-${index}`} className="body__tag__prop">
-                  {shoe}
-                </div>
-              );
-            })}
-          </div>
+          <Tags
+            dataTag={shoesLast}
+            type={TypeTagsEmun.shoeLast}
+            addCart={addCart}
+            setAddCart={setAddCart}
+          />
           <p className="title__prop">Talle</p>
-          <div className="body__tag">
-            {sizes.map((size, index) => {
-              return (
-                <div key={`size-${index}`} className="body__tag__prop">
-                  33.5
-                </div>
-              );
-            })}
-          </div>
+          <Tags
+            dataTag={sizes}
+            type={TypeTagsEmun.sizes}
+            addCart={addCart}
+            setAddCart={setAddCart}
+          />
           <p className="title__prop">Cantidad</p>
           <div className="body__quantity">
             <AiOutlineMinus id="minor" onClick={event => handleQuantity(event)} className="icon" />
-            <input type="numeric" value={quantity} readOnly />
+            <input type="numeric" value={addCart.quantity} readOnly />
             <AiOutlinePlus id="plus" onClick={event => handleQuantity(event)} className="icon" />
           </div>
           <button className="btn__addcart" type="submit">
