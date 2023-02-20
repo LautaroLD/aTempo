@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { BiChevronDown, BiMenu, BiSearch } from "react-icons/bi";
+import { BiMenu, BiSearch } from "react-icons/bi";
 import { Icons } from "../../assets/icons/icons";
 import Navbar from "./Navbar/Navbar";
-import { FaAngleDown, FaUser } from "react-icons/fa";
-import { BsHeart, BsCart3 } from "react-icons/bs";
+import { BsHeart } from "react-icons/bs";
 import FormSearch from "./FormSearch/FormSearch";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import UserDropMenu from "./UserDropMenu/UserDropMenu";
 
 export default function Header() {
   const [isOpenSearch, setIsOpenSearch] = useState<boolean>(false);
   const [isOpenNavBar, setIsOpenNavBar] = useState<boolean>(false);
-  const [isLogin, setIsLogin] = useState<boolean>(true);
+  const [isLogin, setIsLogin] = useState<boolean>(false);
   const [isDesktopScreen, setIsDesktopScreen] = useState<boolean>(window.innerWidth >= 768);
+  const { pathname } = useLocation()
+  useEffect(() => {
+    setIsOpenNavBar(false)
+  }, [pathname])
   useEffect(() => {
     window.addEventListener("resize", () => {
       setIsDesktopScreen(window.innerWidth >= 768);
@@ -30,6 +34,7 @@ export default function Header() {
     setIsOpenNavBar(!isOpenNavBar);
   };
 
+
   return (
     <>
       <header className="header">
@@ -42,43 +47,25 @@ export default function Header() {
           <FormSearch />
         </div>
         <div className="header__containerIcons">
-          {isDesktopScreen && isLogin && (
-            <Link to={"./"}>
+          {isDesktopScreen && <>
+            <Link hidden={!isLogin} className="header__containerIcons__fav" to={"./"}>
               <BsHeart className="header__containerIcons__item" />
             </Link>
-          )}
-          {isDesktopScreen && (
-            <i className="header__containerIcons__user">
-              {isLogin ? (
-                <>
-                  <FaUser />
-                  jhon
-                  <BiChevronDown />
-                </>
-              ) : (
-                <>
-                  Mi cuenta
-                  <FaAngleDown />
-                </>
-              )}
-            </i>
-          )}
-          {!isDesktopScreen && (
-            <i className="header__containerIcons__search">
-              <BiSearch onClick={openSearchFunction} className="header__containerIcons__item" />
-            </i>
-          )}
-          <Link to={"/cart"} className="cart">
+            <UserDropMenu isLogin={isLogin} setIsLogin={setIsLogin} />
+          </>
+          }
+          <i hidden={isDesktopScreen} className="header__containerIcons__search">
+            <BiSearch onClick={openSearchFunction} className="header__containerIcons__item" />
+          </i>
+          <Link to={"/cart"} className="header__containerIcons__cart cart">
             <div className="cart__number">
               <p>+9</p>
             </div>
-            <BsCart3 className="header__containerIcons__item" />
+            <img src={Icons.Cart} alt="" className="cart__img" />
           </Link>
-          {!isDesktopScreen && (
-            <i className="header__containerIcons__menu">
-              <BiMenu onClick={openNavBarFunction} className="header__containerIcons__item" />
-            </i>
-          )}
+          <i hidden={isDesktopScreen} className="header__containerIcons__menu">
+            <BiMenu onClick={openNavBarFunction} className="header__containerIcons__item" />
+          </i>
         </div>
       </header>
       <Navbar
