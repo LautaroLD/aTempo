@@ -12,10 +12,10 @@ export default function Header() {
   const [isOpenNavBar, setIsOpenNavBar] = useState<boolean>(false);
   const [isLogin, setIsLogin] = useState<boolean>(false);
   const [isDesktopScreen, setIsDesktopScreen] = useState<boolean>(window.innerWidth >= 768);
-  const { pathname } = useLocation()
+  const { pathname } = useLocation();
   useEffect(() => {
-    setIsOpenNavBar(false)
-  }, [pathname])
+    setIsOpenNavBar(false);
+  }, [pathname]);
   useEffect(() => {
     window.addEventListener("resize", () => {
       setIsDesktopScreen(window.innerWidth >= 768);
@@ -34,7 +34,6 @@ export default function Header() {
     setIsOpenNavBar(!isOpenNavBar);
   };
 
-
   return (
     <>
       <header className="header">
@@ -47,13 +46,14 @@ export default function Header() {
           <FormSearch />
         </div>
         <div className="header__containerIcons">
-          {isDesktopScreen && <>
-            <Link hidden={!isLogin} className="header__containerIcons__fav" to={"./"}>
-              <BsHeart className="header__containerIcons__item" />
-            </Link>
-            <UserDropMenu isLogin={isLogin} setIsLogin={setIsLogin} />
-          </>
-          }
+          {isDesktopScreen && (
+            <>
+              <Link hidden={!isLogin} className="header__containerIcons__fav" to={"./"}>
+                <BsHeart className="header__containerIcons__item" />
+              </Link>
+              <UserDropMenu isLogin={isLogin} setIsLogin={setIsLogin} />
+            </>
+          )}
           <i hidden={isDesktopScreen} className="header__containerIcons__search">
             <BiSearch onClick={openSearchFunction} className="header__containerIcons__item" />
           </i>

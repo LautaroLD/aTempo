@@ -21,7 +21,7 @@ type Icons = {
   Personaje: string;
   Tango: string;
   Tap: string;
-  Cart: string
+  Cart: string;
 };
 
 export const Icons: Icons = {
