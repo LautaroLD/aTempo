@@ -8,6 +8,7 @@ import Outlet from "../icons/Outlet.svg";
 import Personaje from "../icons/Personaje.svg";
 import Tango from "../icons/Tango.svg";
 import Tap from "../icons/Tap.svg";
+import Cart from "../icons/Cart.svg";
 
 type Icons = {
   Ballet: string;
@@ -20,6 +21,7 @@ type Icons = {
   Personaje: string;
   Tango: string;
   Tap: string;
+  Cart: string;
 };
 
 export const Icons: Icons = {
@@ -32,5 +34,6 @@ export const Icons: Icons = {
   Outlet,
   Personaje,
   Tango,
-  Tap
+  Tap,
+  Cart
 };
