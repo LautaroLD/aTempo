@@ -4,6 +4,7 @@ import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { FaEye } from "react-icons/fa";
 import { BiCheckbox, BiCheckboxChecked } from "react-icons/bi";
+import { Icons } from "../../assets/icons/icons";
 
 type SignUpFormValues = {
   nombre: string;
@@ -31,6 +32,7 @@ const signUpSchema = Yup.object().shape({
 
 export default function SignUp() {
   const [remember, setRemember] = useState<boolean>(false);
+  const [seePassword, setSeePassword] = useState<boolean>(false);
   const INITIAL__VALUES__SIGNUP__FORM: SignUpFormValues = {
     nombre: "",
     apellido: "",
@@ -42,7 +44,7 @@ export default function SignUp() {
   return (
     <div className="container__signup">
       <div className="signup">
-        <h1 className="signup__title">ATEMPO</h1>
+        <img className="signup__title" src={Icons.Logo} alt="logo" />
         <h4 className="signup__subtitle">Ingresa tus datos para registrarte</h4>
         <Formik
           initialValues={INITIAL__VALUES__SIGNUP__FORM}
@@ -71,8 +73,14 @@ export default function SignUp() {
                   className="signup__form__password__field"
                   name="password"
                   placeholder="Contraseña"
+                  type={seePassword ? "text" : "password"}
                 />
-                <FaEye className="signup__form__password__eye" />
+                <FaEye
+                  className="signup__form__password__eye"
+                  onClick={(): void => {
+                    setSeePassword(!seePassword);
+                  }}
+                />
               </div>
               {errors.password && touched.password ? (
                 <div className="signup__form__error">{errors.password}</div>
@@ -83,8 +91,14 @@ export default function SignUp() {
                   className="signup__form__password__field"
                   name="confirmPassword"
                   placeholder="Confirmar Contraseña"
+                  type={seePassword ? "text" : "password"}
                 />
-                <FaEye className="signup__form__password__eye" />
+                <FaEye
+                  className="signup__form__password__eye"
+                  onClick={(): void => {
+                    setSeePassword(!seePassword);
+                  }}
+                />
               </div>
               {errors.confirmPassword && touched.confirmPassword ? (
                 <div className="signup__form__error">{errors.confirmPassword}</div>
@@ -93,9 +107,19 @@ export default function SignUp() {
               <div className="signup__form__remember">
                 <div className="signup__form__remember__container">
                   {remember ? (
-                    <BiCheckboxChecked className="signup__form__remember__container__check" />
+                    <BiCheckboxChecked
+                      className="signup__form__remember__container__check"
+                      onClick={(): void => {
+                        setRemember(!remember);
+                      }}
+                    />
                   ) : (
-                    <BiCheckbox className="signup__form__remember__container__check" />
+                    <BiCheckbox
+                      className="signup__form__remember__container__check"
+                      onClick={(): void => {
+                        setRemember(!remember);
+                      }}
+                    />
                   )}
                   <p className="signup__form__remember__container__text">
                     Deseo recibir noticias y promociones de la marca

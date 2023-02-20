@@ -9,6 +9,7 @@ import { loginUser } from "../../app/state/authSlice";
 import { BiCheckbox, BiCheckboxChecked } from "react-icons/bi";
 import { FcGoogle } from "react-icons/fc";
 import { FaEye } from "react-icons/fa";
+import { Icons } from "../../assets/icons/icons";
 
 const loginSchema = Yup.object().shape({
   email: Yup.string().email("Email invalido").required("Email requerido"),
@@ -23,6 +24,7 @@ export default function LogIn() {
   };
 
   const [remember, setRemember] = useState<boolean>(false);
+  const [seePassword, setSeePassword] = useState<boolean>(false);
   const INITIAL__VALUES__LOGIN__FORM: LoginValues = {
     email: "",
     password: ""
@@ -30,7 +32,7 @@ export default function LogIn() {
   return (
     <div className="container__login">
       <div className="login">
-        <h1 className="login__title">ATEMPO</h1>
+        <img className="login__title" src={Icons.Logo} alt="logo" />
         <h4 className="login__subtitle">Inicia sesión para ingresar tu cuenta</h4>
         <Formik
           initialValues={INITIAL__VALUES__LOGIN__FORM}
@@ -49,8 +51,14 @@ export default function LogIn() {
                   className="login__form__password__field"
                   name="password"
                   placeholder="Contraseña"
+                  type={seePassword ? "text" : "password"}
                 />
-                <FaEye className="login__form__password__eye" />
+                <FaEye
+                  className="login__form__password__eye"
+                  onClick={(): void => {
+                    setSeePassword(!seePassword);
+                  }}
+                />
               </div>
               {errors.password && touched.password ? (
                 <div className="login__form__error">{errors.password}</div>
@@ -59,13 +67,23 @@ export default function LogIn() {
               <div className="login__form__remember">
                 <div className="login__form__remember__container">
                   {remember ? (
-                    <BiCheckboxChecked className="login__form__remember__container__check" />
+                    <BiCheckboxChecked
+                      className="login__form__remember__container__check"
+                      onClick={(): void => {
+                        setRemember(!remember);
+                      }}
+                    />
                   ) : (
-                    <BiCheckbox className="login__form__remember__container__check" />
+                    <BiCheckbox
+                      className="login__form__remember__container__check"
+                      onClick={(): void => {
+                        setRemember(!remember);
+                      }}
+                    />
                   )}
                   <p className="login__form__remember__container__text">Recordarme</p>
                 </div>
-                <button className="login__form__remember__container__button">
+                <button className="login__form__remember__container__button" type="button">
                   Olvide mi contraseña
                 </button>
               </div>
@@ -73,7 +91,7 @@ export default function LogIn() {
               <button className="login__form__entersession" type="submit">
                 Iniciar Sesión
               </button>
-              <button className="login__form__entergoogle">
+              <button className="login__form__entergoogle" type="button">
                 <FcGoogle className="login__form__entergoogle__logo" />
                 <p className="login__form__entergoogle__text">Continuar con Google</p>
               </button>
