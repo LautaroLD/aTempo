@@ -179,7 +179,8 @@ const FilterDropdown = ({ setFiltersOpen, filtersOpen }: Props) => {
                     <div
                       className="filterdropdown__items__item__open"
                       key={index}
-                      onClick={() => handleAddFilter(properties)}>
+                      onClick={() => handleAddFilter(properties)}
+                    >
                       {icon && <GiBabyFace className="filterdropdown__items__item__open__icon" />}
                       {color && (
                         <BsCircleFill
