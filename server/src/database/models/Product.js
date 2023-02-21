@@ -12,12 +12,14 @@ module.exports = (sequelize, DataTypes) => {
         }
       })
       Product.belongsToMany(models.Color, {
+        as:"Colours",
         through: 'ProductColors',
         foreignKey: {
           name: 'productId'
         }
       })
       Product.belongsToMany(models.Size, {
+        as:"Size",
         through: 'ProductSize',
         foreignKey: {
           name: 'productId'

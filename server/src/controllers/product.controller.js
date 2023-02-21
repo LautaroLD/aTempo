@@ -1,13 +1,43 @@
-const testProduct = (req, res) => {
-    const { productName, description, quantityInStock, price, pics, sizes, categoriesIds, colours } = req.body;
-    if (productName) {
-        return res.status(200).json({ productName, description, quantityInStock, price, pics });
-    } else {
-        return res.status(404).json({ 'msg': 'You must provide information about the product to create it' });
-    }
-}
+const { Product } = require("../database/models");
 
-// Exports
+// List of every product in db
+const productList = async (req, res) => {
+    try {
+        const products = await Product.findAll({
+            order: [["name", "asc"]],
+            include: [
+                { association: "ProductImgs" },
+                { association: "Size" },
+                { association: "Categories" },
+                { association: "Colours" }
+            ]
+        })
+        res.status(200).json({ products });
+    } catch (error) {
+        res.status(400).json({ message: error.message })
+    }
+};
+
+// brings one product based in his id/UUID
+const productDetail = async (req, res) => {
+    try {
+        const idP = req.params.id;
+        const product = await Product.findOne({
+            where: { id: idP },
+            include: [
+                { association: "ProductImgs" },
+                { association: "Size" },
+                { association: "Categories" },
+                { association: "Colours" }
+            ]
+        });
+        res.status(200).json({ product });
+    } catch (error) {
+        res.status(400).json({ message: error.message })
+    };
+};
+
 module.exports = {
-    testProduct
+    productList,
+    productDetail
 }
