@@ -2,6 +2,11 @@ import { LoginValues } from "../../models/LoginValues";
 import { postRequest } from "../../services/httpRequest";
 import { createSlice, Dispatch } from "@reduxjs/toolkit";
 import { InitialAuth } from "../../models/InitialAuth";
+import {
+  setLocalStorage,
+  getLocalStorage,
+  clearLocalStorage
+} from "../../utils/LocalStorageFunctions";
 
 export const initialAuth: InitialAuth = {
   token: "",
@@ -12,7 +17,7 @@ export const initialAuth: InitialAuth = {
     password: "",
     documentId: 0,
     birthdate: undefined,
-    isAdmin: 0,
+    isAdmin: false,
     createdAt: undefined,
     updatedAt: undefined,
     deletedAt: undefined
@@ -21,24 +26,34 @@ export const initialAuth: InitialAuth = {
 
 export const authSlice = createSlice({
   name: "auth",
-  initialState: initialAuth,
+  initialState: getLocalStorage("auth") ? getLocalStorage("auth") : initialAuth,
 
   reducers: {
     setLogin: (state, action) => {
       state.user = action.payload.user;
       state.token = action.payload.token;
+    },
+    setLogout: () => {
+      clearLocalStorage("auth");
+      return initialAuth;
     }
   }
 });
 
-export const { setLogin } = authSlice.actions;
+export const { setLogin, setLogout } = authSlice.actions;
 
 export default authSlice.reducer;
 
 export const loginUser = (dataLogin: LoginValues) => async (dispatch: Dispatch) => {
   try {
-    const user = await postRequest(dataLogin, "/users/login");
-    dispatch(setLogin(user));
+    const auth = (await postRequest(dataLogin, "/users/login")) as InitialAuth;
+    if (auth.token !== "") {
+      dispatch(setLogin(auth));
+      const authInStorage = { token: auth.token, user: auth.user };
+      setLocalStorage("auth", authInStorage);
+      return true;
+    }
+    return false;
   } catch (error) {
     console.log(error);
   }

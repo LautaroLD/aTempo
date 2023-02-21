@@ -3,7 +3,7 @@ export type User = {
   password: string;
   name: string;
   lastName: string;
-  isAdmin: number;
+  isAdmin?: boolean;
   documentId?: number;
   birthdate?: Date;
   createdAt?: Date;

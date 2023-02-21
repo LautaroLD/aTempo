@@ -1,8 +1,11 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setLogout } from "../../../app/state/authSlice";
+import { AppStore } from "../../../app/store";
 import { BiChevronDown, BiChevronUp } from "react-icons/bi";
 import { FaAngleDown, FaUser } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { Link, useLocation } from "react-router-dom";
 
 type Props = {
   isLogin: boolean;
@@ -10,8 +13,12 @@ type Props = {
 };
 
 export default function UserDropMenu({ isLogin, setIsLogin }: Props) {
+  const user = useSelector((store: AppStore) => store.auth.user);
+
   const [isOpenUserMenu, setIsOpenUserMenu] = useState<boolean>(false);
   const { pathname } = useLocation();
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setIsOpenUserMenu(false);
@@ -19,17 +26,17 @@ export default function UserDropMenu({ isLogin, setIsLogin }: Props) {
   const openUserMenuFunction = (): void => {
     setIsOpenUserMenu(!isOpenUserMenu);
   };
-  const isLoginFunction = (): void => {
-    setIsLogin(!isLogin);
+  const logout = (): void => {
+    dispatch(setLogout());
   };
 
   return (
     <span className="header__containerIcons__user">
-      {isLogin ? (
+      {user.name ? (
         <>
           <div className="userDropBtn" onClick={openUserMenuFunction}>
             <FaUser />
-            jhon
+            {user.name}
             {isOpenUserMenu ? <BiChevronUp /> : <BiChevronDown />}
           </div>
           <div className="userDropMenu" hidden={!isOpenUserMenu}>
@@ -42,7 +49,7 @@ export default function UserDropMenu({ isLogin, setIsLogin }: Props) {
             <Link to={"/profile"} className="userDropMenu__btn">
               Mi cuenta
             </Link>
-            <Link to={"./"} className="userDropMenu__btn" onClick={isLoginFunction}>
+            <Link to={"/"} className="userDropMenu__btn" onClick={logout}>
               Salir
             </Link>
           </div>
@@ -54,7 +61,7 @@ export default function UserDropMenu({ isLogin, setIsLogin }: Props) {
             <FaAngleDown />
           </div>
           <div className="userDropMenu" hidden={!isOpenUserMenu}>
-            <Link to={"./login"} className="userDropMenu__btn__primary" onClick={isLoginFunction}>
+            <Link to={"./login"} className="userDropMenu__btn__primary">
               Ingresar
             </Link>
             <p className="userDropMenu__divider">o</p>
