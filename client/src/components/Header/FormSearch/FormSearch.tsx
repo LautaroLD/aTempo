@@ -1,17 +1,17 @@
-import React, { useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 
 type Props = {};
 
 export default function FormSearch({}: Props) {
   const [filter, setFilter] = useState<string>("");
   const [searchInput, setSearchInput] = useState<string>("");
-  const setFilterFunction = (event: React.ChangeEvent<HTMLSelectElement>): void => {
+  const setFilterFunction = (event: ChangeEvent<HTMLSelectElement>): void => {
     setFilter(event.target.value);
   };
-  const setSearchFunction = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  const setSearchFunction = (event: ChangeEvent<HTMLInputElement>): void => {
     setSearchInput(event.target.value);
   };
-  const submitSearch = (event: React.FormEvent<HTMLFormElement>): void => {
+  const submitSearch = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     console.log(searchInput + " " + filter);
   };

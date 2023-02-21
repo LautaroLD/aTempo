@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { AiOutlineHeart, AiFillHeart, AiFillStar } from "react-icons/ai";
 import { BsCircleFill } from "react-icons/bs";
 

@@ -1,10 +1,8 @@
-import React, { useState } from "react";
-import "../../styles/components/_filterdropdown.sass";
-import { AiFillHeart, AiOutlineClose } from "react-icons/ai";
+import { useState } from "react";
+import { AiOutlineClose } from "react-icons/ai";
 import { GiBabyFace } from "react-icons/gi";
-import { IoMdMan } from "react-icons/io";
-import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 import { BsCircleFill } from "react-icons/bs";
+import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 
 const mockup = [
   {

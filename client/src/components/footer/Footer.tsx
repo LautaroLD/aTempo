@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaAngleDown, FaAngleUp, FaFacebookF, FaInstagram, FaTwitter } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { Icons } from "../../assets/icons/icons";

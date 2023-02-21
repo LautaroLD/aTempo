@@ -1,11 +1,9 @@
-import React from "react";
+import InstaCard from "./InstaCard/InstaCard";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Mousewheel, Keyboard } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-
-import { Navigation, Pagination, Mousewheel, Keyboard } from "swiper";
-import InstaCard from "./InstaCard/InstaCard";
 
 const images = [
   "https://images.pexels.com/photos/15130305/pexels-photo-15130305.jpeg?auto=compress&cs=tinysrgb&w",
