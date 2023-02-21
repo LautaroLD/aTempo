@@ -1,6 +1,5 @@
 import { BsXCircle } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import "./NotFound.sass";
 
 export default function NotFound() {
   return (

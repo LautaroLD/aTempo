@@ -1,15 +1,27 @@
-import React from "react";
-import { BsXLg, BsHeart } from "react-icons/bs";
+import { MouseEventHandler } from "react";
 import { Link } from "react-router-dom";
 import { Icons } from "../../../assets/icons/icons";
+import { BsXLg, BsHeart } from "react-icons/bs";
 import { FaRegUser, FaUser } from "react-icons/fa";
 
 type Props = {
   openNavBar: boolean;
-  openNavBarFunction: React.MouseEventHandler<SVGElement>;
+  openNavBarFunction: MouseEventHandler<SVGElement>;
   desktopScreen: boolean;
   isLogin: boolean;
 };
+
+const menus = [
+  { name: "BALLET", icon: Icons.Ballet, link: "./" },
+  { name: "TAP", icon: Icons.Tap, link: "./" },
+  { name: "JAZZ", icon: Icons.Jazz, link: "./" },
+  { name: "PERSONAJE", icon: Icons.Personaje, link: "./" },
+  { name: "BALLROOM", icon: Icons.Ballroom, link: "./" },
+  { name: "DANSNEAKERS", icon: Icons.Dansneakers, link: "./" },
+  { name: "MODERNO", icon: Icons.Moderno, link: "./" },
+  { name: "TANGO", icon: Icons.Tango, link: "./" },
+  { name: "OUTLET", icon: Icons.Outlet, link: "./" }
+];
 
 export default function Navbar({ openNavBar, openNavBarFunction, desktopScreen, isLogin }: Props) {
   return (
@@ -21,60 +33,16 @@ export default function Navbar({ openNavBar, openNavBarFunction, desktopScreen, 
         </div>
         <div className="navbar__element__categories categories">
           <ul className="categories__list">
-            <li className="categories__list__item">
-              <Link to={"./"}>
-                <img src={Icons.Ballet} alt="" />
-                BALLET
-              </Link>
-            </li>
-            <li className="categories__list__item">
-              <Link to={"./"}>
-                <img src={Icons.Tap} alt="" />
-                TAP
-              </Link>
-            </li>
-            <li className="categories__list__item">
-              <Link to={"./"}>
-                <img src={Icons.Jazz} alt="" />
-                JAZZ
-              </Link>
-            </li>
-            <li className="categories__list__item">
-              <Link to={"./"}>
-                <img src={Icons.Personaje} alt="" />
-                PERSONAJE
-              </Link>
-            </li>
-            <li className="categories__list__item">
-              <Link to={"./"}>
-                <img src={Icons.Ballroom} alt="" />
-                BALLROOM
-              </Link>
-            </li>
-            <li className="categories__list__item">
-              <Link to={"./"}>
-                <img src={Icons.Dansneakers} alt="" />
-                DANSNEAKERS
-              </Link>
-            </li>
-            <li className="categories__list__item">
-              <Link to={"./"}>
-                <img src={Icons.Moderno} alt="" />
-                MODERNO
-              </Link>
-            </li>
-            <li className="categories__list__item">
-              <Link to={"./"}>
-                <img src={Icons.Tango} alt="" />
-                TANGO
-              </Link>
-            </li>
-            <li className="categories__list__item">
-              <Link to={"./"}>
-                <img src={Icons.Outlet} alt="" />
-                OUTLET
-              </Link>
-            </li>
+            {menus.map((menu, index) => {
+              return (
+                <li key={`menu-${index}`} className="categories__list__item">
+                  <Link to={menu.link}>
+                    <img src={menu.icon} alt="" />
+                    {menu.name}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </div>
         <div hidden={desktopScreen} className="navbar__element__bottom bottom">
