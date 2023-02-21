@@ -1,10 +1,10 @@
 exports.productSchema = {
-    productName: {
+    name: {
       exists: {
         errorMessage: "Product Name is required",
         options: { checkFalsy: true },
       },
-      isLength: {options: { min: 10, max: 64}, errorMessage: "Description should be at least 10-64 characters"},
+      isLength: {options: { min: 10, max: 64}, errorMessage: "Product Name should be at least 10-64 characters"},
       isString: { errorMessage: "Product Name should be a string" },
     },
     description: {
