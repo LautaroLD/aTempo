@@ -19,7 +19,7 @@ export const postRequest = async (dataObject: {}, endpoint: string) => {
     return data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      throw new Error(error.message);
+      throw new Error(error.response?.data.message);
     } else {
       return "An unexpected error occurred";
     }
