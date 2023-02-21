@@ -1,11 +1,13 @@
 export const PublicRoutes = {
+  HOME: "/",
   LOGIN: "login",
   SIGNUP: "signup",
-  HOME: "/",
+  PRODUCTS: "products",
   PRODUCTDETAIL: "product/:id"
 };
 
 export const PrivateRoutes = {
+  PROFILE: "profile",
   ADMIN: "admin"
 };
 

@@ -1,7 +1,11 @@
 import { MouseEventHandler } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { setLogout } from "../../../app/state/authSlice";
+import { AppStore } from "../../../app/store";
 import { Icons } from "../../../assets/icons/icons";
 import { BsXLg, BsHeart } from "react-icons/bs";
+import { BiLogOutCircle } from "react-icons/bi";
 import { FaRegUser, FaUser } from "react-icons/fa";
 
 type Props = {
@@ -24,6 +28,13 @@ const menus = [
 ];
 
 export default function Navbar({ openNavBar, openNavBarFunction, desktopScreen, isLogin }: Props) {
+  const user = useSelector((store: AppStore) => store.auth.user);
+  const dispatch = useDispatch();
+
+  const logout = (): void => {
+    dispatch(setLogout());
+  };
+
   return (
     <nav hidden={!openNavBar && !desktopScreen} className="navbar">
       <div className="navbar__element">
@@ -45,9 +56,9 @@ export default function Navbar({ openNavBar, openNavBarFunction, desktopScreen, 
             })}
           </ul>
         </div>
-        <div hidden={desktopScreen} className="navbar__element__bottom bottom">
+        <div hidden={desktopScreen} className="navbar__element__bottom">
           <ul className="bottom__list">
-            {isLogin && (
+            {user.name && (
               <li className="bottom__list__item item">
                 <Link className="item__link" to={"./"}>
                   <BsHeart className="item__link__icon" />
@@ -56,11 +67,11 @@ export default function Navbar({ openNavBar, openNavBarFunction, desktopScreen, 
               </li>
             )}
             <li className="bottom__list__item item">
-              <Link className="item__link" to={isLogin ? "/profile" : "/login"}>
-                {isLogin ? (
+              <Link className="item__link" to={user.name ? "/profile" : "/login"}>
+                {user.name ? (
                   <>
                     <FaUser className="item__link__icon" />
-                    JHON
+                    {user.name} {user.lastName}
                   </>
                 ) : (
                   <>
@@ -70,6 +81,14 @@ export default function Navbar({ openNavBar, openNavBarFunction, desktopScreen, 
                 )}
               </Link>
             </li>
+            {user.name && (
+              <li className="bottom__list__item item">
+                <Link className="item__link" to="/" onClick={logout}>
+                  <BiLogOutCircle className="item__link__icon" />
+                  SALIR
+                </Link>
+              </li>
+            )}
           </ul>
         </div>
       </div>

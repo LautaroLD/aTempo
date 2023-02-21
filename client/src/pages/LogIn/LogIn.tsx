@@ -1,15 +1,16 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../app/store";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { LoginValues } from "../../models/LoginValues";
 import { loginUser } from "../../app/state/authSlice";
+import { PublicRoutes } from "../../models/routes";
+import { LoginValues } from "../../models/LoginValues";
+import { Icons } from "../../assets/icons/icons";
 import { BiCheckbox, BiCheckboxChecked } from "react-icons/bi";
 import { FcGoogle } from "react-icons/fc";
 import { FaEye } from "react-icons/fa";
-import { Icons } from "../../assets/icons/icons";
 
 const loginSchema = Yup.object().shape({
   email: Yup.string().email("Email invalido").required("Email requerido"),
@@ -18,9 +19,11 @@ const loginSchema = Yup.object().shape({
 
 export default function LogIn() {
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
-  const handleLogin = (values: LoginValues) => {
-    dispatch(loginUser(values));
+  const handleLogin = async (values: LoginValues) => {
+    const isLogin = await dispatch(loginUser(values));
+    if (isLogin) navigate(`${PublicRoutes.HOME}`, { replace: true });
   };
 
   const [remember, setRemember] = useState<boolean>(false);

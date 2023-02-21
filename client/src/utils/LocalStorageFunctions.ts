@@ -1,5 +1,14 @@
 export const getLocalStorage = (key: string) => {
-  return localStorage.getItem(key);
+  const item = localStorage.getItem(key);
+
+  if (!item) return;
+
+  try {
+    return JSON.parse(item);
+  } catch (error) {
+    console.log(error);
+  }
+  return item;
 };
 
 export const setLocalStorage = <T>(key: string, value: T) => {

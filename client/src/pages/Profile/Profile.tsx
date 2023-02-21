@@ -5,7 +5,7 @@ import EditProfile from "../../components/ProfileComponents/EditProfile/EditProf
 
 export default function Profile() {
   const [editProfile, setEditProfile] = useState<boolean>(false);
-  const [editDirection,setEditDirection] = useState<boolean>(false);
+  const [editDirection, setEditDirection] = useState<boolean>(false);
 
   const [email, setEmail] = useState<string>("jonathan@hotmail.com");
   const [name, setName] = useState<string>("Jonathan");
@@ -13,10 +13,10 @@ export default function Profile() {
   const [document, setDocument] = useState<number>(15212525);
   const [birthdate, setBirthdate] = useState<Date>(new Date());
 
-  const [country, setCountry] = useState<string>('Argentina');
-  const [state, setState] = useState<string>('Buenos Aires');
-  const [city, setcity] = useState<string>('Lomas de Zamora');
-  const [street, setStreet] = useState<string>('Hipolito Yrigoyen');
+  const [country, setCountry] = useState<string>("Argentina");
+  const [state, setState] = useState<string>("Buenos Aires");
+  const [city, setcity] = useState<string>("Lomas de Zamora");
+  const [street, setStreet] = useState<string>("Hipolito Yrigoyen");
   const [number, setNumber] = useState<number>(9201);
   const [zipCode, setZipCode] = useState<number>(1832);
   return (
@@ -37,8 +37,8 @@ export default function Profile() {
           setEditDirection(!editDirection);
         }}
         className="profile__buttons"
-        >
-          Mi dirección
+      >
+        Mi dirección
       </button>
       <button className="profile__buttons">Mi lista de deseados</button>
       <button className="profile__buttons">Mis valoraciones</button>
@@ -54,18 +54,16 @@ export default function Profile() {
           <EditPassword />
         </>
       )}
-      {
-        editDirection && (
-          <EditDirection
-            country={country}
-            state={state}
-            city={city}
-            street={street}
-            number={number}
-            zipCode={zipCode}
-          />
-        )
-      }
+      {editDirection && (
+        <EditDirection
+          country={country}
+          state={state}
+          city={city}
+          street={street}
+          number={number}
+          zipCode={zipCode}
+        />
+      )}
     </div>
   );
 }
