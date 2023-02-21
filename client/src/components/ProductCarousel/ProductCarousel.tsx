@@ -1,15 +1,9 @@
-import React from "react";
-// Import Swiper React components
+import ProductCard from "./ProductCard/ProductCard";
 import { Swiper, SwiperSlide } from "swiper/react";
-
-// Import Swiper styles
+import { Navigation, Pagination, Mousewheel, Keyboard } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-
-// import required modules
-import { Navigation, Pagination, Mousewheel, Keyboard } from "swiper";
-import ProductCard from "./ProductCard/ProductCard";
 
 const ProductCarousel = () => {
   return (

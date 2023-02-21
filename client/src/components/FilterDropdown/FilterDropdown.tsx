@@ -1,10 +1,8 @@
-import React, { useState } from "react";
-import "../../styles/components/_filterdropdown.sass";
-import { AiFillHeart, AiOutlineClose } from "react-icons/ai";
+import { useState } from "react";
+import { AiOutlineClose } from "react-icons/ai";
 import { GiBabyFace } from "react-icons/gi";
-import { IoMdMan } from "react-icons/io";
-import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 import { BsCircleFill } from "react-icons/bs";
+import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 
 const mockup = [
   {
@@ -179,7 +177,8 @@ const FilterDropdown = ({ setFiltersOpen, filtersOpen }: Props) => {
                     <div
                       className="filterdropdown__items__item__open"
                       key={index}
-                      onClick={() => handleAddFilter(properties)}>
+                      onClick={() => handleAddFilter(properties)}
+                    >
                       {icon && <GiBabyFace className="filterdropdown__items__item__open__icon" />}
                       {color && (
                         <BsCircleFill

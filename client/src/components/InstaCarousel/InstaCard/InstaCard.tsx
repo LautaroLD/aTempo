@@ -1,4 +1,4 @@
-import React, { useState, FC } from "react";
+import { FC } from "react";
 import { AiOutlineInstagram } from "react-icons/ai";
 
 interface Props {
