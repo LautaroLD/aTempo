@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { AppStore } from "../../app/store";
 import Navbar from "./Navbar/Navbar";
 import FormSearch from "./FormSearch/FormSearch";
 import UserDropMenu from "./UserDropMenu/UserDropMenu";
@@ -8,6 +10,8 @@ import { BiMenu, BiSearch } from "react-icons/bi";
 import { BsHeart } from "react-icons/bs";
 
 export default function Header() {
+  const { user, token } = useSelector((store: AppStore) => store.auth);
+
   const [isOpenSearch, setIsOpenSearch] = useState<boolean>(false);
   const [isOpenNavBar, setIsOpenNavBar] = useState<boolean>(false);
   const [isLogin, setIsLogin] = useState<boolean>(false);
@@ -48,21 +52,29 @@ export default function Header() {
         <div className="header__containerIcons">
           {isDesktopScreen && (
             <>
-              <Link hidden={!isLogin} className="header__containerIcons__fav" to={"./"}>
-                <BsHeart className="header__containerIcons__item" />
-              </Link>
-              <UserDropMenu isLogin={isLogin} setIsLogin={setIsLogin} />
+              {token && (
+                <Link
+                  hidden={user.isAdmin ? true : false}
+                  className="header__containerIcons__fav"
+                  to={"./"}
+                >
+                  <BsHeart className="header__containerIcons__item" />
+                </Link>
+              )}
+              <UserDropMenu />
             </>
           )}
           <i hidden={isDesktopScreen} className="header__containerIcons__search">
             <BiSearch onClick={openSearch} className="header__containerIcons__item" />
           </i>
-          <Link to={"/cart"} className="header__containerIcons__cart cart">
-            <div className="cart__number">
-              <p>+9</p>
-            </div>
-            <img src={Icons.Cart} alt="" className="cart__img" />
-          </Link>
+          {!user.isAdmin && (
+            <Link to={"/cart"} className="header__containerIcons__cart cart">
+              <div className="cart__number">
+                <p>+9</p>
+              </div>
+              <img src={Icons.Cart} alt="" className="cart__img" />
+            </Link>
+          )}
           <i hidden={isDesktopScreen} className="header__containerIcons__menu">
             <BiMenu onClick={openNavBar} className="header__containerIcons__item" />
           </i>
@@ -72,7 +84,6 @@ export default function Header() {
         openNavBar={isOpenNavBar}
         openNavBarFunction={openNavBar}
         desktopScreen={isDesktopScreen}
-        isLogin={isLogin}
       />
     </>
   );
