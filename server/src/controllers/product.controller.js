@@ -106,7 +106,7 @@ const saveProduct = async (req, res) => {
 
         const prodCol = await newProduct.addColours(coloursResult)
 
-        const prodLast = await newProduct.addShoeLasts(shoeLastResult)
+        const prodLast = await newProduct.addLast(shoeLastResult)
 
         await newProduct.update(
             { BrandId: brand.dataValues.id },
