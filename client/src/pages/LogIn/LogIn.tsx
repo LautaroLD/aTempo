@@ -1,16 +1,20 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../app/store";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
+import YupPassword from "yup-password";
 import { loginUser } from "../../app/state/authSlice";
-import { PublicRoutes } from "../../models/routes";
 import { LoginValues } from "../../models/LoginValues";
 import { Icons } from "../../assets/icons/icons";
 import { BiCheckbox, BiCheckboxChecked } from "react-icons/bi";
 import { FcGoogle } from "react-icons/fc";
 import { FaEye } from "react-icons/fa";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+YupPassword(Yup);
 
 const loginSchema = Yup.object().shape({
   email: Yup.string().email("Email invalido").required("Email requerido"),
@@ -19,11 +23,19 @@ const loginSchema = Yup.object().shape({
 
 export default function LogIn() {
   const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
 
   const handleLogin = async (values: LoginValues) => {
     const isLogin = await dispatch(loginUser(values));
-    if (isLogin) navigate(`${PublicRoutes.HOME}`, { replace: true });
+    toast.error(isLogin.toString(), {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored"
+    });
   };
 
   const [remember, setRemember] = useState<boolean>(false);
@@ -86,9 +98,6 @@ export default function LogIn() {
                   )}
                   <p className="login__form__remember__container__text">Recordarme</p>
                 </div>
-                <button className="login__form__remember__container__button" type="button">
-                  Olvide mi contraseña
-                </button>
               </div>
 
               <button className="login__form__entersession" type="submit">
@@ -98,6 +107,7 @@ export default function LogIn() {
                 <FcGoogle className="login__form__entergoogle__logo" />
                 <p className="login__form__entergoogle__text">Continuar con Google</p>
               </button>
+              <ToastContainer />
             </Form>
           )}
         </Formik>
