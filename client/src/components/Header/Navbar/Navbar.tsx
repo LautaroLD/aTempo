@@ -22,7 +22,7 @@ const menus = [
   { name: "BALLROOM", icon: Icons.Ballroom, link: "./" },
   { name: "DANSNEAKERS", icon: Icons.Dansneakers, link: "./" },
   { name: "MODERNO", icon: Icons.Moderno, link: "./" },
-  { name: "TANGOS", icon: Icons.Tango, link: "./" },
+  { name: "TANGO", icon: Icons.Tango, link: "./" },
   { name: "OUTLET", icon: Icons.Outlet, link: "./" }
 ];
 
