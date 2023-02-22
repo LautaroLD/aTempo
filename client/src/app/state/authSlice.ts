@@ -52,7 +52,7 @@ export const loginUser = (dataLogin: LoginValues) => async (dispatch: Dispatch) 
       dispatch(setLogin(auth));
       const authInStorage = { token: auth.token, user: auth.user };
       setLocalStorage("auth", authInStorage);
-      return "succesfull";
+      return true;
     }
     return false;
   } catch (error) {
@@ -64,7 +64,7 @@ export const loginUser = (dataLogin: LoginValues) => async (dispatch: Dispatch) 
 export const signUpUser = (dataSignUp: SignUpValues) => async () => {
   try {
     await postRequest(dataSignUp, "/users");
-    return "succesfull";
+    return true;
   } catch (error) {
     const msgError = error as string;
     return msgError.toString();

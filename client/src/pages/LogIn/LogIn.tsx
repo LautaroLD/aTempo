@@ -11,7 +11,7 @@ import { Icons } from "../../assets/icons/icons";
 import { BiCheckbox, BiCheckboxChecked } from "react-icons/bi";
 import { FcGoogle } from "react-icons/fc";
 import { FaEye } from "react-icons/fa";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 YupPassword(Yup);
@@ -26,16 +26,29 @@ export default function LogIn() {
 
   const handleLogin = async (values: LoginValues) => {
     const isLogin = await dispatch(loginUser(values));
-    toast.error(isLogin.toString(), {
-      position: "top-right",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored"
-    });
+    if(isLogin) {
+      toast.success("Usuario logeado con éxito!", {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored"
+      });
+    } else {
+      toast.error(isLogin.toString(), {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored"
+      });
+    }
   };
 
   const [remember, setRemember] = useState<boolean>(false);
@@ -107,7 +120,6 @@ export default function LogIn() {
                 <FcGoogle className="login__form__entergoogle__logo" />
                 <p className="login__form__entergoogle__text">Continuar con Google</p>
               </button>
-              <ToastContainer />
             </Form>
           )}
         </Formik>

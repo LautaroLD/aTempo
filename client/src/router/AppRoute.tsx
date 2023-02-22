@@ -5,6 +5,7 @@ import { Roles } from "../models/roles";
 import Layout from "../utils/Layout";
 import RoleGuard from "./guards/RoleGuard";
 import AuthGuard from "./guards/AuthGuard";
+import { ToastContainer } from "react-toastify";
 
 const renderLoader = () => <p>Loading Page</p>;
 const AdminDashboard = lazy(() => import("../pages/Private/Admin/AdminDashboard/AdminDashboard"));
@@ -41,6 +42,7 @@ export default function AppRoute() {
           </Routes>
         </Layout>
       </BrowserRouter>
+      <ToastContainer/>
     </Suspense>
   );
 }
