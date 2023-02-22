@@ -81,13 +81,12 @@ const loginUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
     try {
-        const { name, lastName, email, documentId, phoneNumber, birthdate } = req.body;
+        const { name, lastName, email, documentId, birthdate } = req.body;
 
         const dataToUpdate = {
             name,
             lastName,
             documentId,
-            phoneNumber,
             birthdate
         }
 
