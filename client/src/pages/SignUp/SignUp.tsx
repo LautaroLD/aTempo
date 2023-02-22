@@ -11,7 +11,7 @@ import { BiCheckbox, BiCheckboxChecked } from "react-icons/bi";
 import { Icons } from "../../assets/icons/icons";
 import { SignUpValues } from "../../models/SignUp";
 import { signUpUser } from "../../app/state/authSlice";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 YupPassword(Yup);
@@ -62,7 +62,7 @@ export default function SignUp() {
 
   const handleSignUp = async (values: SignUpValues) => {
     const request = await dispatch(signUpUser(values));
-    if (request === "succesfull") {
+    if (request) {
       toast.success("Usuario Registrado con éxito!", {
         position: "top-right",
         autoClose: 1000,
@@ -187,7 +187,6 @@ export default function SignUp() {
               <button className="signup__form__entersession" type="submit">
                 Registrarme
               </button>
-              <ToastContainer />
             </Form>
           )}
         </Formik>
