@@ -1,4 +1,4 @@
-const { Product, Size, Category, Color, Brand } = require("../database/models");
+const { Product, Size, Category, Color, Brand, ShoeLast } = require("../database/models");
 
 const productList = async (req, res) => {
     try {
@@ -8,7 +8,9 @@ const productList = async (req, res) => {
                 { association: "ProductImgs" },
                 { association: "Size" },
                 { association: "Categories" },
-                { association: "Colours" }
+                { association: "Colours" },
+                { association: "Brand" },
+                { association: "Last" },
             ]
         })
         res.status(200).json({ products });
@@ -26,7 +28,9 @@ const productDetail = async (req, res) => {
                 { association: "ProductImgs" },
                 { association: "Size" },
                 { association: "Categories" },
-                { association: "Colours" }
+                { association: "Colours" },
+                { association: "Brand" },
+                { association: "Last" },
             ]
         });
         res.status(200).json({ product });
@@ -37,22 +41,34 @@ const productDetail = async (req, res) => {
 
 const saveProduct = async (req, res) => {
     try {
-        const { name, description, quantityInStock, price, pics, sizes, categoriesIds, colours, brandId } = req.body;
+        const { 
+            name, 
+            description, 
+            quantityInStock, 
+            price, 
+            pics, 
+            sizes, 
+            categoriesIds, 
+            colours, 
+            brandId,
+            last
+        } = req.body;
+
         let picsUrls = []
+
         pics.forEach((url) => {
             picsUrls.push({ status: "active", imgUrl: url })
         });
+
         const newProduct = await Product.create({
             name,
             description,
             quantityInStock,
             price,
             ProductImgs: picsUrls,
-            Brand: brandId
         }, {
             include: [
                 { association: "ProductImgs" },
-                { association: "Brand" }
             ]
         });
 
@@ -72,18 +88,41 @@ const saveProduct = async (req, res) => {
             }
         });
 
+        const shoeLastResult = await ShoeLast.findAll({
+            where: {
+                id: last
+            }
+        });
+
+        const brand = await Brand.findOne({
+            where: {
+                id: brandId
+            }
+        });
+        
         const prodSized = await newProduct.addSize(size)
 
         const prodCat = await newProduct.addCategories(categories)
 
         const prodCol = await newProduct.addColours(coloursResult)
 
+        const prodLast = await newProduct.addShoeLasts(shoeLastResult)
+
+        await newProduct.update(
+            { BrandId: brand.dataValues.id },
+            { where: {
+                    id: newProduct.dataValues.id
+                }
+            }
+        )
+
         res.status(201).json({ 
             message: "New Product created", 
             newProduct, 
             prodSized, 
             prodCat, 
-            prodCol
+            prodCol, 
+            prodLast           
         })
 
     } catch (error) {

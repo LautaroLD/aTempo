@@ -4,7 +4,7 @@ exports.productSchema = {
         errorMessage: "Product Name is required",
         options: { checkFalsy: true },
       },
-      isLength: {options: { min: 10, max: 64}, errorMessage: "Product Name should be at least 10-64 characters"},
+      isLength: {options: { min: 5, max: 64}, errorMessage: "Product Name should be at least 5-64 characters"},
       isString: { errorMessage: "Product Name should be a string" },
     },
     description: {
@@ -12,7 +12,7 @@ exports.productSchema = {
         errorMessage: "Description is required",
         options: { checkFalsy: true },
       },
-      isLength: {options: { min: 10, max: 254}, errorMessage: "Description should be at least 10-254 characters"},
+      isLength: {options: { min: 8, max: 254}, errorMessage: "Description should be at least 8-254 characters"},
       isString: { errorMessage: "Description should be a string" },
     },
     quantityInStock: {
