@@ -12,18 +12,21 @@ module.exports = (sequelize, DataTypes) => {
         }
       })
       Product.belongsToMany(models.Color, {
+        as:"Colours",
         through: 'ProductColors',
         foreignKey: {
           name: 'productId'
         }
       })
       Product.belongsToMany(models.Size, {
+        as:"Size",
         through: 'ProductSize',
         foreignKey: {
           name: 'productId'
         }
       })
       Product.belongsToMany(models.ShoeLast, {
+        as:"Last",
         through: 'ProductShoeLast',
         foreignKey: {
           name: 'productId'
@@ -35,8 +38,10 @@ module.exports = (sequelize, DataTypes) => {
           name: 'productId'
         }
       })
-      Product.belongsTo(models.Brand);
-      Product.hasMany(models.ProductImg);
+      Product.belongsTo(models.Brand, {
+        as:"Brand"
+      });
+      Product.hasMany(models.ProductImg, {as:"ProductImgs"});
       Product.hasMany(models.Review);
       Product.hasMany(models.ProductsInOrder);
       Product.hasOne(models.ProductsInCart)
