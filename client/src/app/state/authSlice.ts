@@ -1,5 +1,5 @@
 import { LoginValues } from "../../models/LoginValues";
-import { postRequest } from "../../services/httpRequest";
+import { postRequest, putRequest } from "../../services/httpRequest";
 import { createSlice, Dispatch } from "@reduxjs/toolkit";
 import { InitialAuth } from "../../models/InitialAuth";
 import {
@@ -7,7 +7,8 @@ import {
   getLocalStorage,
   clearLocalStorage
 } from "../../utils/LocalStorageFunctions";
-import { SignUpValues } from "../../models/SignUp";
+import { SignUpValues } from "../../models/SignUpValues";
+import { User } from "../../models/User";
 
 export const initialAuth: InitialAuth = {
   token: "",
@@ -15,8 +16,8 @@ export const initialAuth: InitialAuth = {
     email: "",
     lastName: "",
     name: "",
-    password: "",
-    documentId: 0,
+    id: '',
+    documentId: undefined,
     birthdate: undefined,
     isAdmin: false,
     createdAt: undefined,
@@ -37,17 +38,38 @@ export const authSlice = createSlice({
     setLogout: () => {
       clearLocalStorage("auth");
       return initialAuth;
+    },
+    setUserInformation: (state,action) => {
+      // state.user = {
+      //   ...state.user,
+      //   action.payload
+      //   name: action.payload.name,
+      //   lastName: action.payload.lastName,
+      //   birthdate : action.payload.birthdate,
+      //   documentId : action.payload.documentId
+      // }
+      state.user = {
+        name: action.payload.name,
+        lastName: action.payload.lastName,
+        documentId: action.payload.documentId,
+        birthday: action.payload.birthdate,
+        createdAt: state.user.createdAt,
+        updatedAt: state.user.updatedAt,
+        deletedAt: state.user.deletedAt,
+        isAdmin: state.user.isAdmin,
+        id: state.user.id
+      }
     }
   }
 });
 
-export const { setLogin, setLogout } = authSlice.actions;
+export const { setLogin, setLogout, setUserInformation } = authSlice.actions;
 
 export default authSlice.reducer;
 
 export const loginUser = (dataLogin: LoginValues) => async (dispatch: Dispatch) => {
   try {
-    const auth = (await postRequest(dataLogin, "/users/login")) as InitialAuth;
+    const auth = (await postRequest(dataLogin, "/users/login")) as InitialAuth;    
     if (auth.token !== "") {
       dispatch(setLogin(auth));
       const authInStorage = { token: auth.token, user: auth.user };
@@ -70,3 +92,18 @@ export const signUpUser = (dataSignUp: SignUpValues) => async () => {
     return msgError.toString();
   }
 };
+
+export const updateUserInformation = (UserInformation: User) => async (dispatch: Dispatch) => {
+  try {
+    const update = await putRequest('/users/',UserInformation.id,UserInformation);  
+    if(update) {
+      dispatch(setUserInformation(update.params));
+      return true
+    }
+    return false;
+  } catch (error) {
+    const msgError = error as string;
+    return msgError.toString();
+  }
+};
+

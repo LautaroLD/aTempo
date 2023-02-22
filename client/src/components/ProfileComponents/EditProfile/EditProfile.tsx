@@ -1,17 +1,14 @@
 import { useState } from "react";
+import { AppDispatch } from "../../../app/store";
+import { useSelector,useDispatch } from "react-redux";
 import { Formik, Form, Field } from "formik";
 import { BiCheckbox, BiCheckboxChecked } from "react-icons/bi";
 import * as Yup from "yup";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
-type UserInformation = {
-  email: string;
-  name: string;
-  surname: string;
-  document?: number;
-  birthdate?: Date | string;
-};
+import { User } from "../../../models/User";
+import { AppStore } from "../../../app/store";
+import { updateUserInformation } from "../../../app/state/authSlice";
 
 const userInformationSchema = Yup.object().shape({
   email: Yup.string().email("Email invalido").required("Email requerido"),
@@ -19,30 +16,31 @@ const userInformationSchema = Yup.object().shape({
     .min(3, "Nombre minimo 3 caracteres")
     .max(20, "Nombre maximo 20 caracteres")
     .required("Nombre requerido"),
-  surname: Yup.string()
+  lastName: Yup.string()
     .min(3, "Apellido minimo 3 caracteres")
     .max(20, "Apellido maximo 20 caracteres")
     .required("Apellido requerido"),
-  document: Yup.string().min(6, "Contraseña minimo 6 caracteres").required("Contraseña requerida")
+  documentId: Yup.number().min(6, "Documento minimo 6 caracteres").required("Documento requerido")
 });
 
-export default function EditProfile({
-  email,
-  name,
-  surname,
-  document,
-  birthdate
-}: UserInformation) {
+export default function EditProfile() {
+  const dispatch = useDispatch<AppDispatch>();
+  const UserInformation: User = useSelector((store:AppStore) => store.auth.user);
   const [notifications, setNotifications] = useState<boolean>(false);
   const [date, setDate] = useState<Date>(new Date());
 
-  const USER__INFORMATION__VALUES__FORM: UserInformation = {
-    email: email,
-    name: name,
-    surname: surname,
-    document: document || 0,
-    birthdate: birthdate || new Date()
+  console.log(UserInformation);
+  
+
+  const USER__INFORMATION__VALUES__FORM: User = {
+    email: UserInformation.email,
+    name: UserInformation.name,
+    lastName: UserInformation.lastName,
+    documentId: UserInformation.documentId || 0,
+    birthdate: UserInformation.birthdate || new Date(),
+    id: UserInformation.id
   };
+  
   return (
     <div className="profile__information">
       <h1 className="profile__information__title">DATOS DE USUARIO</h1>
@@ -50,15 +48,17 @@ export default function EditProfile({
         initialValues={USER__INFORMATION__VALUES__FORM}
         validationSchema={userInformationSchema}
         onSubmit={values => {
-          values.birthdate = date;
-          const updatedValues: UserInformation = {
+          const updatedUserValues: User = {
             email: values.email,
             name: values.name,
-            surname: values.surname,
-            document: values.document,
-            birthdate: values.birthdate.toLocaleDateString()
+            lastName: values.lastName,
+            documentId: values.documentId,
+            birthdate:"2001/05/01",
+            id: UserInformation.id,
+            phoneNumber: '1251251212'
           };
-          console.log(updatedValues);
+          dispatch(updateUserInformation(updatedUserValues))
+          // console.log(updatedUserValues);
         }}
       >
         {({ errors, touched }) => (
@@ -84,28 +84,28 @@ export default function EditProfile({
               <div className="profile__information__form__error">{errors.name}</div>
             ) : null}
 
-            <label className="profile__information__form__label" htmlFor="surname">
+            <label className="profile__information__form__label" htmlFor="lastName">
               Apellido
             </label>
             <Field
               className="profile__information__form__field"
-              name="surname"
+              name="lastName"
               placeholder="Apellido"
             />
-            {errors.surname && touched.surname ? (
-              <div className="profile__information__form__error">{errors.surname}</div>
+            {errors.lastName && touched.lastName ? (
+              <div className="profile__information__form__error">{errors.lastName}</div>
             ) : null}
 
-            <label className="profile__information__form__label" htmlFor="document">
+            <label className="profile__information__form__label" htmlFor="documentId">
               Documento
             </label>
             <Field
               className="profile__information__form__field"
-              name="document"
+              name="documentId"
               placeholder="Documento"
             />
-            {errors.document && touched.document ? (
-              <div className="profile__information__form__error">{errors.document}</div>
+            {errors.documentId && touched.documentId ? (
+              <div className="profile__information__form__error">{errors.documentId}</div>
             ) : null}
 
             <label className="profile__information__form__label" htmlFor="fechaDeNacimiento">

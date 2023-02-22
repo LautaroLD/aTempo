@@ -7,12 +7,6 @@ export default function Profile() {
   const [editProfile, setEditProfile] = useState<boolean>(false);
   const [editDirection, setEditDirection] = useState<boolean>(false);
 
-  const [email, setEmail] = useState<string>("jonathan@hotmail.com");
-  const [name, setName] = useState<string>("Jonathan");
-  const [surname, setSurname] = useState<string>("Poblet");
-  const [document, setDocument] = useState<number>(15212525);
-  const [birthdate, setBirthdate] = useState<Date>(new Date());
-
   const [country, setCountry] = useState<string>("Argentina");
   const [state, setState] = useState<string>("Buenos Aires");
   const [city, setcity] = useState<string>("Lomas de Zamora");
@@ -44,13 +38,7 @@ export default function Profile() {
       <button className="profile__buttons">Mis valoraciones</button>
       {editProfile && (
         <>
-          <EditProfile
-            email={email}
-            name={name}
-            surname={surname}
-            document={document}
-            birthdate={birthdate}
-          />
+          <EditProfile />
           <EditPassword />
         </>
       )}
