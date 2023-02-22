@@ -26,7 +26,7 @@ export default function LogIn() {
 
   const handleLogin = async (values: LoginValues) => {
     const isLogin = await dispatch(loginUser(values));
-    if(isLogin) {
+    if (isLogin) {
       toast.success("Usuario logeado con éxito!", {
         position: "top-right",
         autoClose: 1000,
