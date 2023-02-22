@@ -5,14 +5,13 @@ import { setLogout } from "../../../app/state/authSlice";
 import { AppStore } from "../../../app/store";
 import { Icons } from "../../../assets/icons/icons";
 import { BsXLg, BsHeart } from "react-icons/bs";
-import { BiLogOutCircle } from "react-icons/bi";
+import { AiOutlineCloseCircle } from "react-icons/ai";
 import { FaRegUser, FaUser } from "react-icons/fa";
 
 type Props = {
   openNavBar: boolean;
   openNavBarFunction: MouseEventHandler<SVGElement>;
   desktopScreen: boolean;
-  isLogin: boolean;
 };
 
 const menus = [
@@ -27,8 +26,8 @@ const menus = [
   { name: "OUTLET", icon: Icons.Outlet, link: "./" }
 ];
 
-export default function Navbar({ openNavBar, openNavBarFunction, desktopScreen, isLogin }: Props) {
-  const user = useSelector((store: AppStore) => store.auth.user);
+export default function Navbar({ openNavBar, openNavBarFunction, desktopScreen }: Props) {
+  const { user, token } = useSelector((store: AppStore) => store.auth);
   const dispatch = useDispatch();
 
   const logout = (): void => {
@@ -58,11 +57,11 @@ export default function Navbar({ openNavBar, openNavBarFunction, desktopScreen, 
         </div>
         <div hidden={desktopScreen} className="navbar__element__bottom">
           <ul className="bottom__list">
-            {user.name && (
+            {token && !user.isAdmin && (
               <li className="bottom__list__item item">
                 <Link className="item__link" to={"./"}>
                   <BsHeart className="item__link__icon" />
-                  LISTA DE DESEADOS
+                  Lista de deseados
                 </Link>
               </li>
             )}
@@ -76,7 +75,7 @@ export default function Navbar({ openNavBar, openNavBarFunction, desktopScreen, 
                 ) : (
                   <>
                     <FaRegUser className="item__link__icon" />
-                    MI CUENTA
+                    Mi cuenta
                   </>
                 )}
               </Link>
@@ -84,8 +83,8 @@ export default function Navbar({ openNavBar, openNavBarFunction, desktopScreen, 
             {user.name && (
               <li className="bottom__list__item item">
                 <Link className="item__link" to="/" onClick={logout}>
-                  <BiLogOutCircle className="item__link__icon" />
-                  SALIR
+                  <AiOutlineCloseCircle className="item__link__icon" />
+                  Salir
                 </Link>
               </li>
             )}

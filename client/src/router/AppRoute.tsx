@@ -42,7 +42,7 @@ export default function AppRoute() {
           </Routes>
         </Layout>
       </BrowserRouter>
-      <ToastContainer/>
+      <ToastContainer />
     </Suspense>
   );
 }
