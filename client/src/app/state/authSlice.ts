@@ -16,7 +16,7 @@ export const initialAuth: InitialAuth = {
     email: "",
     lastName: "",
     name: "",
-    id: '',
+    id: "",
     documentId: undefined,
     birthdate: undefined,
     isAdmin: false,
@@ -39,15 +39,7 @@ export const authSlice = createSlice({
       clearLocalStorage("auth");
       return initialAuth;
     },
-    setUserInformation: (state,action) => {
-      // state.user = {
-      //   ...state.user,
-      //   action.payload
-      //   name: action.payload.name,
-      //   lastName: action.payload.lastName,
-      //   birthdate : action.payload.birthdate,
-      //   documentId : action.payload.documentId
-      // }
+    setUserInformation: (state, action) => {
       state.user = {
         name: action.payload.name,
         lastName: action.payload.lastName,
@@ -58,7 +50,7 @@ export const authSlice = createSlice({
         deletedAt: state.user.deletedAt,
         isAdmin: state.user.isAdmin,
         id: state.user.id
-      }
+      };
     }
   }
 });
@@ -69,7 +61,7 @@ export default authSlice.reducer;
 
 export const loginUser = (dataLogin: LoginValues) => async (dispatch: Dispatch) => {
   try {
-    const auth = (await postRequest(dataLogin, "/users/login")) as InitialAuth;    
+    const auth = (await postRequest(dataLogin, "/users/login")) as InitialAuth;
     if (auth.token !== "") {
       dispatch(setLogin(auth));
       const authInStorage = { token: auth.token, user: auth.user };
@@ -95,10 +87,10 @@ export const signUpUser = (dataSignUp: SignUpValues) => async () => {
 
 export const updateUserInformation = (UserInformation: User) => async (dispatch: Dispatch) => {
   try {
-    const update = await putRequest('/users/',UserInformation.id,UserInformation);  
-    if(update) {
+    const update = await putRequest("/users/", UserInformation.id, UserInformation);
+    if (update) {
       dispatch(setUserInformation(update.params));
-      const localStorageAuth = getLocalStorage('auth');
+      const localStorageAuth = getLocalStorage("auth");
       const auth = {
         token: localStorageAuth.token,
         user: {
@@ -108,9 +100,9 @@ export const updateUserInformation = (UserInformation: User) => async (dispatch:
           documentId: update.params.documentId,
           birthdate: update.params.birthdate
         }
-      }
-      setLocalStorage('auth', auth)
-      return 'Perfil actualizado con éxito'
+      };
+      setLocalStorage("auth", auth);
+      return "Perfil actualizado con éxito";
     }
     return false;
   } catch (error) {
@@ -118,4 +110,3 @@ export const updateUserInformation = (UserInformation: User) => async (dispatch:
     return msgError.toString();
   }
 };
-

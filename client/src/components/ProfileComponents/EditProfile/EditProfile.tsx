@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { AppDispatch } from "../../../app/store";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Formik, Form, Field } from "formik";
 import { BiCheckbox, BiCheckboxChecked } from "react-icons/bi";
 import * as Yup from "yup";
@@ -27,7 +27,7 @@ const userInformationSchema = Yup.object().shape({
 
 export default function EditProfile() {
   const dispatch = useDispatch<AppDispatch>();
-  const UserInformation: User = useSelector((store:AppStore) => store.auth.user);
+  const UserInformation: User = useSelector((store: AppStore) => store.auth.user);
   const [notifications, setNotifications] = useState<boolean>(false);
   const [date, setDate] = useState<Date>(new Date());
 
@@ -39,18 +39,18 @@ export default function EditProfile() {
     birthdate: UserInformation.birthdate || new Date(),
     id: UserInformation.id
   };
-  
+
   const handleSubmitEditUser = async (values: User) => {
     const updatedUserValues: User = {
       email: values.email,
       name: values.name,
       lastName: values.lastName,
       documentId: values.documentId,
-      birthdate: date.toLocaleDateString().split('/').reverse().join('/'),
+      birthdate: date.toLocaleDateString().split("/").reverse().join("/"),
       id: UserInformation.id
-    };    
-    const updateProfile = await dispatch(updateUserInformation(updatedUserValues))
-    if(updateProfile == "Perfil actualizado con éxito") {
+    };
+    const updateProfile = await dispatch(updateUserInformation(updatedUserValues));
+    if (updateProfile == "Perfil actualizado con éxito") {
       toast.success(updateProfile.toString(), {
         position: "top-right",
         autoClose: 1000,
@@ -73,7 +73,7 @@ export default function EditProfile() {
         theme: "colored"
       });
     }
-  }
+  };
 
   return (
     <div className="profile__information">
@@ -82,7 +82,7 @@ export default function EditProfile() {
         initialValues={USER__INFORMATION__VALUES__FORM}
         validationSchema={userInformationSchema}
         onSubmit={async (values: User) => {
-          handleSubmitEditUser(values)
+          handleSubmitEditUser(values);
         }}
       >
         {({ errors, touched }) => (
