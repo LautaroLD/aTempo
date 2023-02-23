@@ -9,5 +9,4 @@ export type User = {
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date;
-  phoneNumber?: number | string
 };

@@ -9,6 +9,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import { User } from "../../../models/User";
 import { AppStore } from "../../../app/store";
 import { updateUserInformation } from "../../../app/state/authSlice";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const userInformationSchema = Yup.object().shape({
   email: Yup.string().email("Email invalido").required("Email requerido"),
@@ -29,9 +31,6 @@ export default function EditProfile() {
   const [notifications, setNotifications] = useState<boolean>(false);
   const [date, setDate] = useState<Date>(new Date());
 
-  console.log(UserInformation);
-  
-
   const USER__INFORMATION__VALUES__FORM: User = {
     email: UserInformation.email,
     name: UserInformation.name,
@@ -41,24 +40,49 @@ export default function EditProfile() {
     id: UserInformation.id
   };
   
+  const handleSubmitEditUser = async (values: User) => {
+    const updatedUserValues: User = {
+      email: values.email,
+      name: values.name,
+      lastName: values.lastName,
+      documentId: values.documentId,
+      birthdate: date.toLocaleDateString().split('/').reverse().join('/'),
+      id: UserInformation.id
+    };    
+    const updateProfile = await dispatch(updateUserInformation(updatedUserValues))
+    if(updateProfile == "Perfil actualizado con éxito") {
+      toast.success(updateProfile.toString(), {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored"
+      });
+    } else {
+      toast.error(updateProfile.toString(), {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored"
+      });
+    }
+  }
+
   return (
     <div className="profile__information">
       <h1 className="profile__information__title">DATOS DE USUARIO</h1>
       <Formik
         initialValues={USER__INFORMATION__VALUES__FORM}
         validationSchema={userInformationSchema}
-        onSubmit={values => {
-          const updatedUserValues: User = {
-            email: values.email,
-            name: values.name,
-            lastName: values.lastName,
-            documentId: values.documentId,
-            birthdate:"2001/05/01",
-            id: UserInformation.id,
-            phoneNumber: '1251251212'
-          };
-          dispatch(updateUserInformation(updatedUserValues))
-          // console.log(updatedUserValues);
+        onSubmit={async (values: User) => {
+          handleSubmitEditUser(values)
         }}
       >
         {({ errors, touched }) => (

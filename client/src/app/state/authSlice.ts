@@ -98,7 +98,19 @@ export const updateUserInformation = (UserInformation: User) => async (dispatch:
     const update = await putRequest('/users/',UserInformation.id,UserInformation);  
     if(update) {
       dispatch(setUserInformation(update.params));
-      return true
+      const localStorageAuth = getLocalStorage('auth');
+      const auth = {
+        token: localStorageAuth.token,
+        user: {
+          ...localStorageAuth.user,
+          name: update.params.name,
+          lastName: update.params.lastName,
+          documentId: update.params.documentId,
+          birthdate: update.params.birthdate
+        }
+      }
+      setLocalStorage('auth', auth)
+      return 'Perfil actualizado con éxito'
     }
     return false;
   } catch (error) {
