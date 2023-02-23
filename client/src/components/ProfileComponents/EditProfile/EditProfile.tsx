@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AppDispatch } from "../../../app/store";
 import { useSelector, useDispatch } from "react-redux";
 import { Formik, Form, Field } from "formik";
@@ -30,13 +30,12 @@ export default function EditProfile() {
   const UserInformation: User = useSelector((store: AppStore) => store.auth.user);
   const [notifications, setNotifications] = useState<boolean>(false);
   const [date, setDate] = useState<Date>(new Date());
-
   const USER__INFORMATION__VALUES__FORM: User = {
     email: UserInformation.email,
     name: UserInformation.name,
     lastName: UserInformation.lastName,
     documentId: UserInformation.documentId || 0,
-    birthdate: UserInformation.birthdate || new Date(),
+    birthdate: UserInformation.birthdate || date,
     id: UserInformation.id
   };
 
@@ -46,7 +45,11 @@ export default function EditProfile() {
       name: values.name,
       lastName: values.lastName,
       documentId: values.documentId,
-      birthdate: date.toLocaleDateString().split("/").reverse().join("/"),
+      birthdate: date
+        .toLocaleDateString("default", { year: "numeric", month: "2-digit", day: "2-digit" })
+        .split("/")
+        .reverse()
+        .join("/"),
       id: UserInformation.id
     };
     const updateProfile = await dispatch(updateUserInformation(updatedUserValues));
@@ -74,6 +77,12 @@ export default function EditProfile() {
       });
     }
   };
+
+  useEffect(() => {
+    if (UserInformation.birthdate) {
+      setDate(new Date(UserInformation.birthdate));
+    }
+  }, [UserInformation.birthdate]);
 
   return (
     <div className="profile__information">
