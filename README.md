@@ -57,11 +57,11 @@ La app ofrece una amplia variedad de beneficios y ventajas tanto para los consum
 | Developer          | Rol                     | LinkedIn                                                   | GitHub                                    |
 | ------------------ | ----------------------- | ---------------------------------------------------------- | ----------------------------------------- |
 | Juan Fernandez     | Back-End                | https://www.linkedin.com/in/juan-manuel-fernandez-dev/     | https://github.com/juanmfernandez         |
-| Facundo Cali       | Back-End                | https://www.linkedin.com/in/facundo-cali-903b61210/        | https://github.com/
-| Nicolas Bordon     | Back-End                | https://www.linkedin.com/in/nicobordon/                    | https://github.com/            |
-| Lautaro Duran      | Front-End               | https://www.linkedin.com/in/lautaro-duran                  | https://github.com/            |
-| Jonathan Poblet    | Front-End               | https://www.linkedin.com/in/jonathan-poblet-0893a623a/     | https://github.com/              |
-| Maximilia Miño     | Front-End               | https://www.linkedin.com/in/maximiliano-mi%C3%B1o-4876221a9/| https://github.com/      |
+| Facundo Cali       | Back-End                | https://www.linkedin.com/in/facundo-cali-903b61210/        | https://github.com/Facundo-cali
+| Nicolas Bordon     | Back-End                | https://www.linkedin.com/in/nicobordon/                    | https://github.com/nbordon            |
+| Lautaro Duran      | Front-End               | https://www.linkedin.com/in/lautaro-duran                  | https://github.com/LautaroLD            |
+| Jonathan Poblet    | Front-End               | https://www.linkedin.com/in/jonathan-poblet-0893a623a/     | https://github.com/jonathanpoblet         |
+| Maximilia Miño     | Front-End               | https://www.linkedin.com/in/maximiliano-mi%C3%B1o-4876221a9/| https://github.com/MaximilianoMino      |
 | Dario Elguero      | Front-End               | https://www.linkedin.com/in/dario-elguero/                 | https://github.com/Dario-Elguero/         |
 | Kevin Grassi       | UI UX                   | https://www.linkedin.com/in/kevingrassi/                   | https://github.com/        |
 | Martin Maldonado   | UI UX                   | https://www.linkedin.com/in/martin-maldonado-b04450237     | https://github.com/         |
@@ -80,7 +80,7 @@ La app ofrece una amplia variedad de beneficios y ventajas tanto para los consum
 </p> 
 <p align="left">
 <img src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/sass/sass.png"  width=10% height=10%>
-<img src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/react/react.png" width=10% height=10%>
+<img src="https://user-images.githubusercontent.com/69209369/116448711-ccedd500-a82f-11eb-8a08-b53db08f6156.png" width=10% height=10%>
 <img src="https://vitejs.dev/logo-with-shadow.png" width=10% height=10%>
 </p>
 
@@ -150,15 +150,15 @@ Payment and shipping options to make purchase experience as easy and comfortable
 | Developer          | Rol                     | LinkedIn                                                   | GitHub                                    |
 | ------------------ | ----------------------- | ---------------------------------------------------------- | ----------------------------------------- |
 | Juan Fernandez     | Back-End                | https://www.linkedin.com/in/juan-manuel-fernandez-dev/     | https://github.com/juanmfernandez         |
-| Facundo Cali       | Back-End                | https://www.linkedin.com/in/facundo-cali-903b61210/        | https://github.com/
-| Nicolas Bordon     | Back-End                | https://www.linkedin.com/in/nicobordon/                    | https://github.com/            |
-| Lautaro Duran      | Front-End               | https://www.linkedin.com/in/lautaro-duran                  | https://github.com/            |
-| Jonathan Poblet    | Front-End               | https://www.linkedin.com/in/jonathan-poblet-0893a623a/     | https://github.com/              |
-| Maximilia Miño     | Front-End               | https://www.linkedin.com/in/maximiliano-mi%C3%B1o-4876221a9/| https://github.com/      |
+| Facundo Cali       | Back-End                | https://www.linkedin.com/in/facundo-cali-903b61210/        | https://github.com/Facundo-cali           |
+| Nicolas Bordon     | Back-End                | https://www.linkedin.com/in/nicobordon/                    | https://github.com/nbordon                |
+| Lautaro Duran      | Front-End               | https://www.linkedin.com/in/lautaro-duran                  | https://github.com/LautaroLD              |
+| Jonathan Poblet    | Front-End               | https://www.linkedin.com/in/jonathan-poblet-0893a623a/     | https://github.com/jonathanpoblet         |
+| Maximilia Miño     | Front-End               | https://www.linkedin.com/in/maximiliano-mi%C3%B1o-4876221a9/| https://github.com/MaximilianoMino       |
 | Dario Elguero      | Front-End               | https://www.linkedin.com/in/dario-elguero/                 | https://github.com/Dario-Elguero/         |
 | Kevin Grassi       | UI UX                   | https://www.linkedin.com/in/kevingrassi/                   | https://github.com/        |
 | Martin Maldonado   | UI UX                   | https://www.linkedin.com/in/martin-maldonado-b04450237     | https://github.com/         |
-| Matias Cañadas     | PM & Scrum Master       | https://www.linkedin.com/in/matiascanadas                  | https://github.com/Hotbones      |
+| Matias Cañadas     | PM & Scrum Master       | https://www.linkedin.com/in/matiascanadas                  | https://github.com/Hotbones               |
 
 
  ## Used technologies:
