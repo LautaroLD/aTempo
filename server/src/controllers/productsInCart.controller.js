@@ -18,12 +18,10 @@ const addToCart = async (req,res) => {
           } else {
             res
                 .status(200)
-                .json({ message: "ENTRA AL ELSE" });
+                .json({ message: "No puede agregarse al carrito, no hay stock." });
           }
     } catch (error) {
-        res.status(200)
-        console.log(error);
-        res.json({ message: "SE ROMPE" });
+        res.status(200).json(error);
     }
 }
 
@@ -31,8 +29,8 @@ const addToCart = async (req,res) => {
 const remToCart = async (req,res) => { 
     const {idProduct, idCart} = req.query;
     try {
-        const product = await Product.findByPk(idProduct);
-        const cart = await Cart.findByPk(idCart);
+        const product = await Product.findByPk(parseInt(idProduct));
+        const cart = await Cart.findByPk(parseInt(idCart));
         await cart.decrement({ totalPrice: product.price });
         const productRem = await cart.removeProducts(product);
         res.status(200).json(productRem);
@@ -61,9 +59,9 @@ const getCart = async (req,res) => {
 const deleteCart = async (req,res) => {
     const {idCart} = req.query;
     try {
-        const cart = await Cart.findByPk(idCart,{ include: Product });
+        const cart = await Cart.findByPk(parseInt(idCart),{ include: Product });
         await cart.removeProducts(cart.dataValues.Products);
-        await Cart.update({ totalPrice: 0 }, { where: { id: idCart } });
+        await Cart.update({ totalPrice: 0 }, { where: { id: parseInt(idCart) } });
         res.status(200).json(cart);
     } catch (error) {
         res.status(400).json(error);
