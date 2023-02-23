@@ -5,14 +5,15 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class Cart extends Model {
     static associate(models) {
-      Cart.belongsTo(models.User,{
-        foreignKey:'userId'
-      })
-      Cart.hasMany(models.ProductsInCart)
+      Cart.belongsTo(models.User);
+      Cart.belongsToMany(models.Product, {
+        through: models.ProductsInCart,
+        foreignKey: 'CartId',
+      });
     }
   }
   Cart.init({
-    userId: DataTypes.INTEGER
+    totalPrice: DataTypes.DECIMAL
   }, {
     sequelize,
     modelName: 'Cart',

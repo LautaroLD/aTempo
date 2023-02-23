@@ -44,7 +44,10 @@ module.exports = (sequelize, DataTypes) => {
       Product.hasMany(models.ProductImg, {as:"ProductImgs"});
       Product.hasMany(models.Review);
       Product.hasMany(models.ProductsInOrder);
-      Product.hasOne(models.ProductsInCart)
+      Product.belongsToMany(models.Cart, {
+        through: models.ProductsInCart,
+        foreignKey: 'ProductId',
+      });
     }
   }
   Product.init({
