@@ -15,6 +15,12 @@ module.exports = {
       totalPrice: {
         type: Sequelize.FLOAT
       },
+      status: {
+        type: Sequelize.STRING
+      },
+      paymentId: {
+        type :Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

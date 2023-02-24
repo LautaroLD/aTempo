@@ -18,9 +18,7 @@ module.exports = (sequelize, DataTypes) => {
         }
       })
       User.hasMany(models.Review);
-      User.hasOne(models.Cart,{
-        foreignKey:'userId'
-      });
+      User.belongsTo(models.Cart);
     }
   }
   User.init({

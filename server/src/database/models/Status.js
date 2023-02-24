@@ -5,12 +5,12 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class Status extends Model {
     static associate(models) {
-      Status.belongsToMany(models.Order, {
-        through: 'statusOrders',
-        foreignKey: {
-          name: 'statusId'
-        }
-      })
+      // Status.belongsToMany(models.Order, {
+      //   through: 'statusOrders',
+      //   foreignKey: {
+      //     name: 'statusId'
+      //   }
+      // })
     }
   }
   Status.init({
