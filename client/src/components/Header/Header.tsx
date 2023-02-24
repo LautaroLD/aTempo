@@ -18,7 +18,7 @@ export default function Header() {
   const [isLogin, setIsLogin] = useState<boolean>(false);
   const [isDesktopScreen, setIsDesktopScreen] = useState<boolean>(window.innerWidth >= 768);
   const [isOpenCartDropdown, setIsOpenCartDropdown] = useState<boolean>(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { pathname } = useLocation();
   useEffect(() => {
     setIsOpenNavBar(false);
@@ -75,9 +75,7 @@ export default function Header() {
             <i
               className="header__containerIcons__cart cart"
               onClick={() =>
-                isDesktopScreen ?
-                  setIsOpenCartDropdown(!isOpenCartDropdown) :
-                  navigate("/cart")
+                isDesktopScreen ? setIsOpenCartDropdown(!isOpenCartDropdown) : navigate("/cart")
               }
             >
               <div className="cart__number">
