@@ -8,6 +8,7 @@ import UserDropMenu from "./UserDropMenu/UserDropMenu";
 import { Icons } from "../../assets/icons/icons";
 import { BiMenu, BiSearch } from "react-icons/bi";
 import { BsHeart } from "react-icons/bs";
+import ProductCartDropdown from "../ProductCartDropdown/ProductCartDropdown";
 
 export default function Header() {
   const { user, token } = useSelector((store: AppStore) => store.auth);
@@ -16,6 +17,8 @@ export default function Header() {
   const [isOpenNavBar, setIsOpenNavBar] = useState<boolean>(false);
   const [isLogin, setIsLogin] = useState<boolean>(false);
   const [isDesktopScreen, setIsDesktopScreen] = useState<boolean>(window.innerWidth >= 768);
+  const [open, setOpen] = useState<boolean>(false);
+
   const { pathname } = useLocation();
   useEffect(() => {
     setIsOpenNavBar(false);
@@ -41,6 +44,7 @@ export default function Header() {
   return (
     <>
       <header className="header">
+        {open && <ProductCartDropdown />}
         <div className="header__containerLogo">
           <Link className="header__containerLogo__logo" to={"./"}>
             <img src={Icons.Logo} alt="Logo" />
@@ -56,8 +60,7 @@ export default function Header() {
                 <Link
                   hidden={user.isAdmin ? true : false}
                   className="header__containerIcons__fav"
-                  to={"./"}
-                >
+                  to={"./"}>
                   <BsHeart className="header__containerIcons__item" />
                 </Link>
               )}
@@ -68,7 +71,10 @@ export default function Header() {
             <BiSearch onClick={openSearch} className="header__containerIcons__item" />
           </i>
           {!user.isAdmin && (
-            <Link to={"/cart"} className="header__containerIcons__cart cart">
+            <Link
+              to={"/cart"}
+              className="header__containerIcons__cart cart"
+              onClick={() => setOpen(!open)}>
               <div className="cart__number">
                 <p>+9</p>
               </div>
