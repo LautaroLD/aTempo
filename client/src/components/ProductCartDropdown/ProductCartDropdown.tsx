@@ -1,6 +1,4 @@
-import React from "react";
 import { RiDeleteBinLine } from "react-icons/ri";
-import "../../styles/components/_productcartdropdown.sass";
 import { Link } from "react-router-dom";
 
 export default function ProductCartDropdown() {
