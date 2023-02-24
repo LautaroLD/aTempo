@@ -60,7 +60,8 @@ export default function Header() {
                 <Link
                   hidden={user.isAdmin ? true : false}
                   className="header__containerIcons__fav"
-                  to={"./"}>
+                  to={"./"}
+                >
                   <BsHeart className="header__containerIcons__item" />
                 </Link>
               )}
@@ -74,7 +75,8 @@ export default function Header() {
             <Link
               to={"/cart"}
               className="header__containerIcons__cart cart"
-              onClick={() => setOpen(!open)}>
+              onClick={() => setOpen(!open)}
+            >
               <div className="cart__number">
                 <p>+9</p>
               </div>
