@@ -1,6 +1,7 @@
 const { User } = require("../database/models");
 const bcrypt = require("bcrypt");
 const { generateToken } = require("../helpers/jwtHandler");
+const { Cart } = require("../database/models");
 
 const hashPassword = async (password, saltRound) => {
     const salt = await bcrypt.genSalt(saltRound);
@@ -40,6 +41,14 @@ const createUser = async (req, res) => {
         }
 
         await delete user.dataValues.password;
+
+        const cart = await Cart.create({ totalPrice:0 });
+        await Cart.update({UserId: user.dataValues.id},{where: {
+            id: cart.dataValues.id
+        }})
+        await User.update({CartId: cart.dataValues.id},{where: {
+            id: user.dataValues.id
+        }})
 
         res.status(200).json({
             success: `User added with e-mail ${req.body.email}`,

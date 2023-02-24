@@ -5,8 +5,7 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class ProductsInCart extends Model {
     static associate(models) {
-      ProductsInCart.belongsTo(models.Cart)
-      ProductsInCart.belongsTo(models.Product);
+      
     }
   }
   ProductsInCart.init({
@@ -15,7 +14,6 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'ProductsInCart',
-    paranoid:true
   });
   return ProductsInCart;
 };

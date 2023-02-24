@@ -9,7 +9,7 @@ import YupPassword from "yup-password";
 import { FaEye } from "react-icons/fa";
 import { BiCheckbox, BiCheckboxChecked } from "react-icons/bi";
 import { Icons } from "../../assets/icons/icons";
-import { SignUpValues } from "../../models/SignUp";
+import { SignUpValues } from "../../models/SignUpValues";
 import { signUpUser } from "../../app/state/authSlice";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
