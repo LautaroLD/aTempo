@@ -36,7 +36,7 @@ const createCheckout = async (req, res) => {
     }];
 
     const payer = {
-      userId: customer.dataValues.id || "c61c99a3-611c-427e-bf4e-0843d131379d",
+      userId: customer.dataValues.id,
       name: customer.dataValues.firstName,
       surname: customer.dataValues.firstName,
       email: customer.dataValues.email,
@@ -53,13 +53,14 @@ const createCheckout = async (req, res) => {
 };
 
 const handlePayment = async (req, res) => {
-  const { payment_id, status, external_reference } = req.query;
-
-  const orderId = Number(external_reference);
-
-  console.log(payment_id, status, orderId);
-
   try {
+    const { payment_id, status, external_reference } = req.query;
+
+    if (!payment_id || !status || !external_reference) {
+      throw new Error("Please provide payment_id, status and external_reference")
+    }
+
+    const orderId = Number(external_reference);
 
     const orderUpdate = await Order.update(
       { status: status, paymentId: payment_id },
