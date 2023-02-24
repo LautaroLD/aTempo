@@ -33,7 +33,7 @@ const InstaCarousel = () => {
             width: 640,
             slidesPerView: 3
           },
-          // when window width is >= 768px
+          // when window width is >= 840px
           840: {
             width: 840,
             slidesPerView: 4
