@@ -28,12 +28,12 @@ const InstaCarousel = () => {
       <Swiper
         slidesPerView={2}
         breakpoints={{
-          // when window width is >= 320px
+          // when window width is >= 640px
           640: {
             width: 640,
             slidesPerView: 3
           },
-          // when window width is >= 768px
+          // when window width is >= 840px
           840: {
             width: 840,
             slidesPerView: 4
