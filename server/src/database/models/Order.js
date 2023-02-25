@@ -8,17 +8,12 @@ module.exports = (sequelize, DataTypes) => {
       Order.belongsTo(models.User, {
         foreignKey: 'userId'
       })
-      Order.belongsToMany(models.Status, {
-        through: 'statusOrders',
-        foreignKey: {
-          name: 'orderId'
-        }
-      })
-      Order.hasMany(models.ProductsInOrder)
+      Order.belongsToMany(models.Product, { 
+        through: models.ProductsInOrder
+      }) 
     }
   }
   Order.init({
-    userId: DataTypes.INTEGER,
     totalPrice: DataTypes.FLOAT,
     status: DataTypes.STRING,
     paymentId: DataTypes.STRING,

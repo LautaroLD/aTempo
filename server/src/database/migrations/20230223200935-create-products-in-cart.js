@@ -15,6 +15,15 @@ module.exports = {
       status: {
         type: Sequelize.BOOLEAN
       },
+      sizeId: {
+        type: Sequelize.INTEGER,
+      },
+      shoesId: { 
+        type: Sequelize.INTEGER,
+      },
+      colorId: {
+        type: Sequelize.INTEGER,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
