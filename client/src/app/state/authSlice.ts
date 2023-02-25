@@ -66,12 +66,12 @@ export const loginUser = (dataLogin: LoginValues) => async (dispatch: Dispatch) 
       dispatch(setLogin(auth));
       const authInStorage = { token: auth.token, user: auth.user };
       setLocalStorage("auth", authInStorage);
-      return true;
+      return { login: true, msg: "Usuario logeado con éxito!" };
     }
     return false;
   } catch (error) {
     const msgError = error as string;
-    return msgError.toString();
+    return { login: false, msg: msgError.toString() };
   }
 };
 

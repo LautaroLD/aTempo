@@ -25,9 +25,9 @@ export default function LogIn() {
   const dispatch = useDispatch<AppDispatch>();
 
   const handleLogin = async (values: LoginValues) => {
-    const isLogin = await dispatch(loginUser(values));
-    if (isLogin) {
-      toast.success("Usuario logeado con éxito!", {
+    const isLogin = (await dispatch(loginUser(values))) as { login: true; msg: string };
+    if (isLogin.login) {
+      toast.success(isLogin.msg, {
         position: "top-right",
         autoClose: 1000,
         hideProgressBar: false,
@@ -38,7 +38,7 @@ export default function LogIn() {
         theme: "colored"
       });
     } else {
-      toast.error(isLogin.toString(), {
+      toast.error(isLogin.msg, {
         position: "top-right",
         autoClose: 2000,
         hideProgressBar: false,
