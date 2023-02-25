@@ -8,7 +8,6 @@ module.exports = (sequelize, DataTypes) => {
       Cart.belongsTo(models.User);
       Cart.belongsToMany(models.Product, {
         through: models.ProductsInCart,
-        foreignKey: 'CartId',
       });
     }
   }

@@ -6,48 +6,30 @@ module.exports = (sequelize, DataTypes) => {
   class Product extends Model {
     static associate(models) {
       Product.belongsToMany(models.Category, {
-        through: 'ProductCategories',
-        foreignKey: {
-          name: 'productId'
-        }
+        through: 'ProductCategories'
       })
       Product.belongsToMany(models.Color, {
         as:"Colours",
-        through: 'ProductColors',
-        foreignKey: {
-          name: 'productId'
-        }
+        through: 'ProductColors'
       })
       Product.belongsToMany(models.Size, {
         as:"Size",
-        through: 'ProductSize',
-        foreignKey: {
-          name: 'productId'
-        }
+        through: 'ProductSize'
       })
       Product.belongsToMany(models.ShoeLast, {
         as:"Last",
-        through: 'ProductShoeLast',
-        foreignKey: {
-          name: 'productId'
-        }
+        through: 'ProductShoeLast'
       })
       Product.belongsToMany(models.User, {
         through: 'Favorites',
-        foreignKey: {
-          name: 'productId'
-        }
       })
       Product.belongsTo(models.Brand, {
         as:"Brand"
       });
-      Product.hasMany(models.ProductImg, {as:"ProductImgs"});
+      Product.hasMany(models.ProductImg);
       Product.hasMany(models.Review);
-      Product.hasMany(models.ProductsInOrder);
-      Product.belongsToMany(models.Cart, {
-        through: models.ProductsInCart,
-        foreignKey: 'ProductId',
-      });
+      Product.belongsToMany(models.Order, { through: models.ProductsInOrder });
+      Product.belongsToMany(models.Cart, { through: models.ProductsInCart });
     }
   }
   Product.init({
