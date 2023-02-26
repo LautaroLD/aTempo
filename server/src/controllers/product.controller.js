@@ -36,7 +36,7 @@ const productList = async (req, res) => {
                 },
                 {
                     association: "Size",
-                    attributes: ["sizeNumberAr"],
+                    attributes: ["id", "sizeNumberAr"],
                     through: {
                         attributes: []
                     },
@@ -44,7 +44,7 @@ const productList = async (req, res) => {
                 },
                 {
                     association: "Categories",
-                    attributes: ["name"],
+                    attributes: ["id", "name"],
                     through: {
                         attributes: []
                     },
@@ -52,7 +52,7 @@ const productList = async (req, res) => {
                 },
                 {
                     association: "Colours",
-                    attributes: ["colorName", "colorValue"],
+                    attributes: ["id", "colorName", "colorValue"],
                     through: {
                         attributes: []
                     },
@@ -60,12 +60,12 @@ const productList = async (req, res) => {
                 },
                 {
                     association: "Brand",
-                    attributes: ["name", "imgBrand"],
+                    attributes: ["id", "name", "imgBrand"],
                     where: whereBrandStatement
                 },
                 {
                     association: "Last",
-                    attributes: ["nameShoelast"],
+                    attributes: ["id", "nameShoelast"],
                     through: {
                         attributes: []
                     }
@@ -102,36 +102,36 @@ const productDetail = async (req, res, id) => {
             include: [
                 {
                     association: "ProductImgs",
-                    attributes: ["imgUrl"],
+                    attributes: ["id", "imgUrl"],
                 },
                 {
                     association: "Size",
-                    attributes: ["sizeNumberAr"],
+                    attributes: ["id", "sizeNumberAr"],
                     through: {
                         attributes: []
                     },
                 },
                 {
                     association: "Categories",
-                    attributes: ["name"],
+                    attributes: ["id", "name"],
                     through: {
                         attributes: []
                     },
                 },
                 {
                     association: "Colours",
-                    attributes: ["colorName", "colorValue"],
+                    attributes: ["id", "colorName", "colorValue"],
                     through: {
                         attributes: []
                     },
                 },
                 {
                     association: "Brand",
-                    attributes: ["name", "imgBrand"],
+                    attributes: ["id", "name", "imgBrand"],
                 },
                 {
                     association: "Last",
-                    attributes: ["nameShoelast"],
+                    attributes: ["id", "nameShoelast"],
                     through: {
                         attributes: []
                     }

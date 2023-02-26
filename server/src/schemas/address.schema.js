@@ -19,14 +19,6 @@ exports.addressSchema = {
         errorMessage: "Street number must be an integer/number",
       },
     },
-    betweenStreets : {
-      exists: {
-        errorMessage: "Between Streets is required",
-        options: { checkFalsy: true },
-      },
-      isLength: {options: { min: 5, max: 64}, errorMessage: "Description should be at least 5-64 characters"},
-      isString: { errorMessage: "Between Streets should be a string" },
-    },
     city: {
       exists: {
         errorMessage: "City is required",

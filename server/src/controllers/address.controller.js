@@ -3,12 +3,11 @@ const { User, Address } = require("../database/models");
 const addUserAddress = async (req, res) => {
     try {
         const { id } = req.params;
-        const { street, number, betweenStreets, city, state, zipCode, country, comments } = req.body;
+        const { street, number, city, state, zipCode, country, comments } = req.body;
         const newAddress = await Address.create({
             userId: id,
             street,
             number,
-            betweenStreets,
             city,
             state,
             zipCode,
@@ -34,7 +33,7 @@ const addUserAddress = async (req, res) => {
 const updateUserAddress = async (req, res) => {
     try {
         const { id, addId } = req.params;
-        const { street, number, betweenStreets, city, state, zipCode, country, comments } = req.body;
+        const { street, number, city, state, zipCode, country, comments } = req.body;
 
         const userExists = await User.findByPk(id, {});
         
@@ -50,7 +49,6 @@ const updateUserAddress = async (req, res) => {
         const updatedAddress = await addressToUpdate.update({
             street,
             number,
-            betweenStreets,
             city,
             state,
             zipCode,
