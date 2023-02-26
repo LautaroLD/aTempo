@@ -11,7 +11,7 @@ import Tango from "../icons/Tango.svg";
 import Tap from "../icons/Tap.svg";
 import Cart from "../icons/Cart.svg";
 import Unisex from "../icons/Unisex.svg";
-import MercadoPago from "../icons/MercadoPago.svg"
+import MercadoPago from "../icons/MercadoPago.svg";
 
 type Icons = {
   Ballet: string;

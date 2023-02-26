@@ -26,10 +26,10 @@ const userInformationSchema = Yup.object().shape({
 });
 
 type ProfileProps = {
-  mode: string
-}
+  mode: string;
+};
 
-export default function EditProfile({mode}: ProfileProps) {
+export default function EditProfile({ mode }: ProfileProps) {
   const dispatch = useDispatch<AppDispatch>();
   const UserInformation: User = useSelector((store: AppStore) => store.auth.user);
   const [notifications, setNotifications] = useState<boolean>(false);
@@ -159,8 +159,7 @@ export default function EditProfile({mode}: ProfileProps) {
               }}
             />
 
-            {
-              mode === "profile"? 
+            {mode === "profile" ? (
               <>
                 <h2 className="profile__information__form__subtitle">NOTIFICACIONES</h2>
                 <div className="profile__information__form__remember">
@@ -185,8 +184,8 @@ export default function EditProfile({mode}: ProfileProps) {
                     </p>
                   </div>
                 </div>
-              </> 
-              : 
+              </>
+            ) : (
               <>
                 <div className="profile__information__form__agreeTerms">
                   <div className="profile__information__form__agreeTerms__container">
@@ -210,8 +209,8 @@ export default function EditProfile({mode}: ProfileProps) {
                     </p>
                   </div>
                 </div>
-              </> 
-            }
+              </>
+            )}
 
             <button className="profile__information__form__entersession" type="submit">
               Guardar
