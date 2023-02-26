@@ -55,7 +55,9 @@ export default function Profile() {
       <div className="profile_info">
         {editProfile && (
           <>
-            <EditProfile />
+            <EditProfile 
+              mode="profile"
+            />
             <EditPassword />
           </>
         )}
