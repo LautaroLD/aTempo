@@ -1,4 +1,3 @@
-const { Model } = require("sequelize");
 const { Product, Size, Category, Color, Brand, ShoeLast } = require("../database/models");
 const { getPagination, getPagingData } = require("../helpers/pagination")
 
