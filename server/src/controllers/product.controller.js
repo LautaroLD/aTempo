@@ -1,3 +1,4 @@
+const { Model } = require("sequelize");
 const { Product, Size, Category, Color, Brand, ShoeLast } = require("../database/models");
 const { getPagination, getPagingData } = require("../helpers/pagination")
 
@@ -93,19 +94,50 @@ const productList = async (req, res) => {
     }
 };
 
-const productDetail = async (req, res) => {
+const productDetail = async (req, res, id) => {
     try {
-        const idP = req.params.id;
+        const idP = req.params.id || id;
         const product = await Product.findOne({
             where: { id: idP },
+            attributes: ["id", "name", "description", "price", "quantityInStock", "createdAt"],
             include: [
-                { association: "ProductImgs" },
-                { association: "Size" },
-                { association: "Categories" },
-                { association: "Colours" },
-                { association: "Brand" },
-                { association: "Last" },
-            ]
+                {
+                    association: "ProductImgs",
+                    attributes: ["imgUrl"],
+                },
+                {
+                    association: "Size",
+                    attributes: ["sizeNumberAr"],
+                    through: {
+                        attributes: []
+                    },
+                },
+                {
+                    association: "Categories",
+                    attributes: ["name"],
+                    through: {
+                        attributes: []
+                    },
+                },
+                {
+                    association: "Colours",
+                    attributes: ["colorName", "colorValue"],
+                    through: {
+                        attributes: []
+                    },
+                },
+                {
+                    association: "Brand",
+                    attributes: ["name", "imgBrand"],
+                },
+                {
+                    association: "Last",
+                    attributes: ["nameShoelast"],
+                    through: {
+                        attributes: []
+                    }
+                },
+            ],
         });
         res.status(200).json({ product });
     } catch (error) {
@@ -191,14 +223,7 @@ const saveProduct = async (req, res) => {
             }
         )
 
-        res.status(201).json({
-            message: "New Product created",
-            newProduct,
-            prodSized,
-            prodCat,
-            prodCol,
-            prodLast
-        })
+        productDetail(req, res, newProduct.dataValues.id)
 
     } catch (error) {
         res.status(400).json({ message: error.message })
