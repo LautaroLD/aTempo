@@ -1,7 +1,6 @@
-const { User } = require("../database/models");
 const bcrypt = require("bcrypt");
 const { generateToken } = require("../helpers/jwtHandler");
-const { Cart } = require("../database/models");
+const { User, Cart, Address } = require("../database/models");
 
 const hashPassword = async (password, saltRound) => {
     const salt = await bcrypt.genSalt(saltRound);
@@ -14,6 +13,11 @@ const getUser = async (req, res) => {
         const user = await User.findOne({
             where: { email: email },
             attributes: { exclude: ["password"] },
+            include: [
+                {
+                    association: "Addresses"
+                },
+            ]
         });
         res.status(200).json({ user: user })
     } catch (error) {
@@ -28,9 +32,9 @@ const createUser = async (req, res) => {
         const [user, created] = await User.findOrCreate({
             where: email ? { email: email } : { userName: userName },
             defaults: {
-                name: name,
-                lastName: lastName,
-                email: email,
+                name,
+                lastName,
+                email,
                 password: hashedPassword,
             }
         })
@@ -42,13 +46,17 @@ const createUser = async (req, res) => {
 
         await delete user.dataValues.password;
 
-        const cart = await Cart.create({ totalPrice:0 });
-        await Cart.update({UserId: user.dataValues.id},{where: {
-            id: cart.dataValues.id
-        }})
-        await User.update({CartId: cart.dataValues.id},{where: {
-            id: user.dataValues.id
-        }})
+        const cart = await Cart.create({ totalPrice: 0 });
+        await Cart.update({ UserId: user.dataValues.id }, {
+            where: {
+                id: cart.dataValues.id
+            }
+        })
+        await User.update({ CartId: cart.dataValues.id }, {
+            where: {
+                id: user.dataValues.id
+            }
+        })
 
         res.status(200).json({
             success: `User added with e-mail ${req.body.email}`,

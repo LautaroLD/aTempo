@@ -17,14 +17,14 @@ exports.productSchema = {
     },
     quantityInStock: {
       exists: {
-        errorMessage: "Category is required",
+        errorMessage: "Stock is required",
         options: { checkFalsy: true },
       },
       notEmpty: {
-        errorMessage: "Category Id is empty",
+        errorMessage: "Stock is empty",
       },
       isInt: {
-        errorMessage: "Category Id must be an integer/number",
+        errorMessage: "Stock must be an integer/number",
       },
     },
     price: {
