@@ -1,37 +1,143 @@
+const { Model } = require("sequelize");
 const { Product, Size, Category, Color, Brand, ShoeLast } = require("../database/models");
+const { getPagination, getPagingData } = require("../helpers/pagination")
 
 const productList = async (req, res) => {
     try {
-        const products = await Product.findAll({
-            order: [["name", "asc"]],
+        const category = req.query.category?.split(",");
+        const color = req.query.color?.split(",");
+        const brand = req.query.brand?.split(",");
+        const size = req.query.size?.split(",");
+
+        let whereColorStatement = {};
+        let whereCategoryStatement = {};
+        let whereBrandStatement = {};
+        let whereSizeStatement = {};
+
+        if (color)
+            whereColorStatement.colorName = color;
+        if (category)
+            whereCategoryStatement.name = category;
+        if (brand)
+            whereBrandStatement.name = brand;
+        if (size)
+            whereSizeStatement.sizeNumberAr = size;
+
+        const page = req.query.page ? req.query.page : "0";
+        const items = req.query.items ? req.query.items : "5";
+        const { limit, offset } = getPagination(page, items);
+
+        const response = await Product.findAndCountAll({
+            distinct: true,
+            attributes: ["id", "name", "description", "price", "quantityInStock", "createdAt"],
             include: [
-                { association: "ProductImgs" },
-                { association: "Size" },
-                { association: "Categories" },
-                { association: "Colours" },
-                { association: "Brand" },
-                { association: "Last" },
-            ]
+                {
+                    association: "ProductImgs",
+                    attributes: ["imgUrl"],
+                },
+                {
+                    association: "Size",
+                    attributes: ["sizeNumberAr"],
+                    through: {
+                        attributes: []
+                    },
+                    where: whereSizeStatement
+                },
+                {
+                    association: "Categories",
+                    attributes: ["name"],
+                    through: {
+                        attributes: []
+                    },
+                    where: whereCategoryStatement
+                },
+                {
+                    association: "Colours",
+                    attributes: ["colorName", "colorValue"],
+                    through: {
+                        attributes: []
+                    },
+                    where: whereColorStatement
+                },
+                {
+                    association: "Brand",
+                    attributes: ["name", "imgBrand"],
+                    where: whereBrandStatement
+                },
+                {
+                    association: "Last",
+                    attributes: ["nameShoelast"],
+                    through: {
+                        attributes: []
+                    }
+                },
+            ],
+            offset: parseInt(offset),
+            limit: parseInt(limit),
         })
-        res.status(200).json({ products });
+
+        const { count, rows } = response;
+
+        const { totalPages, currentPage, nextPage, prevPage } = getPagingData(count, page, limit);
+
+        res.status(200).json({
+            count,
+            totalPages,
+            currentPage,
+            nextPage,
+            prevPage,
+            products: rows
+        })
+
     } catch (error) {
         res.status(400).json({ message: error.message })
     }
 };
 
-const productDetail = async (req, res) => {
+const productDetail = async (req, res, id) => {
     try {
-        const idP = req.params.id;
+        const idP = req.params.id || id;
         const product = await Product.findOne({
             where: { id: idP },
+            attributes: ["id", "name", "description", "price", "quantityInStock", "createdAt"],
             include: [
-                { association: "ProductImgs" },
-                { association: "Size" },
-                { association: "Categories" },
-                { association: "Colours" },
-                { association: "Brand" },
-                { association: "Last" },
-            ]
+                {
+                    association: "ProductImgs",
+                    attributes: ["imgUrl"],
+                },
+                {
+                    association: "Size",
+                    attributes: ["sizeNumberAr"],
+                    through: {
+                        attributes: []
+                    },
+                },
+                {
+                    association: "Categories",
+                    attributes: ["name"],
+                    through: {
+                        attributes: []
+                    },
+                },
+                {
+                    association: "Colours",
+                    attributes: ["colorName", "colorValue"],
+                    through: {
+                        attributes: []
+                    },
+                },
+                {
+                    association: "Brand",
+                    attributes: ["name", "imgBrand"],
+                },
+                {
+                    association: "Last",
+                    attributes: ["nameShoelast"],
+                    through: {
+                        attributes: []
+                    }
+                },
+            ],
         });
         res.status(200).json({ product });
     } catch (error) {
@@ -41,15 +147,15 @@ const productDetail = async (req, res) => {
 
 const saveProduct = async (req, res) => {
     try {
-        const { 
-            name, 
-            description, 
-            quantityInStock, 
-            price, 
-            pics, 
-            sizes, 
-            categoriesIds, 
-            colours, 
+        const {
+            name,
+            description,
+            quantityInStock,
+            price,
+            pics,
+            sizes,
+            categoriesIds,
+            colours,
             brandId,
             last
         } = req.body;
@@ -99,7 +205,7 @@ const saveProduct = async (req, res) => {
                 id: brandId
             }
         });
-        
+
         const prodSized = await newProduct.addSize(size)
 
         const prodCat = await newProduct.addCategories(categories)
@@ -110,20 +216,14 @@ const saveProduct = async (req, res) => {
 
         await newProduct.update(
             { BrandId: brand.dataValues.id },
-            { where: {
+            {
+                where: {
                     id: newProduct.dataValues.id
                 }
             }
         )
 
-        res.status(201).json({ 
-            message: "New Product created", 
-            newProduct, 
-            prodSized, 
-            prodCat, 
-            prodCol, 
-            prodLast           
-        })
+        productDetail(req, res, newProduct.dataValues.id)
 
     } catch (error) {
         res.status(400).json({ message: error.message })
@@ -152,7 +252,7 @@ const updateProduct = async (req, res) => {
 };
 
 const deleteProduct = async (req, res) => {
-    
+
     const id = req.params.id;
 
     try {
@@ -165,7 +265,7 @@ const deleteProduct = async (req, res) => {
             throw new Error(`Product ID ${id} not found in database`)
         }
 
-        return res.status(200).json({success: `Product ID ${id} just deleted successfully`})
+        return res.status(200).json({ success: `Product ID ${id} just deleted successfully` })
 
     } catch (error) {
         res.status(400).json({ message: error.message })
