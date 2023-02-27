@@ -25,21 +25,22 @@ type DirectionProps = {
 export default function EditDirection({ mode }: DirectionProps) {
   const dispatch = useDispatch<AppDispatch>();
   const UserInformation: User = useSelector((store: AppStore) => store.auth.user);
+
   const [agreeTerms, setAgreeTerms] = useState<boolean>(false);
   
   const USER__DIRECTION__VALUES__FORM: UserDirection = {
-    id: UserInformation.direction?.id,
+    id: UserInformation.addresses?.id,
     userId: UserInformation.id,
-    country: UserInformation.direction?.country,
-    state: UserInformation.direction?.state,
-    city: UserInformation.direction?.city,
-    street: UserInformation.direction?.street,
-    number: UserInformation.direction?.number,
-    zipCode: UserInformation.direction?.zipCode
+    country: UserInformation.addresses?.country,
+    state: UserInformation.addresses?.state,
+    city: UserInformation.addresses?.city,
+    street: UserInformation.addresses?.street,
+    number: UserInformation.addresses?.number,
+    zipCode: UserInformation.addresses?.zipCode
   };
 
   const handleFormUserDirection = async(UserDirection:UserDirection) => {
-    if(UserInformation.direction?.id) {
+    if(!UserInformation.addresses?.id) {
       const createUserDirection:boolean | string = await dispatch(postUserDirection(UserDirection))
       if (createUserDirection) {
         toast.success("Dirección actualizada", {

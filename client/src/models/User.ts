@@ -6,7 +6,7 @@ export type User = {
   isAdmin?: boolean;
   documentId?: number;
   birthdate?: Date | string;
-  direction?: UserDirection
+  addresses?: UserDirection
 };
 
 
