@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function Offer() {
   const imgLink: string =
-    "https://images.pexels.com/photos/10640601/pexels-photo-10640601.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
+    "https://firebasestorage.googleapis.com/v0/b/c8t54pern.appspot.com/o/images%2Finitial%2Fbailarinas.webp?alt=media&token=d97beef1-631f-4bdb-a0a4-bd99d2024438";
   return (
     <section className="offer">
       <div className="title">
