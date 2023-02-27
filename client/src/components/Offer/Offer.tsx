@@ -11,10 +11,10 @@ export default function Offer() {
       <div className="content">
         <img className="content__img" src={imgLink} alt="Ballet practice" />
         <div className="text-container">
-          <p className="text-container__title">DESCUENTOS EN BALLET</p>
-          <p className="text-container__text">Las últimas tendencias de descuento hoy.</p>
-          <Link className="text-container__link" to={"./"}>
-            Ver ofertas
+          <p className="text-container__title">TODO EN BALLET</p>
+          <p className="text-container__text">Las últimas tendencias.</p>
+          <Link className="text-container__link" to={"./products"}>
+            Ver productos
           </Link>
         </div>
       </div>

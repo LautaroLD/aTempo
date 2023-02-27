@@ -1,47 +1,57 @@
-import { useState } from "react";
+import { useState, FC } from "react";
 import { AiOutlineHeart, AiFillHeart, AiFillStar } from "react-icons/ai";
 import { BsCircleFill } from "react-icons/bs";
+import { Link } from "react-router-dom";
+import { Product } from "../../../models/Product";
 
-const ProductCard = () => {
+interface Props {
+  product: Product;
+}
+
+const ProductCard: FC<Props> = ({ product }) => {
   const [isFav, setIsFav] = useState(false);
 
   return (
-    <div className="card">
-      <div className="card__header">
-        {isFav ? (
-          <AiFillHeart
-            color="#E42E2E"
-            className="card__header__icon"
-            onClick={() => setIsFav(!isFav)}
-          />
-        ) : (
-          <AiOutlineHeart className="card__header__icon" onClick={() => setIsFav(!isFav)} />
-        )}
+    <Link to={`/product/${product.id}`} className="card__container">
+      <div className="card">
+        <div className="card__header">
+          {isFav ? (
+            <AiFillHeart
+              color="#E42E2E"
+              className="card__header__icon"
+              onClick={() => setIsFav(!isFav)}
+            />
+          ) : (
+            <AiOutlineHeart className="card__header__icon" onClick={() => setIsFav(!isFav)} />
+          )}
 
-        <img
-          src="https://litb-cgis.rightinthebox.com/images/640x640/202204/bps/product/inc/fwfsga1649740801186.jpg"
-          className="card__header__img"
-          alt=""
-        />
-      </div>
-      <div className="card__body">
-        <div className="card__body__colors">
-          <BsCircleFill color="#000000" className="card__body__colors__icon" />
-          <BsCircleFill color="#9B5555" className="card__body__colors__icon" />
-          <BsCircleFill color="#4B2417" className="card__body__colors__icon" />
+          <img src={product?.ProductImgs[0]?.imgUrl} className="card__header__img" alt="" />
         </div>
-        <p className="card__body__title">Titulo del producto</p>
-        <p className="card__body__subtitle">Ref:1475</p>
-        <div className="card__body__star">
-          <AiFillStar className="card__body__star__icon" color="#E42E2E" />
-          <AiFillStar className="card__body__star__icon" color="#E42E2E" />
-          <AiFillStar className="card__body__star__icon" color="#E42E2E" />
-          <AiFillStar className="card__body__star__icon" color="#E42E2E" />
-          <AiFillStar className="card__body__star__icon" color="#E42E2E" />
+        <div className="card__body">
+          <div className="card__body__colors">
+            {product.Colours.map(colour => {
+              return (
+                <BsCircleFill
+                  key={`colorProd-${colour.id}`}
+                  color={colour.colorValue}
+                  className="card__body__colors__icon"
+                />
+              );
+            })}
+          </div>
+          <p className="card__body__title">{product.name}</p>
+          <p className="card__body__subtitle">Ref:{product.id}</p>
+          <div className="card__body__star">
+            <AiFillStar className="card__body__star__icon" color="#E42E2E" />
+            <AiFillStar className="card__body__star__icon" color="#E42E2E" />
+            <AiFillStar className="card__body__star__icon" color="#E42E2E" />
+            <AiFillStar className="card__body__star__icon" color="#E42E2E" />
+            <AiFillStar className="card__body__star__icon" color="#E42E2E" />
+          </div>
+          <p className="card__body__price">${product.price}</p>
         </div>
-        <p className="card__body__price">$15</p>
       </div>
-    </div>
+    </Link>
   );
 };
 
