@@ -3,11 +3,10 @@ import { AppDispatch, AppStore } from "../../../app/store";
 import { useSelector, useDispatch } from "react-redux";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { updateUserDirection ,postUserDirection } from "../../../app/state/authSlice";
+import { updateUserDirection, postUserDirection } from "../../../app/state/authSlice";
 import { User, UserDirection } from "../../../models/User";
 import { toast } from "react-toastify";
 import { BiCheckbox, BiCheckboxChecked } from "react-icons/bi";
-
 
 const userInformationSchema = Yup.object().shape({
   country: Yup.string().required("País requerido"),
@@ -27,7 +26,7 @@ export default function EditDirection({ mode }: DirectionProps) {
   const UserInformation: User = useSelector((store: AppStore) => store.auth.user);
 
   const [agreeTerms, setAgreeTerms] = useState<boolean>(false);
-  
+
   const USER__DIRECTION__VALUES__FORM: UserDirection = {
     id: UserInformation.addresses?.id,
     userId: UserInformation.id,
@@ -39,9 +38,11 @@ export default function EditDirection({ mode }: DirectionProps) {
     zipCode: UserInformation.addresses?.zipCode
   };
 
-  const handleFormUserDirection = async(UserDirection:UserDirection) => {
-    if(!UserInformation.addresses?.id) {
-      const createUserDirection:boolean | string = await dispatch(postUserDirection(UserDirection))
+  const handleFormUserDirection = async (UserDirection: UserDirection) => {
+    if (!UserInformation.addresses?.id) {
+      const createUserDirection: boolean | string = await dispatch(
+        postUserDirection(UserDirection)
+      );
       if (createUserDirection) {
         toast.success("Dirección actualizada", {
           position: "top-right",
@@ -66,7 +67,9 @@ export default function EditDirection({ mode }: DirectionProps) {
         });
       }
     } else {
-      const changeUserDirection:boolean | string = await dispatch(updateUserDirection(UserDirection))
+      const changeUserDirection: boolean | string = await dispatch(
+        updateUserDirection(UserDirection)
+      );
       if (changeUserDirection) {
         toast.success("Dirección actualizada", {
           position: "top-right",
@@ -91,15 +94,15 @@ export default function EditDirection({ mode }: DirectionProps) {
         });
       }
     }
-  }
+  };
   return (
     <div className="profile__direction">
       <h1 className="profile__direction__title">DIRECCIÓN</h1>
       <Formik
         initialValues={USER__DIRECTION__VALUES__FORM}
         validationSchema={userInformationSchema}
-        onSubmit={async (values) => {
-          await handleFormUserDirection(values)
+        onSubmit={async values => {
+          await handleFormUserDirection(values);
         }}
       >
         {({ errors, touched }) => (
@@ -164,31 +167,30 @@ export default function EditDirection({ mode }: DirectionProps) {
               <div className="profile__direction__form__error">{errors.zipCode}</div>
             ) : null}
 
-            {
-              mode === "cart" &&
+            {mode === "cart" && (
               <div className="profile__direction__form__agreeTerms">
-                  <div className="profile__direction__form__agreeTerms__container">
-                    {agreeTerms ? (
-                      <BiCheckboxChecked
-                        onClick={(): void => {
-                          setAgreeTerms(!agreeTerms);
-                        }}
-                        className="profile__direction__form__agreeTerms__container__check"
-                      />
-                    ) : (
-                      <BiCheckbox
-                        onClick={(): void => {
-                          setAgreeTerms(!agreeTerms);
-                        }}
-                        className="profile__direction__form__agreeTerms__container__check"
-                      />
-                    )}
-                    <p className="profile__direction__form__agreeTerms__container__text">
-                      Estoy de acuerdo con términos y condiciones
-                    </p>
-                  </div>
+                <div className="profile__direction__form__agreeTerms__container">
+                  {agreeTerms ? (
+                    <BiCheckboxChecked
+                      onClick={(): void => {
+                        setAgreeTerms(!agreeTerms);
+                      }}
+                      className="profile__direction__form__agreeTerms__container__check"
+                    />
+                  ) : (
+                    <BiCheckbox
+                      onClick={(): void => {
+                        setAgreeTerms(!agreeTerms);
+                      }}
+                      className="profile__direction__form__agreeTerms__container__check"
+                    />
+                  )}
+                  <p className="profile__direction__form__agreeTerms__container__text">
+                    Estoy de acuerdo con términos y condiciones
+                  </p>
                 </div>
-            }
+              </div>
+            )}
 
             <button className="profile__direction__form__save" type="submit">
               Guardar

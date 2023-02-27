@@ -14,11 +14,7 @@ const ProductCard: FC<Props> = ({ product }) => {
   return (
     <>
       {isFav ? (
-        <AiFillHeart
-          color="#E42E2E"
-          className="card__iconFav"
-          onClick={() => setIsFav(!isFav)}
-        />
+        <AiFillHeart color="#E42E2E" className="card__iconFav" onClick={() => setIsFav(!isFav)} />
       ) : (
         <AiOutlineHeart className="card__iconFav" onClick={() => setIsFav(!isFav)} />
       )}

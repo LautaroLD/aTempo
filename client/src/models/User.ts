@@ -6,13 +6,12 @@ export type User = {
   isAdmin?: boolean;
   documentId?: number;
   birthdate?: Date | string;
-  addresses?: UserDirection
+  addresses?: UserDirection;
 };
 
-
 export type UserDirection = {
-  id?: number | string
-  userId?: number | string
+  id?: number | string;
+  userId?: number | string;
   country?: string;
   state?: string;
   city?: string;
@@ -20,5 +19,3 @@ export type UserDirection = {
   number?: number;
   zipCode?: number;
 };
-  
-

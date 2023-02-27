@@ -40,7 +40,7 @@ export const authSlice = createSlice({
     setLogin: (state, action) => {
       state.user = action.payload.user;
       state.token = action.payload.token;
-      if(action.payload.user.Addresses.length !== 0) {
+      if (action.payload.user.Addresses.length !== 0) {
         state.user.addresses = {
           id: action.payload.user.Addresses[0].id,
           country: action.payload.user.Addresses[0].country,
@@ -48,8 +48,8 @@ export const authSlice = createSlice({
           city: action.payload.user.Addresses[0].city,
           street: action.payload.user.Addresses[0].street,
           number: action.payload.user.Addresses[0].number,
-          zipCode: action.payload.user.Addresses[0].zipCode,
-        }
+          zipCode: action.payload.user.Addresses[0].zipCode
+        };
       }
     },
     setLogout: () => {
@@ -69,8 +69,8 @@ export const authSlice = createSlice({
         id: state.user.id
       };
     },
-    setUserDirection: (state,action) => {
-      state.user.addresses= {
+    setUserDirection: (state, action) => {
+      state.user.addresses = {
         id: action.payload.id,
         country: action.payload.country,
         state: action.payload.state,
@@ -78,7 +78,7 @@ export const authSlice = createSlice({
         street: action.payload.street,
         number: action.payload.number,
         zipCode: action.payload.zipCode
-      }
+      };
     }
   }
 });
@@ -141,7 +141,7 @@ export const updateUserInformation = (UserInformation: User) => async (dispatch:
 
 export const postUserDirection = (dataDirection: UserDirection) => async (dispatch: Dispatch) => {
   try {
-    const newDirection = (await postRequest(dataDirection, `/users/${dataDirection.userId}/address`));
+    const newDirection = await postRequest(dataDirection, `/users/${dataDirection.userId}/address`);
     dispatch(setUserDirection(newDirection.address));
     const localStorageAuth = getLocalStorage("auth");
     const auth = {
@@ -160,7 +160,7 @@ export const postUserDirection = (dataDirection: UserDirection) => async (dispat
       }
     };
     setLocalStorage("auth", auth);
-    return true
+    return true;
   } catch (error) {
     const msgError = error as string;
     return msgError.toString();
@@ -169,7 +169,11 @@ export const postUserDirection = (dataDirection: UserDirection) => async (dispat
 
 export const updateUserDirection = (dataDirection: UserDirection) => async (dispatch: Dispatch) => {
   try {
-    const updateDirection = (await putRequest(`/users/${dataDirection.userId}/address/${dataDirection.id}`,dataDirection.id,dataDirection ));
+    const updateDirection = await putRequest(
+      `/users/${dataDirection.userId}/address/${dataDirection.id}`,
+      dataDirection.id,
+      dataDirection
+    );
     dispatch(setUserDirection(updateDirection.address));
     const localStorageAuth = getLocalStorage("auth");
     const auth = {
@@ -188,7 +192,7 @@ export const updateUserDirection = (dataDirection: UserDirection) => async (disp
       }
     };
     setLocalStorage("auth", auth);
-    return true
+    return true;
   } catch (error) {
     const msgError = error as string;
     return msgError.toString();
