@@ -1,3 +1,5 @@
+import { useSelector } from "react-redux";
+import { AppStore } from "../../app/store";
 import ProductCard from "./ProductCard/ProductCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Mousewheel, Keyboard } from "swiper";
@@ -8,6 +10,8 @@ import "swiper/css/pagination";
 const arrayTest = [...new Array(8)];
 
 const ProductCarousel = () => {
+  const prodList = useSelector((store: AppStore) => store.products.list);
+
   return (
     <div className="carousel__container">
       <p className="carousel__title">Nuestros últimos productos</p>
@@ -35,10 +39,10 @@ const ProductCarousel = () => {
         modules={[Navigation, Pagination, Mousewheel, Keyboard]}
         className="carousel"
       >
-        {arrayTest.map((test, index) => {
+        {prodList.map(prod => {
           return (
-            <SwiperSlide key={`prodCarousel-${index}`}>
-              <ProductCard />
+            <SwiperSlide key={`prodCarousel-${prod.id}`}>
+              <ProductCard product={prod} />
             </SwiperSlide>
           );
         })}
