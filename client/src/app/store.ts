@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { Product } from "./../models/Products";
+import { Product } from "../models/Product";
 import { InitialAuth } from "../models/InitialAuth";
 import products from "./state/productsSlice";
 import auth from "./state/authSlice";
