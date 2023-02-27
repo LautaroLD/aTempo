@@ -8,7 +8,7 @@ import {
   clearLocalStorage
 } from "../../utils/LocalStorageFunctions";
 import { SignUpValues } from "../../models/SignUpValues";
-import { User } from "../../models/User";
+import { User, UserDirection } from "../../models/User";
 
 export const initialAuth: InitialAuth = {
   token: "",
@@ -20,9 +20,14 @@ export const initialAuth: InitialAuth = {
     documentId: undefined,
     birthdate: undefined,
     isAdmin: false,
-    createdAt: undefined,
-    updatedAt: undefined,
-    deletedAt: undefined
+    direction: {
+      country: undefined,
+      state: undefined,
+      city: undefined,
+      street: undefined,
+      number: 0,
+      zipCode: 0
+    }
   }
 };
 
@@ -51,11 +56,22 @@ export const authSlice = createSlice({
         isAdmin: state.user.isAdmin,
         id: state.user.id
       };
+    },
+    setUserDirection: (state,action) => {
+      state.user.direction = {
+        id: action.payload.id,
+        country: action.payload.country,
+        state: action.payload.state,
+        city: action.payload.city,
+        street: action.payload.street,
+        number: action.payload.number,
+        zipCode: action.payload.zipCode
+      }
     }
   }
 });
 
-export const { setLogin, setLogout, setUserInformation } = authSlice.actions;
+export const { setLogin, setLogout, setUserInformation, setUserDirection } = authSlice.actions;
 
 export default authSlice.reducer;
 
@@ -105,6 +121,31 @@ export const updateUserInformation = (UserInformation: User) => async (dispatch:
       return "Perfil actualizado con éxito";
     }
     return false;
+  } catch (error) {
+    const msgError = error as string;
+    return msgError.toString();
+  }
+};
+
+export const postUserDirection = (dataDirection: UserDirection) => async (dispatch: Dispatch) => {
+  try {
+    const newDirection = (await postRequest(dataDirection, `/users/${dataDirection.userId}/address`));
+    console.log(newDirection);
+    console.log(newDirection.address);
+    
+    dispatch(setUserDirection(newDirection.address));
+    return true
+  } catch (error) {
+    const msgError = error as string;
+    return msgError.toString();
+  }
+};
+
+export const updateUserDirection = (dataDirection: UserDirection) => async (dispatch: Dispatch) => {
+  try {
+    const updateDirection = (await putRequest(`/users/${dataDirection.userId}/address/${dataDirection.id}`,dataDirection.id,dataDirection ));
+    dispatch(setUserDirection(updateDirection.address));
+    return true
   } catch (error) {
     const msgError = error as string;
     return msgError.toString();

@@ -60,14 +60,7 @@ export default function Profile() {
           </>
         )}
         {editDirection && (
-          <EditDirection
-            country={country}
-            state={state}
-            city={city}
-            street={street}
-            number={number}
-            zipCode={zipCode}
-          />
+          <EditDirection/>
         )}
       </div>
     </div>

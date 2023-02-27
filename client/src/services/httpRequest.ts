@@ -51,7 +51,7 @@ export const getRequest = async (endpoint: string) => {
   }
 };
 
-export const putRequest = async (endpoint: string, id: number | string, dataUpdate: {}) => {
+export const putRequest = async (endpoint: string, id: number | string | undefined, dataUpdate: {}) => {
   try {
     const { data } = await axios.put(URL + endpoint + id, dataUpdate, {
       headers: {

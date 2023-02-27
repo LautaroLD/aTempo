@@ -31,7 +31,7 @@ export default function Cart() {
           <CartHeader stage={stage} />
           <div className="cart__container">
             {stage === 1 && <EditProfile mode="cart" />}
-            {stage === 2 && <EditDirection />}
+            {stage === 2 && <EditDirection mode="cart" />}
             <CartBody />
           </div>
           <CartButtons

@@ -6,7 +6,19 @@ export type User = {
   isAdmin?: boolean;
   documentId?: number;
   birthdate?: Date | string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  deletedAt?: Date;
+  direction?: UserDirection
 };
+
+
+export type UserDirection = {
+  id?: number | string
+  userId?: number | string
+  country?: string;
+  state?: string;
+  city?: string;
+  street?: string;
+  number?: number;
+  zipCode?: number;
+};
+  
+
