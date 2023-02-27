@@ -1,8 +1,16 @@
+.card__iconFav
+    position: absolute
+    cursor: pointer
+    width: 1rem
+    top: .6em
+    right: .4em
+    z-index: 10
 .card__container
     text-decoration: none
     color: black
+    width: 9.6875rem
     .card
-        width: 9.6875rem
+        width: 100%
         height: 20.625rem
         display: flex
         flex-direction: column
@@ -18,13 +26,7 @@
                 width: 100%
                 height: 100%
                 object-fit: scale-down
-            .card__header__icon
-                position: absolute
-                cursor: pointer
-                width: 1rem
-                top: .6em
-                right: .4em
-                
+
         .card__body
             display: flex
             flex-direction: column
@@ -55,4 +57,3 @@
                 font-style: normal
                 font-weight: 700
                 font-size: .75rem
-                    
