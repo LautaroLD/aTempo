@@ -1,5 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { User } from "../../models/User";
+import { AppStore } from "../../app/store";
+import { toast } from "react-toastify";
 import CartBody from "../../components/Cart/CartBody/CartBody";
 import CartButtons from "../../components/Cart/CartButtons/CartButtons";
 import CartHeader from "../../components/Cart/CartHeader/CartHeader";
@@ -10,19 +14,53 @@ import EditProfile from "../../components/ProfileComponents/EditProfile/EditProf
 export default function Cart() {
   const [stage, setStage] = useState<number>(1);
   const [cart, setCart] = useState<string[]>(["Hay algo en el carrito"]);
+  const UserInformation: User = useSelector((store: AppStore) => store.auth.user);
+
   const incrementStage = (stage: number): void => {
     if (stage === 3) {
-      console.log("No se puede incrementar más");
+      console.log("Yendo a pagar con mercado pago");
       return;
+    } else {
+      if (stage === 1) {
+        if (UserInformation.documentId !== null && UserInformation.birthdate !== null) {
+          setStage(stage + 1);
+        } else {
+          toast.error("Necesitas completar y guardar tus datos de usuario", {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored"
+          });
+        }
+      } else {
+        if (UserInformation.addresses) {
+          setStage(stage + 1);
+        } else {
+          toast.error("Necesitas completar y guardar tu dirección", {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored"
+          });
+        }
+      }
     }
-    setStage(stage + 1);
   };
   const decrementStage = (stage: number): void => {
     if (stage === 1) {
       console.log("No se puede decrementar más");
       return;
+    } else {
+      setStage(stage - 1);
     }
-    setStage(stage - 1);
   };
   return (
     <div className="cart">
