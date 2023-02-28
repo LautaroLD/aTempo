@@ -102,7 +102,6 @@ export default function EditDirection({ mode }: DirectionProps) {
         initialValues={USER__DIRECTION__VALUES__FORM}
         validationSchema={userInformationSchema}
         onSubmit={async values => {
-          console.log(values);
           await handleFormUserDirection(values);
         }}
       >
