@@ -15,6 +15,7 @@ const routerUsers = require('./routes/users.routes')
 const routerColor = require('./routes/color.routes')
 const checkoutRouter = require('./routes/mpago.routes')
 const routerCart = require('./routes/productsInCart.routes')
+const routerSize = require('./routes/size.routes')
 
 
 //Settings
@@ -31,6 +32,7 @@ app.use('/users', routerUsers);
 app.use('/colors', routerColor);
 app.use('/mpago', checkoutRouter);
 app.use('/cart',routerCart);
+app.use('/size',routerSize);
 
 app.use((req, res, next) => {
     res.status(404).json({
