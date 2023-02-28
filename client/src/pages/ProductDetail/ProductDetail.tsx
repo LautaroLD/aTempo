@@ -1,11 +1,13 @@
 import { useRef, useState, MouseEvent, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { AppDispatch, AppStore } from "../../app/store";
+import { getProductsById } from "../../app/state/productsSlice";
 import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Mousewheel, Keyboard, Zoom } from "swiper";
 import { ScoreStar } from "../../components/ScoreStar/ScoreStar";
 import { Tags } from "../../components/Tags/Tags";
-import { TbMoodBoy } from "react-icons/tb";
-import { GiPerson, GiBallerinaShoes } from "react-icons/gi";
+import { BsFillSuitDiamondFill } from "react-icons/bs";
 import { AiFillHeart, AiOutlineHeart, AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { ProductInCart } from "../../models/ProductInCart";
 import { TypeTagsEmun } from "../../models/TypeTagsEmun";
@@ -19,39 +21,8 @@ type IsActive = {
   reviews: boolean;
 };
 
-const images = [
-  "https://firebasestorage.googleapis.com/v0/b/c8t54pern.appspot.com/o/images%2Fproductpics%2Fzapato_negro.png?alt=media&token=a966f9c8-d66f-4458-a893-588c21b11a31",
-  "https://firebasestorage.googleapis.com/v0/b/c8t54pern.appspot.com/o/images%2Fproductpics%2Fzapato_marron.png?alt=media&token=d56ecd56-b79b-4a2b-98d7-d4a3273ea8b6"
-];
-
-const colors = [
-  { id: "456", name: "negro", value: "#000000" },
-  { id: "457", name: "marron", value: "#D8BEAF" },
-  { id: "458", name: "rojo", value: "#DF3A01" },
-  { id: "459", name: "rosa", value: "#F5A9F2" },
-  { id: "460", name: "naranja", value: "#FF8000" },
-  { id: "461", name: "amarillo", value: "#FFFF00" }
-];
-
-const shoesLast = [
-  { id: "10", name: "R", value: "R" },
-  { id: "11", name: "A", value: "A" }
-];
-
-const sizes = [
-  { id: "256", name: "negro", value: "17" },
-  { id: "257", name: "marron", value: "17.5" },
-  { id: "258", name: "rojo", value: "18" },
-  { id: "259", name: "rosa", value: "18.5" },
-  { id: "260", name: "naranja", value: "19" },
-  { id: "261", name: "amarillo", value: "19.5" },
-  { id: "262", name: "naranja", value: "20" },
-  { id: "263", name: "amarillo", value: "20.5" },
-  { id: "264", name: "naranja", value: "21" },
-  { id: "265", name: "amarillo", value: "21.5" },
-  { id: "266", name: "naranja", value: "22" },
-  { id: "267", name: "amarillo", value: "22.5" }
-];
+const imgDefault: string =
+  "https://firebasestorage.googleapis.com/v0/b/c8t54pern.appspot.com/o/images%2Fproductpics%2Fatempo_default.png?alt=media&token=7baccf7c-d585-47d8-a4c0-0084db5689e7";
 
 export default function ProductDetail() {
   const ref = useRef<SwiperRef>(null);
@@ -60,17 +31,24 @@ export default function ProductDetail() {
   const [isZoom, setIsZoom] = useState<boolean>(false);
   const [isActive, setIsActive] = useState<IsActive>({ details: true, reviews: false });
   const [addCart, setAddCart] = useState<ProductInCart>({
-    productId: "",
+    productId: 0,
     quantity: 0,
     colors: "",
     sizes: "",
     shoeLast: ""
   });
 
+  const dispatch = useDispatch<AppDispatch>();
+
+  const product = useSelector((store: AppStore) => store.products.detail);
+
   const { id } = useParams();
 
   useEffect(() => {
-    if (id) setAddCart({ ...addCart, productId: id });
+    if (!isNaN(Number(id))) {
+      dispatch(getProductsById(Number(id)));
+      setAddCart({ ...addCart, productId: Number(id) });
+    }
   }, []);
 
   const handleQuantity = (event: MouseEvent) => {
@@ -98,6 +76,8 @@ export default function ProductDetail() {
     setIsActive({ details: false, reviews: true });
   };
 
+  if (!product.id) return <div>Loading...</div>;
+
   return (
     <div className="productDetail__container">
       <div className="img__container">
@@ -115,56 +95,75 @@ export default function ProductDetail() {
           zoom={true}
           onClick={handleClickZoom}
         >
-          {images.map((image, index) => {
-            return (
-              <SwiperSlide key={`prod-${index}`} zoom>
-                <img className="img__product" src={image} alt="zapato " />
-              </SwiperSlide>
-            );
-          })}
+          {product.ProductImgs.length !== 0 ? (
+            product.ProductImgs.map((image, index) => {
+              return (
+                <SwiperSlide key={`prod-${index}`} zoom>
+                  <img className="img__product" src={image.imgUrl} alt="zapato " />
+                </SwiperSlide>
+              );
+            })
+          ) : (
+            <SwiperSlide zoom>
+              <img className="img__product" src={imgDefault} alt="default " />
+            </SwiperSlide>
+          )}
         </Swiper>
       </div>
       <section className="body__container">
-        <p className="prod__title">Cadence</p>
+        <p className="prod__title">{product.name}</p>
         <div className="category__container">
-          <div className="category__icons__text">
-            <GiBallerinaShoes className="category__icons" /> TAP
-          </div>
-          <div className="category__icons__text">
-            <GiPerson className="category__icons" /> Unisex
-          </div>
-          <div className="category__icons__text">
-            <TbMoodBoy className="category__icons" /> Niños
-          </div>
+          {product.Categories.map(categ => {
+            return (
+              <div key={`categ-${categ.id}`} className="category__icons__text">
+                <BsFillSuitDiamondFill className="category__icons" /> {categ.name}
+              </div>
+            );
+          })}
         </div>
-        <img
-          src="https://firebasestorage.googleapis.com/v0/b/c8t54pern.appspot.com/o/images%2Fbrands%2FSansha.png?alt=media&token=94eb82b7-0c8f-4ef6-b126-3dce43bf8feb"
-          alt="sansha"
-        />
+        <img src={product.Brand?.imgBrand} alt="sansha" />
 
         <div className="body__star">
-          <div className="body__price">$86</div>
+          <div className="body__price">${product.price}</div>
           <ScoreStar scoreStar={4} />
         </div>
         <hr className="body__line" />
         <div>
           <p className="title__prop">Color</p>
           <Tags
-            dataTag={colors}
+            dataTag={product.Colours.map(color => {
+              return {
+                id: color.id,
+                name: color.colorName,
+                value: color.colorValue
+              };
+            })}
             type={TypeTagsEmun.colors}
             addCart={addCart}
             setAddCart={setAddCart}
           />
           <p className="title__prop">Horma</p>
           <Tags
-            dataTag={shoesLast}
+            dataTag={product.Last.map(last => {
+              return {
+                id: last.id,
+                name: last.nameShoelast,
+                value: last.nameShoelast
+              };
+            })}
             type={TypeTagsEmun.shoeLast}
             addCart={addCart}
             setAddCart={setAddCart}
           />
           <p className="title__prop">Talle</p>
           <Tags
-            dataTag={sizes}
+            dataTag={product.Size.map(size => {
+              return {
+                id: size.id,
+                name: size.sizeNumberAr,
+                value: size.sizeNumberAr
+              };
+            })}
             type={TypeTagsEmun.sizes}
             addCart={addCart}
             setAddCart={setAddCart}
@@ -207,17 +206,8 @@ export default function ProductDetail() {
           </div>
           {isActive.details ? (
             <div className="text__detail">
-              <div className="text__detail__title">Zapato de claqué ligero cadence para niños</div>
-              <p>
-                Mira a tu artista favorito cerrar el escenario en el Cadence Tap Shoe. Cuenta con
-                una suela de cuero duradera y los icónicos golpecitos de punta y talón Capezio® Tele
-                Tone® para un sonido de toque inmaculado. El talón cónico y el ligero acolchado
-                mantienen a los jóvenes bailarines moviéndose al ritmo sin ninguna dificultad.
-                Características del producto: Parte superior de cuero suave Suela de piel Punteras y
-                talones Tele Tone® Forro de poliéster Plantilla y collar ligeramente acolchados para
-                mayor comodidad Puntera fuerte Talón cónico Parche de suela de goma ranurado para
-                tracción Comience 1/2 - 1 talla más arriba de la talla de zapato de calle
-              </p>
+              <div className="text__detail__title">{product.name}</div>
+              <p>{product.description}</p>
             </div>
           ) : (
             <div className="text__detail">
