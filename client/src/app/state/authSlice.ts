@@ -143,6 +143,8 @@ export const postUserDirection = (dataDirection: UserDirection) => async (dispat
   try {
     const newDirection = await postRequest(dataDirection, `/users/${dataDirection.userId}/address`);
     dispatch(setUserDirection(newDirection.address));
+    console.log(newDirection);
+    console.log(dataDirection);
     const localStorageAuth = getLocalStorage("auth");
     const auth = {
       token: localStorageAuth.token,
@@ -168,9 +170,10 @@ export const postUserDirection = (dataDirection: UserDirection) => async (dispat
 };
 
 export const updateUserDirection = (dataDirection: UserDirection) => async (dispatch: Dispatch) => {
+  console.log(dataDirection);
   try {
     const updateDirection = await putRequest(
-      `/users/${dataDirection.userId}/address/${dataDirection.id}`,
+      `/users/${dataDirection.userId}/address/`,
       dataDirection.id,
       dataDirection
     );

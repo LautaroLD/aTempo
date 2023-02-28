@@ -43,6 +43,8 @@ export default function EditDirection({ mode }: DirectionProps) {
       const createUserDirection: boolean | string = await dispatch(
         postUserDirection(UserDirection)
       );
+      console.log(createUserDirection);
+
       if (createUserDirection) {
         toast.success("Dirección actualizada", {
           position: "top-right",
@@ -70,6 +72,7 @@ export default function EditDirection({ mode }: DirectionProps) {
       const changeUserDirection: boolean | string = await dispatch(
         updateUserDirection(UserDirection)
       );
+      console.log(changeUserDirection);
       if (changeUserDirection) {
         toast.success("Dirección actualizada", {
           position: "top-right",
@@ -102,6 +105,7 @@ export default function EditDirection({ mode }: DirectionProps) {
         initialValues={USER__DIRECTION__VALUES__FORM}
         validationSchema={userInformationSchema}
         onSubmit={async values => {
+          console.log(values);
           await handleFormUserDirection(values);
         }}
       >
