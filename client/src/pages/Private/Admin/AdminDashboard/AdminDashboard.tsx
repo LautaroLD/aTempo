@@ -1,5 +1,12 @@
+import ShopProducts from "../../../../components/AdminPanelComponents/ShopProducts/ShopProducts";
+
 function AdminDashboard() {
-  return <div>AdminDashboard</div>;
+  return (
+    <div>
+      {" "}
+      <ShopProducts />
+    </div>
+  );
 }
 
 export default AdminDashboard;
