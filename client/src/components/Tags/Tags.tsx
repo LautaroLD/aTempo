@@ -4,7 +4,7 @@ import { TypeTagsEmun } from "../../models/TypeTagsEmun";
 
 interface Iprops {
   title?: string;
-  dataTag: { id: string; name: string; value: string }[];
+  dataTag: { id: string | number; name: string; value: string }[];
   type: TypeTagsEmun;
   addCart: ProductInCart;
   setAddCart: Dispatch<SetStateAction<ProductInCart>>;
@@ -28,7 +28,7 @@ export const Tags: FC<Iprops> = ({ dataTag, type, addCart, setAddCart }) => {
         return type === "colors" ? (
           <div
             key={`${data}-${data.id}`}
-            id={data.id}
+            id={data.id.toString()}
             onClick={handleClickSize}
             className={`body__tag__${type}`}
             style={{ backgroundColor: data.value }}
@@ -36,7 +36,7 @@ export const Tags: FC<Iprops> = ({ dataTag, type, addCart, setAddCart }) => {
         ) : (
           <div
             key={`${type}-${data.id}`}
-            id={data.id}
+            id={data.id.toString()}
             onClick={handleClickSize}
             className={`body__tag__${type}`}
           >
