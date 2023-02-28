@@ -170,7 +170,7 @@ export const postUserDirection = (dataDirection: UserDirection) => async (dispat
 export const updateUserDirection = (dataDirection: UserDirection) => async (dispatch: Dispatch) => {
   try {
     const updateDirection = await putRequest(
-      `/users/${dataDirection.userId}/address/${dataDirection.id}`,
+      `/users/${dataDirection.userId}/address/`,
       dataDirection.id,
       dataDirection
     );
