@@ -202,7 +202,7 @@ export const updateUserDirection = (dataDirection: UserDirection) => async (disp
 
 export const updateUserPassword = (dataUser: ChangePasswords) => async () => {
   try {
-    const request = await putRequest(`/users/`,`${dataUser.id}/password`,dataUser);
+    const request = await putRequest(`/users/`, `${dataUser.id}/password`, dataUser);
     console.log(request);
     return "Cambio de contraseña exitoso";
   } catch (error) {
