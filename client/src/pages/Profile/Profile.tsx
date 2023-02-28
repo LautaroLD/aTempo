@@ -59,16 +59,7 @@ export default function Profile() {
             <EditPassword />
           </>
         )}
-        {editDirection && (
-          <EditDirection
-            country={country}
-            state={state}
-            city={city}
-            street={street}
-            number={number}
-            zipCode={zipCode}
-          />
-        )}
+        {editDirection && <EditDirection />}
       </div>
     </div>
   );

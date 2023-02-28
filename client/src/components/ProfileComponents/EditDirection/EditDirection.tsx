@@ -1,14 +1,12 @@
+import { useState } from "react";
+import { AppDispatch, AppStore } from "../../../app/store";
+import { useSelector, useDispatch } from "react-redux";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-
-type UserDirection = {
-  country?: string;
-  state?: string;
-  city?: string;
-  street?: string;
-  number?: number;
-  zipCode?: number;
-};
+import { updateUserDirection, postUserDirection } from "../../../app/state/authSlice";
+import { User, UserDirection } from "../../../models/User";
+import { toast } from "react-toastify";
+import { BiCheckbox, BiCheckboxChecked } from "react-icons/bi";
 
 const userInformationSchema = Yup.object().shape({
   country: Yup.string().required("País requerido"),
@@ -19,21 +17,83 @@ const userInformationSchema = Yup.object().shape({
   zipCode: Yup.number().required("Código Postal requerido")
 });
 
-export default function EditDirection({
-  country,
-  state,
-  city,
-  street,
-  number,
-  zipCode
-}: UserDirection) {
+type DirectionProps = {
+  mode: string;
+};
+
+export default function EditDirection({ mode }: DirectionProps) {
+  const dispatch = useDispatch<AppDispatch>();
+  const UserInformation: User = useSelector((store: AppStore) => store.auth.user);
+
+  const [agreeTerms, setAgreeTerms] = useState<boolean>(false);
+
   const USER__DIRECTION__VALUES__FORM: UserDirection = {
-    country: country,
-    state: state,
-    city: city,
-    street: street,
-    number: number,
-    zipCode: zipCode
+    id: UserInformation.addresses?.id,
+    userId: UserInformation.id,
+    country: UserInformation.addresses?.country,
+    state: UserInformation.addresses?.state,
+    city: UserInformation.addresses?.city,
+    street: UserInformation.addresses?.street,
+    number: UserInformation.addresses?.number,
+    zipCode: UserInformation.addresses?.zipCode
+  };
+
+  const handleFormUserDirection = async (UserDirection: UserDirection) => {
+    if (!UserInformation.addresses?.id) {
+      const createUserDirection: boolean | string = await dispatch(
+        postUserDirection(UserDirection)
+      );
+      if (createUserDirection) {
+        toast.success("Dirección actualizada", {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored"
+        });
+      } else {
+        toast.error(createUserDirection.toString(), {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored"
+        });
+      }
+    } else {
+      const changeUserDirection: boolean | string = await dispatch(
+        updateUserDirection(UserDirection)
+      );
+      if (changeUserDirection) {
+        toast.success("Dirección actualizada", {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored"
+        });
+      } else {
+        toast.error(changeUserDirection.toString(), {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored"
+        });
+      }
+    }
   };
   return (
     <div className="profile__direction">
@@ -41,8 +101,8 @@ export default function EditDirection({
       <Formik
         initialValues={USER__DIRECTION__VALUES__FORM}
         validationSchema={userInformationSchema}
-        onSubmit={values => {
-          console.log(values);
+        onSubmit={async values => {
+          await handleFormUserDirection(values);
         }}
       >
         {({ errors, touched }) => (
@@ -106,6 +166,31 @@ export default function EditDirection({
             {errors.zipCode && touched.zipCode ? (
               <div className="profile__direction__form__error">{errors.zipCode}</div>
             ) : null}
+
+            {mode === "cart" && (
+              <div className="profile__direction__form__agreeTerms">
+                <div className="profile__direction__form__agreeTerms__container">
+                  {agreeTerms ? (
+                    <BiCheckboxChecked
+                      onClick={(): void => {
+                        setAgreeTerms(!agreeTerms);
+                      }}
+                      className="profile__direction__form__agreeTerms__container__check"
+                    />
+                  ) : (
+                    <BiCheckbox
+                      onClick={(): void => {
+                        setAgreeTerms(!agreeTerms);
+                      }}
+                      className="profile__direction__form__agreeTerms__container__check"
+                    />
+                  )}
+                  <p className="profile__direction__form__agreeTerms__container__text">
+                    Estoy de acuerdo con términos y condiciones
+                  </p>
+                </div>
+              </div>
+            )}
 
             <button className="profile__direction__form__save" type="submit">
               Guardar
