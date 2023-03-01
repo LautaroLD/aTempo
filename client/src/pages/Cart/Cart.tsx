@@ -37,7 +37,7 @@ export default function Cart() {
           });
         }
       } else {
-        if (UserInformation.addresses) {
+        if (UserInformation.Addresses) {
           setStage(stage + 1);
         } else {
           toast.error("Necesitas completar y guardar tu dirección", {
