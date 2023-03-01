@@ -1,18 +1,25 @@
+import ProductCard from "../ProductCarousel/ProductCard/ProductCard";
+import FilterDropdown from "../FilterDropdown/FilterDropdown";
+import { Product } from "../../models/Product";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import ProductCard from "../ProductCarousel/ProductCard/ProductCard";
-import FilterDropdown from "../FilterDropdown/FilterDropdown";
-import { getAllProducts } from "../../app/state/productsSlice";
 import { AppDispatch, AppStore } from "../../app/store";
-import { MdArrowForwardIos } from "react-icons/md";
+import { getAllProducts } from "../../app/state/productsSlice";
 
 interface Props {
   setFiltersOpen: (active: boolean) => void;
   filtersOpen: boolean;
+  inputSearch: string;
+  resultSearch: Array<Product>;
 }
 
-const ProductList = ({ setFiltersOpen, filtersOpen }: Props): JSX.Element => {
+const ProductList = ({
+  setFiltersOpen,
+  filtersOpen,
+  inputSearch,
+  resultSearch
+}: Props): JSX.Element => {
   const dispatch = useDispatch<AppDispatch>();
   const prodList = useSelector((store: AppStore) => store.products.list);
 
@@ -22,25 +29,16 @@ const ProductList = ({ setFiltersOpen, filtersOpen }: Props): JSX.Element => {
 
   return (
     <div className="productlist">
-      <p className="productlist__text">Inicio - Resultados: "zapato"</p>
-      <p className="productlist__title">Resultados: "zapato"</p>
+      <p className="productlist__text">Inicio - Resultados: "{inputSearch}"</p>
+      <p className="productlist__title">Resultados: "{inputSearch}"</p>
       <button className="productlist__btn" onClick={() => setFiltersOpen(true)}>
         Definir filtros
       </button>
-      <p className="productlist__text__pagination">1-24/74 Productos</p>
+      <p className="productlist__text__pagination">{resultSearch.length} Productos</p>
       <div className="productlist__card__group">
-        {prodList.map(prod => {
+        {resultSearch.map(prod => {
           return <ProductCard key={prod.id} product={prod} />;
         })}
-      </div>
-      <div className="productlist__pagination">
-        <button className="productlist__pagination__btn">1</button>
-        <button className="productlist__pagination__btn">2</button>
-        <button className="productlist__pagination__btn">3</button>
-        <button className="productlist__pagination__btn">4</button>
-        <button className="productlist__pagination__btn">
-          <MdArrowForwardIos />
-        </button>
       </div>
       {filtersOpen && <FilterDropdown setFiltersOpen={setFiltersOpen} filtersOpen={filtersOpen} />}
     </div>
