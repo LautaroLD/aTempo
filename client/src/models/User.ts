@@ -5,7 +5,7 @@ export type User = {
   name: string;
   lastName: string;
   id: number | string;
-  CartId?: number;
+  CartId: number | string;
   isAdmin?: boolean;
   documentId?: number;
   birthdate?: Date | string;
