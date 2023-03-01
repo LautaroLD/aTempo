@@ -10,6 +10,7 @@ import {
 import { SignUpValues } from "../../models/SignUpValues";
 import { User, UserDirection } from "../../models/User";
 import { ChangePasswords } from "../../models/Password";
+import { CartModel } from "../../models/Cart";
 
 export const initialAuth: InitialAuth = {
   token: "",
@@ -18,6 +19,7 @@ export const initialAuth: InitialAuth = {
     lastName: "",
     name: "",
     id: "",
+    CartId: "",
     documentId: undefined,
     birthdate: undefined,
     isAdmin: false,
@@ -86,21 +88,25 @@ export const authSlice = createSlice({
         number: action.payload.number,
         zipCode: action.payload.zipCode
       };
+    },
+    setCart: (state,action) => {
+      state.user.Cart = {
+        id: action.payload.id,
+        totalPrice: action.payload.totalPrice,
+        UserId: action.payload.UserId,
+        Products: action.payload.Products
+      }
     }
   }
 });
 
-export const { setLogin, setLogout, setUserInformation, setUserDirection } = authSlice.actions;
+export const { setLogin, setLogout, setUserInformation, setUserDirection, setCart } = authSlice.actions;
 
 export default authSlice.reducer;
 
 export const loginUser = (dataLogin: LoginValues) => async (dispatch: Dispatch) => {
   try {
     const auth = (await postRequest(dataLogin, "/users/login")) as InitialAuth;
-    const cart = await getRequest(`/cart?idCart=${auth.user.CartId}`);
-    if (cart.length !== 0) {
-      auth.user.Cart = cart;
-    }
     if (auth.token !== "") {
       dispatch(setLogin(auth));
       const authInStorage = { token: auth.token, user: auth.user };
@@ -113,6 +119,19 @@ export const loginUser = (dataLogin: LoginValues) => async (dispatch: Dispatch) 
     return { login: false, msg: msgError.toString() };
   }
 };
+
+export const getCart = (idCart: string | number) => async (dispatch: Dispatch) => {
+  try {
+    const cart = await getRequest(`/cart?idCart=${idCart}`);
+    if (cart.length !== 0) {
+      dispatch(setCart(cart));
+    }
+    return cart
+  } catch (error) {
+    const msgError = error as string;
+    return { login: false, msg: msgError.toString() };
+  }
+}
 
 export const signUpUser = (dataSignUp: SignUpValues) => async () => {
   try {
