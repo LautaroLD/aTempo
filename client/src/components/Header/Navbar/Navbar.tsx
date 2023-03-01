@@ -1,35 +1,47 @@
-import { MouseEventHandler, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { setLogout } from "../../../app/state/authSlice";
 import { AppStore } from "../../../app/store";
 import { Icons } from "../../../assets/icons/icons";
 import { BsXLg, BsHeart } from "react-icons/bs";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { FaRegUser, FaUser } from "react-icons/fa";
+import { Product } from "../../../models/Product";
 
 type Props = {
   openNavBar: boolean;
-  openNavBarFunction: MouseEventHandler<SVGElement>;
+  openNavBarFunction: any;
   desktopScreen: boolean;
 };
 
 const menus = [
-  { name: "BALLET", icon: Icons.Ballet, link: "./" },
-  { name: "TAP", icon: Icons.Tap, link: "./" },
-  { name: "JAZZ", icon: Icons.Jazz, link: "./" },
-  { name: "PERSONAJE", icon: Icons.Personaje, link: "./" },
-  { name: "BALLROOM", icon: Icons.Ballroom, link: "./" },
-  { name: "DANSNEAKERS", icon: Icons.Dansneakers, link: "./" },
-  { name: "MODERNO", icon: Icons.Moderno, link: "./" },
-  { name: "TANGO", icon: Icons.Tango, link: "./" },
-  { name: "OUTLET", icon: Icons.Outlet, link: "./" }
+  { name: "BALLET", icon: Icons.Ballet },
+  { name: "TAP", icon: Icons.Tap },
+  { name: "JAZZ", icon: Icons.Jazz },
+  { name: "PERSONAJE", icon: Icons.Personaje },
+  { name: "BALLROOM", icon: Icons.Ballroom },
+  { name: "DANSNEAKERS", icon: Icons.Dansneakers },
+  { name: "MODERNO", icon: Icons.Moderno },
+  { name: "TANGO", icon: Icons.Tango },
+  { name: "OUTLET", icon: Icons.Outlet }
 ];
 
 export default function Navbar({ openNavBar, openNavBarFunction, desktopScreen }: Props) {
   const { user, token } = useSelector((store: AppStore) => store.auth);
   const dispatch = useDispatch();
-
+  const { list } = useSelector((store: AppStore) => store.products);
+  const navigate = useNavigate();
+  const goToProducts = (categoryNav: string) => {
+    const resultSearch: Product[] = new Array();
+    list.forEach(element => {
+      const productCategory = element.Categories;
+      productCategory.forEach(category => {
+        category.name.toLowerCase() === categoryNav.toLowerCase() && resultSearch.push(element);
+      });
+    });
+    openNavBarFunction();
+    navigate("/products", { state: { inputSearch: categoryNav, resultSearch: resultSearch } });
+  };
   const logout = (): void => {
     dispatch(setLogout());
   };
@@ -46,10 +58,10 @@ export default function Navbar({ openNavBar, openNavBarFunction, desktopScreen }
             {menus.map((menu, index) => {
               return (
                 <li key={`menu-${index}`} className="categories__list__item">
-                  <Link to={menu.link}>
+                  <p className="item__text" onClick={() => goToProducts(menu.name)}>
                     <img src={menu.icon} alt="" />
                     {menu.name}
-                  </Link>
+                  </p>
                 </li>
               );
             })}
