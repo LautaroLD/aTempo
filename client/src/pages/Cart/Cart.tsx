@@ -10,11 +10,12 @@ import CartHeader from "../../components/Cart/CartHeader/CartHeader";
 import CartMessage from "../../components/Cart/CartMessage/CartMessage";
 import EditDirection from "../../components/ProfileComponents/EditDirection/EditDirection";
 import EditProfile from "../../components/ProfileComponents/EditProfile/EditProfile";
+import { CartModel } from "../../models/Cart";
 
 export default function Cart() {
   const [stage, setStage] = useState<number>(1);
-  const [cart, setCart] = useState<string[]>(["Hay algo en el carrito"]);
   const UserInformation: User = useSelector((store: AppStore) => store.auth.user);
+  const UserCart: CartModel = useSelector((store: AppStore) => store.auth.user.Cart);
 
   const incrementStage = (stage: number): void => {
     if (stage === 3) {
@@ -64,13 +65,13 @@ export default function Cart() {
   };
   return (
     <div className="cart">
-      {cart.length !== 0 ? (
+      {UserCart.Products.length !== 0 ? (
         <>
           <CartHeader stage={stage} />
           <div className="cart__container">
             {stage === 1 && <EditProfile mode="cart" />}
             {stage === 2 && <EditDirection mode="cart" />}
-            <CartBody />
+            <CartBody total={UserCart.totalPrice} products={UserCart.Products} />
           </div>
           <CartButtons
             stage={stage}
