@@ -1,5 +1,5 @@
 import { LoginValues } from "../../models/LoginValues";
-import { postRequest, putRequest } from "../../services/httpRequest";
+import { getRequest, postRequest, putRequest } from "../../services/httpRequest";
 import { createSlice, Dispatch } from "@reduxjs/toolkit";
 import { InitialAuth } from "../../models/InitialAuth";
 import {
@@ -29,6 +29,12 @@ export const initialAuth: InitialAuth = {
       street: "",
       number: 0,
       zipCode: 0
+    },
+    Cart: {
+      id: "",
+      totalPrice: "",
+      UserId: "",
+      Products: []
     }
   }
 };
@@ -91,6 +97,10 @@ export default authSlice.reducer;
 export const loginUser = (dataLogin: LoginValues) => async (dispatch: Dispatch) => {
   try {
     const auth = (await postRequest(dataLogin, "/users/login")) as InitialAuth;
+    const cart = await getRequest(`/cart?idCart=${auth.user.CartId}`);
+    if (cart.length !== 0) {
+      auth.user.Cart = cart;
+    }
     if (auth.token !== "") {
       dispatch(setLogin(auth));
       const authInStorage = { token: auth.token, user: auth.user };
