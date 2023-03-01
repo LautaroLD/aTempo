@@ -28,18 +28,18 @@ export default function EditDirection({ mode }: DirectionProps) {
   const [agreeTerms, setAgreeTerms] = useState<boolean>(false);
 
   const USER__DIRECTION__VALUES__FORM: UserDirection = {
-    id: UserInformation.addresses?.id,
+    id: UserInformation.Addresses?.id,
     userId: UserInformation.id,
-    country: UserInformation.addresses?.country,
-    state: UserInformation.addresses?.state,
-    city: UserInformation.addresses?.city,
-    street: UserInformation.addresses?.street,
-    number: UserInformation.addresses?.number,
-    zipCode: UserInformation.addresses?.zipCode
+    country: UserInformation.Addresses?.country,
+    state: UserInformation.Addresses?.state,
+    city: UserInformation.Addresses?.city,
+    street: UserInformation.Addresses?.street,
+    number: UserInformation.Addresses?.number,
+    zipCode: UserInformation.Addresses?.zipCode
   };
 
   const handleFormUserDirection = async (UserDirection: UserDirection) => {
-    if (!UserInformation.addresses?.id) {
+    if (!UserInformation.Addresses?.id) {
       const createUserDirection: boolean | string = await dispatch(
         postUserDirection(UserDirection)
       );

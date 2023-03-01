@@ -21,7 +21,7 @@ export const initialAuth: InitialAuth = {
     documentId: undefined,
     birthdate: undefined,
     isAdmin: false,
-    addresses: {
+    Addresses: {
       id: "",
       country: "",
       state: "",
@@ -42,7 +42,7 @@ export const authSlice = createSlice({
       state.user = action.payload.user;
       state.token = action.payload.token;
       if (action.payload.user.Addresses.length !== 0) {
-        state.user.addresses = {
+        state.user.Addresses = {
           id: action.payload.user.Addresses[0].id,
           country: action.payload.user.Addresses[0].country,
           state: action.payload.user.Addresses[0].state,
@@ -71,7 +71,7 @@ export const authSlice = createSlice({
       };
     },
     setUserDirection: (state, action) => {
-      state.user.addresses = {
+      state.user.Addresses = {
         id: action.payload.id,
         country: action.payload.country,
         state: action.payload.state,
@@ -149,7 +149,7 @@ export const postUserDirection = (dataDirection: UserDirection) => async (dispat
       token: localStorageAuth.token,
       user: {
         ...localStorageAuth.user,
-        addresses: {
+        Addresses: {
           id: newDirection.address.id,
           country: newDirection.address.country,
           state: newDirection.address.state,
@@ -181,7 +181,7 @@ export const updateUserDirection = (dataDirection: UserDirection) => async (disp
       token: localStorageAuth.token,
       user: {
         ...localStorageAuth.user,
-        addresses: {
+        Addresses: {
           id: updateDirection.address.id,
           country: updateDirection.address.country,
           state: updateDirection.address.state,
