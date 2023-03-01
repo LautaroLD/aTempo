@@ -3,7 +3,7 @@ const { Product, User, Cart, Color, Size, ProductsInCart } = require('../databas
 //* Add product to cart
 const addToCart = async (req, res) => {
 
-    const { idProduct, idCart, quantity, size, color, last } = req.query;
+    const { idProduct, idCart, quantity, size, color, last } = req.body;
 
     if (!idProduct || !idCart) {
         return res.status(400).json({ error: "Both 'idProduct' and 'idCart' parameters are required." });
