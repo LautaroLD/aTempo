@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { User } from "../../models/User";
-import { AppStore } from "../../app/store";
+import { AppDispatch, AppStore } from "../../app/store";
 import { toast } from "react-toastify";
 import CartBody from "../../components/Cart/CartBody/CartBody";
 import CartButtons from "../../components/Cart/CartButtons/CartButtons";
@@ -11,8 +11,11 @@ import CartMessage from "../../components/Cart/CartMessage/CartMessage";
 import EditDirection from "../../components/ProfileComponents/EditDirection/EditDirection";
 import EditProfile from "../../components/ProfileComponents/EditProfile/EditProfile";
 import { CartModel } from "../../models/Cart";
+import { getCart } from "../../app/state/authSlice";
+import { useDispatch } from "react-redux";
 
 export default function Cart() {
+  const dispatch = useDispatch<AppDispatch>();
   const [stage, setStage] = useState<number>(1);
   const UserInformation: User = useSelector((store: AppStore) => store.auth.user);
   const UserCart: CartModel = useSelector((store: AppStore) => store.auth.user.Cart);
@@ -63,9 +66,14 @@ export default function Cart() {
       setStage(stage - 1);
     }
   };
+
+  useEffect(() => {
+    dispatch(getCart(UserInformation.CartId))
+  }, [])
+  
   return (
     <div className="cart">
-      {UserCart.Products.length !== 0 ? (
+      {UserCart.Products ? (
         <>
           <CartHeader stage={stage} />
           <div className="cart__container">

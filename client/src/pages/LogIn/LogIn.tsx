@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../app/store";
+import { AppDispatch, AppStore } from "../../app/store";
 import { Link } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import YupPassword from "yup-password";
-import { loginUser } from "../../app/state/authSlice";
+import { getCart, loginUser } from "../../app/state/authSlice";
 import { LoginValues } from "../../models/LoginValues";
 import { Icons } from "../../assets/icons/icons";
 import { BiCheckbox, BiCheckboxChecked } from "react-icons/bi";
@@ -13,6 +13,8 @@ import { FcGoogle } from "react-icons/fc";
 import { FaEye } from "react-icons/fa";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { User } from "../../models/User";
+import { useSelector } from "react-redux";
 
 YupPassword(Yup);
 
