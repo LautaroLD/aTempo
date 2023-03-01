@@ -7,7 +7,7 @@ import RoleGuard from "./guards/RoleGuard";
 import AuthGuard from "./guards/AuthGuard";
 import { ToastContainer } from "react-toastify";
 
-const renderLoader = () => <p>Loading Page</p>;
+const Spinner = lazy(() => import("../components/Spinner/Spinner"));
 const AdminDashboard = lazy(() => import("../pages/Private/Admin/AdminDashboard/AdminDashboard"));
 const Home = lazy(() => import("../pages/Home/Home"));
 const LogIn = lazy(() => import("../pages/LogIn/LogIn"));
@@ -20,7 +20,7 @@ const NotFound = lazy(() => import("../pages/NotFound/NotFound"));
 
 export default function AppRoute() {
   return (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={<Spinner />}>
       <BrowserRouter>
         <Layout>
           <Routes>
