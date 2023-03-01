@@ -1,6 +1,11 @@
 import ProductCard from "../ProductCarousel/ProductCard/ProductCard";
 import FilterDropdown from "../FilterDropdown/FilterDropdown";
 import { Product } from "../../models/Product";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { AppDispatch, AppStore } from "../../app/store";
+import { getAllProducts } from "../../app/state/productsSlice";
 
 interface Props {
   setFiltersOpen: (active: boolean) => void;
@@ -15,6 +20,13 @@ const ProductList = ({
   inputSearch,
   resultSearch
 }: Props): JSX.Element => {
+  const dispatch = useDispatch<AppDispatch>();
+  const prodList = useSelector((store: AppStore) => store.products.list);
+
+  useEffect(() => {
+    if (prodList.length > 0) dispatch(getAllProducts());
+  }, []);
+
   return (
     <div className="productlist">
       <p className="productlist__text">Inicio - Resultados: "{inputSearch}"</p>
