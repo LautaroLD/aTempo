@@ -15,6 +15,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/zoom";
+import Spinner from "../../components/Spinner/Spinner";
 
 type IsActive = {
   details: boolean;
@@ -76,7 +77,7 @@ export default function ProductDetail() {
     setIsActive({ details: false, reviews: true });
   };
 
-  if (!product.id) return <div>Loading...</div>;
+  if (!product.id) return <Spinner />;
 
   return (
     <div className="productDetail__container">
