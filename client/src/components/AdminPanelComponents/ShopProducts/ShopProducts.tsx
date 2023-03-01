@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, AppStore } from "../../../app/store";
 import { getAllProducts } from "../../../app/state/productsSlice";
+import Spinner from "../../Spinner/Spinner";
 import { BiEdit, BiTrash } from "react-icons/bi";
 import { AiOutlineEye } from "react-icons/ai";
 
@@ -13,6 +14,8 @@ export default function ShopProducts() {
   useEffect(() => {
     if (prodList.length === 0) dispatch(getAllProducts());
   }, []);
+
+  if (prodList.length === 0) return <Spinner />;
 
   return (
     <div className="shop-products">
