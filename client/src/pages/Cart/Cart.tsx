@@ -14,18 +14,42 @@ import { CartModel, CartProducts } from "../../models/Cart";
 import { getCart, removeProductOfCart } from "../../app/state/authSlice";
 import { useDispatch } from "react-redux";
 import { setLocalStorage, getLocalStorage } from "../../utils/LocalStorageFunctions";
+import { getRequest } from "../../services/httpRequest";
+import Spinner from "../../components/Spinner/Spinner";
 
 export default function Cart() {
   const dispatch = useDispatch<AppDispatch>();
   const [stage, setStage] = useState<number>(1);
   const UserInformation: User = useSelector((store: AppStore) => store.auth.user);
   const UserCart: CartModel = useSelector((store: AppStore) => store.auth.user.Cart);
-  const UserLocalStorage = getLocalStorage('auth');
+  const UserLocalStorage = getLocalStorage("auth");
+  const [isLoadingPay, setIsLoadingPay] = useState<boolean>(false);
+
+  const handlePay = () => {
+    setIsLoadingPay(true);
+
+    getRequest("/mpago/process")
+      .then(res => {
+        window.location.href = res.link;
+      })
+      .catch(err => {
+        setIsLoadingPay(false);
+        toast.error("Se ha producido un error al generar tu pago, intentá en unos minutos", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored"
+        });
+      });
+  };
 
   const incrementStage = (stage: number): void => {
     if (stage === 3) {
-      console.log("Yendo a pagar con mercado pago");
-      return;
+      handlePay();
     } else {
       if (stage === 1) {
         if (UserInformation.documentId !== null && UserInformation.birthdate !== null) {
@@ -68,33 +92,46 @@ export default function Cart() {
       setStage(stage - 1);
     }
   };
-  const deleteProduct = async(product: CartProducts)=> {
-    await dispatch(removeProductOfCart({
-      idCart: UserCart.id,
-      idProduct: product.id,
-      quantity: product.ProductsInCart.quantity
-    }))
-    const cart = await dispatch(getCart(UserCart.id))
-    UserLocalStorage.user.Cart = cart
-    setLocalStorage("auth",UserLocalStorage)
-  }
+  const deleteProduct = async (product: CartProducts) => {
+    await dispatch(
+      removeProductOfCart({
+        idCart: UserCart.id,
+        idProduct: product.id,
+        quantity: product.ProductsInCart.quantity
+      })
+    );
+    const cart = await dispatch(getCart(UserCart.id));
+    UserLocalStorage.user.Cart = cart;
+    setLocalStorage("auth", UserLocalStorage);
+  };
 
-  
   return (
     <div className="cart">
-      {UserCart.Products.length !== 0  ? (
+      {UserCart.Products.length !== 0 ? (
         <>
           <CartHeader stage={stage} />
           <div className="cart__container">
             {stage === 1 && <EditProfile mode="cart" />}
             {stage === 2 && <EditDirection mode="cart" />}
-            <CartBody deleteProduct={deleteProduct} total={UserCart.totalPrice} products={UserLocalStorage.user.Cart.Products} />
+            {isLoadingPay ? (
+              <Spinner />
+            ) : (
+              <CartBody
+                deleteProduct={deleteProduct}
+                total={UserCart.totalPrice}
+                products={UserLocalStorage.user.Cart.Products}
+              />
+            )}
           </div>
-          <CartButtons
-            stage={stage}
-            incrementStage={incrementStage}
-            decrementStage={decrementStage}
-          />
+          {isLoadingPay ? (
+            <p>Yendo a MercadoPago, aguardá unos instantes...</p>
+          ) : (
+            <CartButtons
+              stage={stage}
+              incrementStage={incrementStage}
+              decrementStage={decrementStage}
+            />
+          )}
           {stage !== 3 ? (
             <p className="cart__offert">
               ¡SE ACERCAN LAS MUESTRAS DE FIN DE AÑO! Aprovecha un 20% OFF en compras al por mayor
