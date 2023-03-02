@@ -30,6 +30,8 @@ export default function Header() {
     });
   }, []);
 
+  
+
   if (isOpenNavBar && !isDesktopScreen) {
     document.body.style.overflow = "hidden";
   } else {
@@ -78,10 +80,10 @@ export default function Header() {
                 isDesktopScreen ? setIsOpenCartDropdown(!isOpenCartDropdown) : navigate("/cart")
               }
             >
-              <div className="cart__number">
+              <div className="cart__number" id="cart-icon">
                 {
-                  user.Cart.Products.length !== 0 ? 
-                    <p>+{ user.Cart.Products.length }</p>
+                  user.Cart.Products? 
+                    <p>+{ user.Cart.Products.length !== 0 ? user.Cart.Products.length : 0 }</p>
                     :
                     <p>0</p>
                 }
