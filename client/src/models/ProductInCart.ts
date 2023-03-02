@@ -1,7 +1,8 @@
 export type ProductInCart = {
-  productId: number;
+  idProduct: number;
+  idCart: number;
   quantity: number;
-  colors: string;
-  sizes: string;
-  shoeLast: string;
+  color: string;
+  size: string;
+  last: string;
 };

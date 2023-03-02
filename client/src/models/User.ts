@@ -30,5 +30,5 @@ export type UserInformationForm = {
   lastName: string;
   documentId?: number | string;
   birthdate?: Date | string;
-  id?: string | number
-}
+  id?: string | number;
+};

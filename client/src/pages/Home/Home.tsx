@@ -14,14 +14,14 @@ import { getLocalStorage, setLocalStorage } from "../../utils/LocalStorageFuncti
 export default function Home() {
   const dispatch = useDispatch<AppDispatch>();
   const UserInformation: User = useSelector((store: AppStore) => store.auth.user);
-  const UserLocalStorage = getLocalStorage('auth');
+  const UserLocalStorage = getLocalStorage("auth");
 
   useEffect(() => {
     dispatch(getAllProducts());
-    if(UserLocalStorage) {
+    if (UserLocalStorage) {
       const cart = dispatch(getCart(UserInformation.CartId));
-      UserLocalStorage.user.Cart = cart
-      setLocalStorage("auth",UserLocalStorage)
+      UserLocalStorage.user.Cart = cart;
+      setLocalStorage("auth", UserLocalStorage);
     }
   }, []);
 

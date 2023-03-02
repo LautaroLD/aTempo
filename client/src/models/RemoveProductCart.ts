@@ -1,5 +1,5 @@
 export type RemoveProductCart = {
-    idProduct: string | number;
-    idCart: string | number;
-    quantity: number
-}
+  idProduct: string | number;
+  idCart: string | number;
+  quantity: number;
+};

@@ -1,5 +1,5 @@
 import { useRef, useState, MouseEvent, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, AppStore } from "../../app/store";
 import { getProductsById } from "../../app/state/productsSlice";
@@ -11,6 +11,8 @@ import { BsFillSuitDiamondFill } from "react-icons/bs";
 import { AiFillHeart, AiOutlineHeart, AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { ProductInCart } from "../../models/ProductInCart";
 import { TypeTagsEmun } from "../../models/TypeTagsEmun";
+import { addToCart, getCart } from "../../app/state/authSlice";
+import { toast } from "react-toastify";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -28,27 +30,30 @@ const imgDefault: string =
 export default function ProductDetail() {
   const ref = useRef<SwiperRef>(null);
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+
+  const { Cart } = useSelector((store: AppStore) => store.auth.user);
+  const product = useSelector((store: AppStore) => store.products.detail);
+
   const [isFav, setIsFav] = useState<boolean>(false);
   const [isZoom, setIsZoom] = useState<boolean>(false);
   const [isActive, setIsActive] = useState<IsActive>({ details: true, reviews: false });
   const [addCart, setAddCart] = useState<ProductInCart>({
-    productId: 0,
+    idProduct: 0,
+    idCart: 0,
     quantity: 0,
-    colors: "",
-    sizes: "",
-    shoeLast: ""
+    color: "",
+    size: "",
+    last: ""
   });
-
-  const dispatch = useDispatch<AppDispatch>();
-
-  const product = useSelector((store: AppStore) => store.products.detail);
 
   const { id } = useParams();
 
   useEffect(() => {
     if (!isNaN(Number(id))) {
       dispatch(getProductsById(Number(id)));
-      setAddCart({ ...addCart, productId: Number(id) });
+      setAddCart({ ...addCart, idProduct: Number(id), idCart: Number(Cart.id) });
     }
   }, []);
 
@@ -69,6 +74,35 @@ export default function ProductDetail() {
         ref.current.swiper.zoom.in();
       }
       setIsZoom(!isZoom);
+    }
+  };
+
+  const handleAddtoCart = async (): Promise<void> => {
+    const productAdded = await dispatch(addToCart(addCart));
+    if (productAdded) {
+      toast.success("Producto Agregado", {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored"
+      });
+      await dispatch(getCart(productAdded.CardId));
+      navigate("/products");
+    } else {
+      toast.error("Este producto ya se encuentra agregado", {
+        position: "top-right",
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored"
+      });
     }
   };
 
@@ -94,8 +128,7 @@ export default function ProductDetail() {
           keyboard={true}
           modules={[Navigation, Pagination, Mousewheel, Keyboard, Zoom]}
           zoom={true}
-          onClick={handleClickZoom}
-        >
+          onClick={handleClickZoom}>
           {product.ProductImgs.length !== 0 ? (
             product.ProductImgs.map((image, index) => {
               return (
@@ -175,7 +208,7 @@ export default function ProductDetail() {
             <input type="numeric" value={addCart.quantity} readOnly />
             <AiOutlinePlus id="plus" onClick={event => handleQuantity(event)} className="icon" />
           </div>
-          <button className="btn__addcart" type="submit">
+          <button className="btn__addcart" onClick={handleAddtoCart}>
             Agregar al carrito
           </button>
           <div className="addFavorite" onClick={() => setIsFav(!isFav)}>
@@ -194,14 +227,12 @@ export default function ProductDetail() {
             <button
               id="detail"
               onClick={event => handleActiveDetail(event)}
-              className={`tab__btn ${isActive.details ? "tab__btn__active" : ""}`}
-            >
+              className={`tab__btn ${isActive.details ? "tab__btn__active" : ""}`}>
               Detalles
             </button>
             <button
               onClick={event => handleActiveDetail(event)}
-              className={`tab__btn ${isActive.reviews ? "tab__btn__active" : ""}`}
-            >
+              className={`tab__btn ${isActive.reviews ? "tab__btn__active" : ""}`}>
               Reseñas
             </button>
           </div>

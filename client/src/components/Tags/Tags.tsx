@@ -25,7 +25,7 @@ export const Tags: FC<Iprops> = ({ dataTag, type, addCart, setAddCart }) => {
   return (
     <div className="body__tag">
       {dataTag.map(data => {
-        return type === "colors" ? (
+        return type === "color" ? (
           <div
             key={`${data}-${data.id}`}
             id={data.id.toString()}

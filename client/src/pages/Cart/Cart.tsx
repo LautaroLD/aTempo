@@ -86,7 +86,6 @@ export default function Cart() {
   };
   const decrementStage = (stage: number): void => {
     if (stage === 1) {
-      console.log("No se puede decrementar más");
       return;
     } else {
       setStage(stage - 1);
@@ -107,7 +106,7 @@ export default function Cart() {
 
   return (
     <div className="cart">
-      {UserCart.Products.length !== 0 ? (
+      {UserCart?.Products?.length !== 0 ? (
         <>
           <CartHeader stage={stage} />
           <div className="cart__container">
@@ -119,7 +118,7 @@ export default function Cart() {
               <CartBody
                 deleteProduct={deleteProduct}
                 total={UserCart.totalPrice}
-                products={UserLocalStorage.user.Cart.Products}
+                products={UserLocalStorage.user?.Cart?.Products}
               />
             )}
           </div>

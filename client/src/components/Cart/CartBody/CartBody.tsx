@@ -7,11 +7,11 @@ type CartBodyProps = {
   deleteProduct: (product: CartProducts) => void;
 };
 
-export default function CartBody({ products,total,deleteProduct }: CartBodyProps) {
+export default function CartBody({ products, total, deleteProduct }: CartBodyProps) {
   return (
     <div className="cart__body">
       <h1 className="cart__body__title">DETALLE DEL PEDIDO</h1>
-      {products?.map((product:CartProducts) => {
+      {products?.map((product: CartProducts) => {
         return (
           <div key={product.id}>
             <div className="cart__body__info">
@@ -53,9 +53,9 @@ export default function CartBody({ products,total,deleteProduct }: CartBodyProps
               </div>
               <div className="cart__body__actions__totaldelete">
                 <p className="cart__body__actions__totaldelete__price">${product.price}</p>
-                <BiTrash 
+                <BiTrash
                   id={product.id}
-                  className="cart__body__actions__totaldelete__trash" 
+                  className="cart__body__actions__totaldelete__trash"
                   onClick={() => deleteProduct(product)}
                 />
               </div>

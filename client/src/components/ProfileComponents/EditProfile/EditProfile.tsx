@@ -29,7 +29,6 @@ type ProfileProps = {
   mode: string;
 };
 
-
 export default function EditProfile({ mode }: ProfileProps) {
   const dispatch = useDispatch<AppDispatch>();
   const UserInformation: User = useSelector((store: AppStore) => store.auth.user);
