@@ -5,8 +5,6 @@ import { CartModel } from "../../models/Cart";
 
 export default function ProductCartDropdown() {
   const cart:CartModel = useSelector((store: AppStore) => store.auth.user.Cart);
-  console.log(cart);
-  
   return (
     <div className="cartdropdown">
       <div className="cartdropdown__pendant"></div>
@@ -14,7 +12,7 @@ export default function ProductCartDropdown() {
         cart.Products.length !== 0 &&
           cart.Products.map(product => {
             return (
-              <>
+              <div key={product.id}>
                 <div className="cartdropdown__header">
                   <img
                     src={ product.ProductImgs[0].imgUrl }
@@ -33,7 +31,7 @@ export default function ProductCartDropdown() {
                   </div>
                 </div>
                 <hr />
-              </>
+              </div>
             )
           })
       }

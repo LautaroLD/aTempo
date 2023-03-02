@@ -8,7 +8,7 @@ import {
   clearLocalStorage
 } from "../../utils/LocalStorageFunctions";
 import { SignUpValues } from "../../models/SignUpValues";
-import { User, UserDirection } from "../../models/User";
+import { UserDirection, UserInformationForm } from "../../models/User";
 import { ChangePasswords } from "../../models/Password";
 import { RemoveProductCart } from "../../models/RemoveProductCart";
 
@@ -145,7 +145,7 @@ export const signUpUser = (dataSignUp: SignUpValues) => async () => {
   }
 };
 
-export const updateUserInformation = (UserInformation: User) => async (dispatch: Dispatch) => {
+export const updateUserInformation = (UserInformation: UserInformationForm) => async (dispatch: Dispatch) => {
   try {
     const update = await putRequest("/users/", UserInformation.id, UserInformation);
     if (update) {

@@ -6,7 +6,7 @@ import { BiCheckbox, BiCheckboxChecked } from "react-icons/bi";
 import * as Yup from "yup";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { User } from "../../../models/User";
+import { User, UserInformationForm } from "../../../models/User";
 import { AppStore } from "../../../app/store";
 import { updateUserInformation } from "../../../app/state/authSlice";
 import { toast } from "react-toastify";
@@ -29,13 +29,14 @@ type ProfileProps = {
   mode: string;
 };
 
+
 export default function EditProfile({ mode }: ProfileProps) {
   const dispatch = useDispatch<AppDispatch>();
   const UserInformation: User = useSelector((store: AppStore) => store.auth.user);
   const [notifications, setNotifications] = useState<boolean>(false);
   const [agreeTerms, setAgreeTerms] = useState<boolean>(false);
   const [date, setDate] = useState<Date>(new Date());
-  const USER__INFORMATION__VALUES__FORM: User = {
+  const USER__INFORMATION__VALUES__FORM: UserInformationForm = {
     email: UserInformation.email,
     name: UserInformation.name,
     lastName: UserInformation.lastName,
@@ -44,8 +45,8 @@ export default function EditProfile({ mode }: ProfileProps) {
     id: UserInformation.id
   };
 
-  const handleSubmitEditUser = async (values: User) => {
-    const updatedUserValues: User = {
+  const handleSubmitEditUser = async (values: UserInformationForm) => {
+    const updatedUserValues: UserInformationForm = {
       email: values.email,
       name: values.name,
       lastName: values.lastName,
@@ -95,7 +96,7 @@ export default function EditProfile({ mode }: ProfileProps) {
       <Formik
         initialValues={USER__INFORMATION__VALUES__FORM}
         validationSchema={userInformationSchema}
-        onSubmit={async (values: User) => {
+        onSubmit={async (values: UserInformationForm) => {
           handleSubmitEditUser(values);
         }}
       >
