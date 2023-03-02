@@ -9,15 +9,17 @@ import { Icons } from "../../assets/icons/icons";
 import { BiMenu, BiSearch } from "react-icons/bi";
 import { BsHeart } from "react-icons/bs";
 import ProductCartDropdown from "../ProductCartDropdown/ProductCartDropdown";
+import { CartModel } from "../../models/Cart";
 
 export default function Header() {
   const { user, token } = useSelector((store: AppStore) => store.auth);
-
+  const UserCart: CartModel = useSelector((store: AppStore) => store.auth.user.Cart);
   const [isOpenSearch, setIsOpenSearch] = useState<boolean>(false);
   const [isOpenNavBar, setIsOpenNavBar] = useState<boolean>(false);
   const [isLogin, setIsLogin] = useState<boolean>(false);
   const [isDesktopScreen, setIsDesktopScreen] = useState<boolean>(window.innerWidth >= 768);
   const [isOpenCartDropdown, setIsOpenCartDropdown] = useState<boolean>(false);
+  const [userCartProducts, setUserCartProducts] = useState<number>(0);
   const navigate = useNavigate();
   const { pathname } = useLocation();
   useEffect(() => {
@@ -29,9 +31,11 @@ export default function Header() {
       setIsDesktopScreen(window.innerWidth >= 768);
     });
   }, []);
-
-  
-
+  useEffect(() => {
+    UserCart.Products.forEach(prod => {
+      setUserCartProducts(userCartProducts + prod.ProductsInCart.quantity);
+    });
+  }, [UserCart]);
   if (isOpenNavBar && !isDesktopScreen) {
     document.body.style.overflow = "hidden";
   } else {
@@ -81,12 +85,7 @@ export default function Header() {
               }
             >
               <div className="cart__number" id="cart-icon">
-                {
-                  user.Cart.Products? 
-                    <p>+{ user.Cart.Products.length !== 0 ? user.Cart.Products.length : 0 }</p>
-                    :
-                    <p>0</p>
-                }
+                <p>{userCartProducts < 10 ? userCartProducts : "+9"}</p>
               </div>
               <img src={Icons.Cart} alt="" className="cart__img" />
               {isOpenCartDropdown && <ProductCartDropdown />}
