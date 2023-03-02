@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { User } from "../../models/User";
 import { useSelector } from "react-redux";
+import { getLocalStorage, setLocalStorage } from "../../utils/LocalStorageFunctions";
 
 YupPassword(Yup);
 
@@ -25,9 +26,16 @@ const loginSchema = Yup.object().shape({
 
 export default function LogIn() {
   const dispatch = useDispatch<AppDispatch>();
+  const UserInformation: User = useSelector((store: AppStore) => store.auth.user);
+  const UserLocalStorage = getLocalStorage("auth");
 
   const handleLogin = async (values: LoginValues) => {
     const isLogin = (await dispatch(loginUser(values))) as { login: true; msg: string };
+    if (UserLocalStorage) {
+      const cart = dispatch(getCart(UserInformation.CartId));
+      UserLocalStorage.user.Cart = cart;
+      setLocalStorage("auth", UserLocalStorage);
+    }
     if (isLogin.login) {
       toast.success(isLogin.msg, {
         position: "top-right",

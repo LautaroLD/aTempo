@@ -106,7 +106,7 @@ export default function Cart() {
 
   return (
     <div className="cart">
-      {UserCart?.Products?.length !== 0 ? (
+      {UserCart.Products && UserCart.Products.length !== 0 ? (
         <>
           <CartHeader stage={stage} />
           <div className="cart__container">
