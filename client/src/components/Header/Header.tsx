@@ -79,7 +79,12 @@ export default function Header() {
               }
             >
               <div className="cart__number">
-                <p>+9</p>
+                {
+                  user.Cart.Products.length !== 0 ? 
+                    <p>+{ user.Cart.Products.length }</p>
+                    :
+                    <p>0</p>
+                }
               </div>
               <img src={Icons.Cart} alt="" className="cart__img" />
               {isOpenCartDropdown && <ProductCartDropdown />}
