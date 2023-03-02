@@ -67,6 +67,7 @@ export const authSlice = createSlice({
     },
     setUserInformation: (state, action) => {
       state.user = {
+        ...state.user,
         name: action.payload.name,
         lastName: action.payload.lastName,
         documentId: action.payload.documentId,
@@ -80,6 +81,7 @@ export const authSlice = createSlice({
     },
     setUserDirection: (state, action) => {
       state.user.Addresses = {
+        ...state.user.Addresses,
         id: action.payload.id,
         country: action.payload.country,
         state: action.payload.state,
@@ -150,15 +152,15 @@ export const updateUserInformation = (UserInformation: User) => async (dispatch:
       dispatch(setUserInformation(update.params));
       const localStorageAuth = getLocalStorage("auth");
       const auth = {
-        token: localStorageAuth.token,
+        ...localStorageAuth,
         user: {
           ...localStorageAuth.user,
-          name: update.params.name,
-          lastName: update.params.lastName,
-          documentId: update.params.documentId,
-          birthdate: update.params.birthdate
+          name : update.params.name,
+          lastName : update.params.lastName,
+          documentId : update.params.documentId,
+          birthday : update.params.birthday
         }
-      };
+      }
       setLocalStorage("auth", auth);
       return "Perfil actualizado con éxito";
     }
@@ -175,20 +177,18 @@ export const postUserDirection = (dataDirection: UserDirection) => async (dispat
     dispatch(setUserDirection(newDirection.address));
     const localStorageAuth = getLocalStorage("auth");
     const auth = {
-      token: localStorageAuth.token,
+      ...localStorageAuth,
       user: {
         ...localStorageAuth.user,
-        Addresses: {
-          id: newDirection.address.id,
-          country: newDirection.address.country,
-          state: newDirection.address.state,
-          city: newDirection.address.city,
-          street: newDirection.address.street,
-          number: newDirection.address.number,
-          zipCode: newDirection.address.zipCode
-        }
+        id : newDirection.params.id,
+        country : newDirection.params.country,
+        state : newDirection.params.state,
+        city : newDirection.params.city,
+        street : newDirection.params.street,
+        number : newDirection.params.number,
+        zipCode : newDirection.params.zipCode
       }
-    };
+    }
     setLocalStorage("auth", auth);
     return true;
   } catch (error) {
