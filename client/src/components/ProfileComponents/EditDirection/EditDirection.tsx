@@ -18,7 +18,7 @@ const userInformationSchema = Yup.object().shape({
 });
 
 type DirectionProps = {
-  mode: string;
+  mode?: string;
 };
 
 export default function EditDirection({ mode }: DirectionProps) {
