@@ -8,12 +8,10 @@ type CartBodyProps = {
 };
 
 export default function CartBody({ products,total,deleteProduct }: CartBodyProps) {
-  console.log(products);
-  
   return (
     <div className="cart__body">
       <h1 className="cart__body__title">DETALLE DEL PEDIDO</h1>
-      {products.map((product:CartProducts) => {
+      {products?.map((product:CartProducts) => {
         return (
           <div key={product.id}>
             <div className="cart__body__info">
