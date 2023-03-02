@@ -73,7 +73,7 @@ export const authSlice = createSlice({
         name: action.payload.name,
         lastName: action.payload.lastName,
         documentId: action.payload.documentId,
-        birthday: action.payload.birthdate,
+        birthdate: action.payload.birthdate,
         createdAt: state.user.createdAt,
         updatedAt: state.user.updatedAt,
         deletedAt: state.user.deletedAt,
@@ -168,6 +168,10 @@ export const updateUserInformation =
   (UserInformation: UserInformationForm) => async (dispatch: Dispatch) => {
     try {
       const update = await putRequest("/users/", UserInformation.id, UserInformation);
+      console.log(update);
+      console.log(UserInformation);
+      
+      
       if (update) {
         dispatch(setUserInformation(update.params));
         const localStorageAuth = getLocalStorage("auth");
@@ -178,7 +182,7 @@ export const updateUserInformation =
             name: update.params.name,
             lastName: update.params.lastName,
             documentId: update.params.documentId,
-            birthday: update.params.birthday
+            birthdate: update.params.birthdate
           }
         };
         setLocalStorage("auth", auth);

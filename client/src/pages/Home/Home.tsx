@@ -18,11 +18,6 @@ export default function Home() {
 
   useEffect(() => {
     dispatch(getAllProducts());
-    if (UserLocalStorage) {
-      const cart = dispatch(getCart(UserInformation.CartId));
-      UserLocalStorage.user.Cart = cart;
-      setLocalStorage("auth", UserLocalStorage);
-    }
   }, []);
 
   return (
