@@ -1,3 +1,5 @@
+import { CartModel, CartProducts } from "./../../models/Cart";
+import { ProductInCart } from "./../../models/ProductInCart";
 import { LoginValues } from "../../models/LoginValues";
 import { getRequest, postRequest, putRequest } from "../../services/httpRequest";
 import { createSlice, Dispatch } from "@reduxjs/toolkit";
@@ -91,21 +93,34 @@ export const authSlice = createSlice({
         zipCode: action.payload.zipCode
       };
     },
-    setCart: (state,action) => {
-      state.user.Cart = {
+    setCart: (state, action) => {
+      state.user.Cart.Products = {
         id: action.payload.id,
         totalPrice: action.payload.totalPrice,
         UserId: action.payload.UserId,
         Products: action.payload.Products
-      }
+      };
     },
-    setCartProducts: (state,action) => {
-      state.user.cart.Products = action.payload.Products
+    setProdToCart: (state, action) => {
+      state.user.Cart = {
+        Products: [...state.user.Cart.Products, action.payload.Products]
+      };
+    },
+    setCartProducts: (state, action) => {
+      state.user.cart.Products = action.payload.Products;
     }
   }
 });
 
-export const { setLogin, setLogout, setUserInformation, setUserDirection, setCart, setCartProducts } = authSlice.actions;
+export const {
+  setLogin,
+  setLogout,
+  setUserInformation,
+  setUserDirection,
+  setCart,
+  setProdToCart,
+  setCartProducts
+} = authSlice.actions;
 
 export default authSlice.reducer;
 
@@ -125,15 +140,19 @@ export const loginUser = (dataLogin: LoginValues) => async (dispatch: Dispatch) 
   }
 };
 
-export const removeProductOfCart = (removeData: RemoveProductCart) => async (dispatch: Dispatch) => {
-  try {
-    const request = await postRequest(removeData,`/cart/remove?idProduct=${removeData.idProduct}&idCart=${removeData.idCart}&quantity=${removeData.quantity}`);
-    return request
-  } catch (error) {
-    const msgError = error as string;
-    return { login: false, msg: msgError.toString() };
-  }
-};
+export const removeProductOfCart =
+  (removeData: RemoveProductCart) => async (dispatch: Dispatch) => {
+    try {
+      const request = await postRequest(
+        removeData,
+        `/cart/remove?idProduct=${removeData.idProduct}&idCart=${removeData.idCart}&quantity=${removeData.quantity}`
+      );
+      return request;
+    } catch (error) {
+      const msgError = error as string;
+      return { login: false, msg: msgError.toString() };
+    }
+  };
 
 export const signUpUser = (dataSignUp: SignUpValues) => async () => {
   try {
@@ -145,31 +164,32 @@ export const signUpUser = (dataSignUp: SignUpValues) => async () => {
   }
 };
 
-export const updateUserInformation = (UserInformation: UserInformationForm) => async (dispatch: Dispatch) => {
-  try {
-    const update = await putRequest("/users/", UserInformation.id, UserInformation);
-    if (update) {
-      dispatch(setUserInformation(update.params));
-      const localStorageAuth = getLocalStorage("auth");
-      const auth = {
-        ...localStorageAuth,
-        user: {
-          ...localStorageAuth.user,
-          name : update.params.name,
-          lastName : update.params.lastName,
-          documentId : update.params.documentId,
-          birthday : update.params.birthday
-        }
+export const updateUserInformation =
+  (UserInformation: UserInformationForm) => async (dispatch: Dispatch) => {
+    try {
+      const update = await putRequest("/users/", UserInformation.id, UserInformation);
+      if (update) {
+        dispatch(setUserInformation(update.params));
+        const localStorageAuth = getLocalStorage("auth");
+        const auth = {
+          ...localStorageAuth,
+          user: {
+            ...localStorageAuth.user,
+            name: update.params.name,
+            lastName: update.params.lastName,
+            documentId: update.params.documentId,
+            birthday: update.params.birthday
+          }
+        };
+        setLocalStorage("auth", auth);
+        return "Perfil actualizado con éxito";
       }
-      setLocalStorage("auth", auth);
-      return "Perfil actualizado con éxito";
+      return false;
+    } catch (error) {
+      const msgError = error as string;
+      return msgError.toString();
     }
-    return false;
-  } catch (error) {
-    const msgError = error as string;
-    return msgError.toString();
-  }
-};
+  };
 
 export const postUserDirection = (dataDirection: UserDirection) => async (dispatch: Dispatch) => {
   try {
@@ -180,15 +200,15 @@ export const postUserDirection = (dataDirection: UserDirection) => async (dispat
       ...localStorageAuth,
       user: {
         ...localStorageAuth.user,
-        id : newDirection.params.id,
-        country : newDirection.params.country,
-        state : newDirection.params.state,
-        city : newDirection.params.city,
-        street : newDirection.params.street,
-        number : newDirection.params.number,
-        zipCode : newDirection.params.zipCode
+        id: newDirection.params.id,
+        country: newDirection.params.country,
+        state: newDirection.params.state,
+        city: newDirection.params.city,
+        street: newDirection.params.street,
+        number: newDirection.params.number,
+        zipCode: newDirection.params.zipCode
       }
-    }
+    };
     setLocalStorage("auth", auth);
     return true;
   } catch (error) {
@@ -232,7 +252,6 @@ export const updateUserDirection = (dataDirection: UserDirection) => async (disp
 export const updateUserPassword = (dataUser: ChangePasswords) => async () => {
   try {
     const request = await putRequest(`/users/`, `${dataUser.id}/password`, dataUser);
-    console.log(request);
     return "Cambio de contraseña exitoso";
   } catch (error) {
     const msgError = error as string;
@@ -247,11 +266,22 @@ export const getCart = (idCart: string | number) => async (dispatch: Dispatch) =
       dispatch(setCart(cart));
     }
     const localStorageAuth = getLocalStorage("auth");
-    localStorageAuth.user.Cart = cart
-    setLocalStorage("auth", localStorageAuth)
-    return cart
+    localStorageAuth.user.Cart = cart;
+    setLocalStorage("auth", localStorageAuth);
+    return cart;
   } catch (error) {
     const msgError = error as string;
     return { login: false, msg: msgError.toString() };
   }
-}
+};
+
+export const addToCart = (prodCart: ProductInCart) => async (dispatch: Dispatch) => {
+  try {
+    const cartProd = await postRequest(prodCart, `/cart/add`);
+
+    return cartProd.productAdded;
+  } catch (error) {
+    const msgError = error as string;
+    return { login: false, msg: msgError.toString() };
+  }
+};

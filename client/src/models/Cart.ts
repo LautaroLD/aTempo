@@ -14,7 +14,7 @@ export type CartProducts = {
   ProductImgs: CartProductImg[];
 };
 
-type CartProductInformation = {
+export type CartProductInformation = {
   id: string | number;
   name: string;
   quantity: number;
