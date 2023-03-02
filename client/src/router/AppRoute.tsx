@@ -17,6 +17,7 @@ const Products = lazy(() => import("../pages/Products/Products"));
 const ProductDetail = lazy(() => import("../pages/ProductDetail/ProductDetail"));
 const Cart = lazy(() => import("../pages/Cart/Cart"));
 const NotFound = lazy(() => import("../pages/NotFound/NotFound"));
+const Success = lazy(() => import("../pages/Success/Success"));
 
 export default function AppRoute() {
   return (
@@ -26,6 +27,7 @@ export default function AppRoute() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/success" element={<Success />} />
             <Route path={PublicRoutes.PRODUCTS} element={<Products />} />
             <Route path={PublicRoutes.PRODUCTDETAIL} element={<ProductDetail />} />
             <Route element={<AuthGuard privateValidation={true} />}>
