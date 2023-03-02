@@ -1,6 +1,7 @@
 const { generatePaymentLink } = require('../services/mpago.services');
 const { User, Order, Cart } = require("../database/models");
 const { getTokenCartId } = require('../helpers/getTokenCart');
+const { deleteCart } = require('./productsInCart.controller');
 
 const createCheckout = async (req, res) => {
   try {
@@ -69,7 +70,8 @@ const handlePayment = async (req, res) => {
       { status: status, paymentId: payment_id },
       { where: { id: Number(external_reference) } }
     );
-
+    //console.log(req.user.Cart.id);
+    deleteCart(req, res, req.user.Cart.id)
     res.status(200).json(({ message: `Payment ${payment_id} was ${status}` }))
 
   } catch (error) {
