@@ -10,7 +10,7 @@ import {
 import { SignUpValues } from "../../models/SignUpValues";
 import { User, UserDirection } from "../../models/User";
 import { ChangePasswords } from "../../models/Password";
-import { CartModel } from "../../models/Cart";
+import { RemoveProductCart } from "../../models/RemoveProductCart";
 
 export const initialAuth: InitialAuth = {
   token: "",
@@ -96,11 +96,14 @@ export const authSlice = createSlice({
         UserId: action.payload.UserId,
         Products: action.payload.Products
       }
+    },
+    setCartProducts: (state,action) => {
+      state.user.cart.Products = action.payload.Products
     }
   }
 });
 
-export const { setLogin, setLogout, setUserInformation, setUserDirection, setCart } = authSlice.actions;
+export const { setLogin, setLogout, setUserInformation, setUserDirection, setCart, setCartProducts } = authSlice.actions;
 
 export default authSlice.reducer;
 
@@ -120,18 +123,15 @@ export const loginUser = (dataLogin: LoginValues) => async (dispatch: Dispatch) 
   }
 };
 
-export const getCart = (idCart: string | number) => async (dispatch: Dispatch) => {
+export const removeProductOfCart = (removeData: RemoveProductCart) => async (dispatch: Dispatch) => {
   try {
-    const cart = await getRequest(`/cart?idCart=${idCart}`);
-    if (cart.length !== 0) {
-      dispatch(setCart(cart));
-    }
-    return cart
+    const request = await postRequest(removeData,`/cart/remove?idProduct=${removeData.idProduct}&idCart=${removeData.idCart}&quantity=${removeData.quantity}`);
+    return request
   } catch (error) {
     const msgError = error as string;
     return { login: false, msg: msgError.toString() };
   }
-}
+};
 
 export const signUpUser = (dataSignUp: SignUpValues) => async () => {
   try {
@@ -239,3 +239,19 @@ export const updateUserPassword = (dataUser: ChangePasswords) => async () => {
     return msgError.toString();
   }
 };
+
+export const getCart = (idCart: string | number) => async (dispatch: Dispatch) => {
+  try {
+    const cart = await getRequest(`/cart?idCart=${idCart}`);
+    if (cart.length !== 0) {
+      dispatch(setCart(cart));
+    }
+    const localStorageAuth = getLocalStorage("auth");
+    localStorageAuth.user.Cart = cart
+    setLocalStorage("auth", localStorageAuth)
+    return cart
+  } catch (error) {
+    const msgError = error as string;
+    return { login: false, msg: msgError.toString() };
+  }
+}
