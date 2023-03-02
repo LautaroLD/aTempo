@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { User } from "../../models/User";
@@ -10,15 +10,17 @@ import CartHeader from "../../components/Cart/CartHeader/CartHeader";
 import CartMessage from "../../components/Cart/CartMessage/CartMessage";
 import EditDirection from "../../components/ProfileComponents/EditDirection/EditDirection";
 import EditProfile from "../../components/ProfileComponents/EditProfile/EditProfile";
-import { CartModel } from "../../models/Cart";
-import { getCart } from "../../app/state/authSlice";
+import { CartModel, CartProducts } from "../../models/Cart";
+import { getCart, removeProductOfCart } from "../../app/state/authSlice";
 import { useDispatch } from "react-redux";
+import { setLocalStorage, getLocalStorage } from "../../utils/LocalStorageFunctions";
 
 export default function Cart() {
   const dispatch = useDispatch<AppDispatch>();
   const [stage, setStage] = useState<number>(1);
   const UserInformation: User = useSelector((store: AppStore) => store.auth.user);
   const UserCart: CartModel = useSelector((store: AppStore) => store.auth.user.Cart);
+  const UserLocalStorage = getLocalStorage('auth');
 
   const incrementStage = (stage: number): void => {
     if (stage === 3) {
@@ -66,20 +68,27 @@ export default function Cart() {
       setStage(stage - 1);
     }
   };
+  const deleteProduct = async(product: CartProducts)=> {
+    await dispatch(removeProductOfCart({
+      idCart: UserCart.id,
+      idProduct: product.id,
+      quantity: product.ProductsInCart.quantity
+    }))
+    const cart = await dispatch(getCart(UserCart.id))
+    UserLocalStorage.user.Cart = cart
+    setLocalStorage("auth",UserLocalStorage)
+  }
 
-  useEffect(() => {
-    dispatch(getCart(UserInformation.CartId))
-  }, [])
   
   return (
     <div className="cart">
-      {UserCart.Products ? (
+      {UserCart.Products.length !== 0  ? (
         <>
           <CartHeader stage={stage} />
           <div className="cart__container">
             {stage === 1 && <EditProfile mode="cart" />}
             {stage === 2 && <EditDirection mode="cart" />}
-            <CartBody total={UserCart.totalPrice} products={UserCart.Products} />
+            <CartBody deleteProduct={deleteProduct} total={UserCart.totalPrice} products={UserLocalStorage.user.Cart.Products} />
           </div>
           <CartButtons
             stage={stage}
