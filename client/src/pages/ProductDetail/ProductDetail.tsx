@@ -9,7 +9,7 @@ import { ScoreStar } from "../../components/ScoreStar/ScoreStar";
 import { Tags } from "../../components/Tags/Tags";
 import { BsFillSuitDiamondFill } from "react-icons/bs";
 import { AiFillHeart, AiOutlineHeart, AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
-import { ProductInCart } from "../../models/ProductInCart";
+import { ProductsInCart } from "../../models/ProductsInCart";
 import { TypeTagsEmun } from "../../models/TypeTagsEmun";
 import { addToCart, getCart } from "../../app/state/authSlice";
 import { toast } from "react-toastify";
@@ -38,10 +38,11 @@ export default function ProductDetail() {
 
   const [isFav, setIsFav] = useState<boolean>(false);
   const [isZoom, setIsZoom] = useState<boolean>(false);
+  const [missingData, setMissingData] = useState<boolean>(false);
   const [isActive, setIsActive] = useState<IsActive>({ details: true, reviews: false });
-  const [addCart, setAddCart] = useState<ProductInCart>({
-    idProduct: 0,
-    idCart: 0,
+  const [addCart, setAddCart] = useState<ProductsInCart>({
+    ProductId: 0,
+    CartId: 0,
     quantity: 0,
     color: "",
     size: "",
@@ -53,7 +54,7 @@ export default function ProductDetail() {
   useEffect(() => {
     if (!isNaN(Number(id))) {
       dispatch(getProductsById(Number(id)));
-      setAddCart({ ...addCart, idProduct: Number(id), idCart: Number(Cart.id) });
+      setAddCart({ ...addCart, ProductId: Number(id) });
     }
   }, []);
 
@@ -78,31 +79,41 @@ export default function ProductDetail() {
   };
 
   const handleAddtoCart = async (): Promise<void> => {
-    const productAdded = await dispatch(addToCart(addCart));
-    if (productAdded) {
-      toast.success("Producto Agregado", {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored"
-      });
-      await dispatch(getCart(productAdded.CardId));
-      navigate("/products");
+    if (
+      addCart.color === "" ||
+      addCart.size === "" ||
+      addCart.last === "" ||
+      addCart.quantity === 0
+    ) {
+      setMissingData(true);
     } else {
-      toast.error("Este producto ya se encuentra agregado", {
-        position: "top-right",
-        autoClose: 2500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored"
-      });
+      setMissingData(false);
+      const productAdded = await dispatch(addToCart(addCart));
+      if (productAdded) {
+        toast.success("Producto Agregado", {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored"
+        });
+        await dispatch(getCart(productAdded.CardId));
+        navigate("/products");
+      } else {
+        toast.error("Este producto ya se encuentra agregado", {
+          position: "top-right",
+          autoClose: 2500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored"
+        });
+      }
     }
   };
 
@@ -128,7 +139,8 @@ export default function ProductDetail() {
           keyboard={true}
           modules={[Navigation, Pagination, Mousewheel, Keyboard, Zoom]}
           zoom={true}
-          onClick={handleClickZoom}>
+          onClick={handleClickZoom}
+        >
           {product.ProductImgs.length !== 0 ? (
             product.ProductImgs.map((image, index) => {
               return (
@@ -208,6 +220,11 @@ export default function ProductDetail() {
             <input type="numeric" value={addCart.quantity} readOnly />
             <AiOutlinePlus id="plus" onClick={event => handleQuantity(event)} className="icon" />
           </div>
+          {missingData && (
+            <span className="missingData__notification__error">
+              Controle que se haya seleccionado, cantidad, color, talle y horma
+            </span>
+          )}
           <button className="btn__addcart" onClick={handleAddtoCart}>
             Agregar al carrito
           </button>
@@ -227,12 +244,14 @@ export default function ProductDetail() {
             <button
               id="detail"
               onClick={event => handleActiveDetail(event)}
-              className={`tab__btn ${isActive.details ? "tab__btn__active" : ""}`}>
+              className={`tab__btn ${isActive.details ? "tab__btn__active" : ""}`}
+            >
               Detalles
             </button>
             <button
               onClick={event => handleActiveDetail(event)}
-              className={`tab__btn ${isActive.reviews ? "tab__btn__active" : ""}`}>
+              className={`tab__btn ${isActive.reviews ? "tab__btn__active" : ""}`}
+            >
               Reseñas
             </button>
           </div>

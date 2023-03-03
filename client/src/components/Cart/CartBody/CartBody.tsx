@@ -40,6 +40,10 @@ export default function CartBody({ products, total, deleteProduct }: CartBodyPro
                     {product.ProductsInCart.size}
                   </p>
                 </span>
+                <span className="cart__body__info__description__detail">
+                  <p className="cart__body__info__description__detail__type">Precio:</p>
+                  <p className="cart__body__info__description__detail__item">${product.price}</p>
+                </span>
               </div>
             </div>
 
@@ -52,7 +56,9 @@ export default function CartBody({ products, total, deleteProduct }: CartBodyPro
                 <span className="cart__body__actions__container__action">+</span>
               </div>
               <div className="cart__body__actions__totaldelete">
-                <p className="cart__body__actions__totaldelete__price">${product.price}</p>
+                <p className="cart__body__actions__totaldelete__price">
+                  ${product.price * product.ProductsInCart.quantity}
+                </p>
                 <BiTrash
                   id={product.id}
                   className="cart__body__actions__totaldelete__trash"

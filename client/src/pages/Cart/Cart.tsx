@@ -13,7 +13,6 @@ import EditProfile from "../../components/ProfileComponents/EditProfile/EditProf
 import { CartModel, CartProducts } from "../../models/Cart";
 import { getCart, removeProductOfCart } from "../../app/state/authSlice";
 import { useDispatch } from "react-redux";
-import { setLocalStorage, getLocalStorage } from "../../utils/LocalStorageFunctions";
 import { getRequest } from "../../services/httpRequest";
 import Spinner from "../../components/Spinner/Spinner";
 
@@ -22,7 +21,6 @@ export default function Cart() {
   const [stage, setStage] = useState<number>(1);
   const UserInformation: User = useSelector((store: AppStore) => store.auth.user);
   const UserCart: CartModel = useSelector((store: AppStore) => store.auth.user.Cart);
-  const UserLocalStorage = getLocalStorage("auth");
   const [isLoadingPay, setIsLoadingPay] = useState<boolean>(false);
 
   const handlePay = () => {
@@ -99,9 +97,7 @@ export default function Cart() {
         quantity: product.ProductsInCart.quantity
       })
     );
-    const cart = await dispatch(getCart(UserCart.id));
-    UserLocalStorage.user.Cart = cart;
-    setLocalStorage("auth", UserLocalStorage);
+    await dispatch(getCart(UserCart.id));
   };
 
   return (
@@ -118,7 +114,7 @@ export default function Cart() {
               <CartBody
                 deleteProduct={deleteProduct}
                 total={UserCart.totalPrice}
-                products={UserLocalStorage.user?.Cart?.Products}
+                products={UserCart.Products}
               />
             )}
           </div>

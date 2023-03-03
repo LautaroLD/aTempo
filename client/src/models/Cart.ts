@@ -1,3 +1,5 @@
+import { ProductsInCart } from "./ProductsInCart";
+
 export type CartModel = {
   id: number | string;
   totalPrice: string;
@@ -9,18 +11,9 @@ export type CartProducts = {
   id: string;
   name: string;
   price: number;
-  ProductsInCart: CartProductInformation;
+  ProductsInCart: ProductsInCart;
   Brand: CartProductBrand;
   ProductImgs: CartProductImg[];
-};
-
-export type CartProductInformation = {
-  id: string | number;
-  name: string;
-  quantity: number;
-  size: string;
-  last: string;
-  color: string;
 };
 
 type CartProductBrand = {

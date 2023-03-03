@@ -1,5 +1,5 @@
 import { CartModel, CartProducts } from "./../../models/Cart";
-import { ProductInCart } from "./../../models/ProductInCart";
+import { ProductsInCart } from "../../models/ProductsInCart";
 import { LoginValues } from "../../models/LoginValues";
 import { getRequest, postRequest, putRequest } from "../../services/httpRequest";
 import { createSlice, Dispatch } from "@reduxjs/toolkit";
@@ -94,7 +94,7 @@ export const authSlice = createSlice({
       };
     },
     setCart: (state, action) => {
-      state.user.Cart.Products = {
+      state.user.Cart = {
         id: action.payload.id,
         totalPrice: action.payload.totalPrice,
         UserId: action.payload.UserId,
@@ -168,10 +168,7 @@ export const updateUserInformation =
   (UserInformation: UserInformationForm) => async (dispatch: Dispatch) => {
     try {
       const update = await putRequest("/users/", UserInformation.id, UserInformation);
-      console.log(update);
-      console.log(UserInformation);
-      
-      
+
       if (update) {
         dispatch(setUserInformation(update.params));
         const localStorageAuth = getLocalStorage("auth");
@@ -279,7 +276,7 @@ export const getCart = (idCart: string | number) => async (dispatch: Dispatch) =
   }
 };
 
-export const addToCart = (prodCart: ProductInCart) => async (dispatch: Dispatch) => {
+export const addToCart = (prodCart: ProductsInCart) => async (dispatch: Dispatch) => {
   try {
     const cartProd = await postRequest(prodCart, `/cart/add`);
 
