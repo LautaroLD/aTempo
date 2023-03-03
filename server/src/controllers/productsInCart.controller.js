@@ -4,22 +4,21 @@ const { getTokenCartId } = require('../helpers/getTokenCart');
 //* Add product to cart
 const addToCart = async (req, res) => {
 
-    const { idProduct, quantity, size, color, last } = req.body;
-
+    const { ProductId, quantity, size, color, last } = req.body;
     try {
         let tokenCartId = getTokenCartId(req);
 
-        const product = await Product.findByPk(parseInt(idProduct));
+        const product = await Product.findByPk(parseInt(ProductId));
         const cart = await Cart.findByPk(parseInt(tokenCartId));
 
         if (!product || !cart) {
-            let msg = !cart ? `Cart ${tokenCartId}` : `Product ${idProduct}`
+            let msg = !cart ? `Cart ${tokenCartId}` : `Product ${ProductId}`
             throw new Error(`${msg} not found`)
         }
 
         if (product.quantityInStock > 0 && product.quantityInStock >= quantity) {
             const productAdded = await ProductsInCart.create({
-                ProductId: idProduct,
+                ProductId,
                 CartId: tokenCartId,
                 quantity,
                 size,
