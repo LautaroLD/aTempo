@@ -9,7 +9,9 @@ import { ToastContainer } from "react-toastify";
 
 const Spinner = lazy(() => import("../components/Spinner/Spinner"));
 const AdminDashboard = lazy(() => import("../pages/Private/Admin/AdminDashboard/AdminDashboard"));
-const CreateProduct = lazy(() => import("../components/AdminPanelComponents/CreateProduct/CreateProduct"));
+const CreateProduct = lazy(
+  () => import("../components/AdminPanelComponents/CreateProduct/CreateProduct")
+);
 const Home = lazy(() => import("../pages/Home/Home"));
 const LogIn = lazy(() => import("../pages/LogIn/LogIn"));
 const SignUp = lazy(() => import("../pages/SignUp/SignUp"));
