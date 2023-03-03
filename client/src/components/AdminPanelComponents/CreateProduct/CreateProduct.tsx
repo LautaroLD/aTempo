@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ProductInCart } from "../../../models/ProductInCart";
+import { ProductsInCart } from "../../../models/ProductsInCart";
 import { TypeTagsEmun } from "../../../models/TypeTagsEmun";
 import { Tags } from "../../Tags/Tags";
 import { BsImageFill } from "react-icons/bs";
@@ -36,12 +36,12 @@ const sizes = [
 
 const CreateProduct = () => {
   const [productPic, setProductPic] = useState<FileList>();
-  const [addProduct, setAddProduct] = useState<ProductInCart>({
-    productId: 0,
+  const [addProduct, setAddProduct] = useState<ProductsInCart>({
+    ProductId: 0,
     quantity: 0,
-    colors: "",
-    sizes: "",
-    shoeLast: ""
+    color: "",
+    size: "",
+    last: ""
   });
   return (
     <div className="createProduct__container">
@@ -81,6 +81,7 @@ const CreateProduct = () => {
             type={TypeTagsEmun.sizes}
             addCart={addProduct}
             setAddCart={setAddProduct}
+            multiSelect={true}
           />
         </div>
       </div>

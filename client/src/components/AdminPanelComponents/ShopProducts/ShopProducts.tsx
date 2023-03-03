@@ -33,44 +33,48 @@ export default function ShopProducts() {
           </button>
         </div>
         <table className="shop-products__content__table">
-          <tr className="shop-products__content__table__tr">
-            <th>ID/REF</th>
-            <th>Imagenes</th>
-            <th>Titulo</th>
-            <th>Marca</th>
-            <th>Precio</th>
-            <th>Stock</th>
-            <th></th>
-          </tr>
-          {prodList.map(prod => {
-            return (
-              <tr key={`shop-product-${prod.id}`} className="shop-products__content__table__tr">
-                <td>{prod.id}</td>
-                <td>
-                  <img
-                    alt={prod.name}
-                    className="shop-products__content__table__tr__imgProd"
-                    src={prod.ProductImgs[0].imgUrl}
-                  />
-                </td>
-                <td>{prod.name}</td>
-                <td>
-                  <img
-                    alt={prod.Brand.name}
-                    className="shop-products__content__table__tr__imgBrand"
-                    src={prod.Brand.imgBrand}
-                  />
-                </td>
-                <td>${prod.price}</td>
-                <td>{prod.quantityInStock}</td>
-                <td>
-                  <AiOutlineEye className="shop-products__content__table__tr__icon" />{" "}
-                  <BiEdit className="shop-products__content__table__tr__icon" />{" "}
-                  <BiTrash color="red" className="shop-products__content__table__tr__icon" />
-                </td>
-              </tr>
-            );
-          })}
+          <thead>
+            <tr className="shop-products__content__table__tr">
+              <th>ID/REF</th>
+              <th>Imagenes</th>
+              <th>Titulo</th>
+              <th>Marca</th>
+              <th>Precio</th>
+              <th>Stock</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {prodList.map(prod => {
+              return (
+                <tr key={`shop-product-${prod.id}`} className="shop-products__content__table__tr">
+                  <td>{prod.id}</td>
+                  <td>
+                    <img
+                      alt={prod.name}
+                      className="shop-products__content__table__tr__imgProd"
+                      src={prod.ProductImgs[0].imgUrl}
+                    />
+                  </td>
+                  <td>{prod.name}</td>
+                  <td>
+                    <img
+                      alt={prod.Brand.name}
+                      className="shop-products__content__table__tr__imgBrand"
+                      src={prod.Brand.imgBrand}
+                    />
+                  </td>
+                  <td>${prod.price}</td>
+                  <td>{prod.quantityInStock}</td>
+                  <td>
+                    <AiOutlineEye className="shop-products__content__table__tr__icon" />{" "}
+                    <BiEdit className="shop-products__content__table__tr__icon" />{" "}
+                    <BiTrash color="red" className="shop-products__content__table__tr__icon" />
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
         </table>
       </div>
     </div>
