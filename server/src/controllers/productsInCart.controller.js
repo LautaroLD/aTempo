@@ -1,18 +1,5 @@
 const { Product, User, Cart, Color, Size, ProductsInCart } = require('../database/models');
-const { validateToken } = require("../helpers/jwtHandler");
-
-//* Verify that user's token contains a Cart and return his id
-const getTokenCartId = (req) => {
-    let token, tokenCartId;
-    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
-        token = req.headers.authorization.split(' ')[1]
-    }
-    const decodedToken = validateToken(token);
-    if (!decodedToken.user.Cart) {
-        throw new Error(`User does not have a cart`)
-    }
-    return tokenCartId = decodedToken.user.Cart.id;
-}
+const { getTokenCartId } = require('../helpers/getTokenCart');
 
 //* Add product to cart
 const addToCart = async (req, res) => {
@@ -103,26 +90,28 @@ const quantityHandler = async (req, res) => {
             }
         })
 
-        const newQuantityToAdd = (itemToUpdate.dataValues.quantity + parseInt(quantity))
-        const newQuantityToRem = (itemToUpdate.dataValues.quantity - parseInt(quantity))
+        let msg, newQuantityToAdd, newQuantityToRem;
 
-        if (newQuantityToAdd > product.dataValues.quantityInStock) {
-            throw new Error(`Not enough product stock`)
-        }
-
-        if (newQuantityToRem < 0) {
-            throw new Error(`There are no more products to remove`)
-        }
-
-        let msg;
         if (parseInt(modifier) === 1) {
+
+            newQuantityToAdd = (itemToUpdate.dataValues.quantity + parseInt(quantity))
+            if (newQuantityToAdd > product.dataValues.quantityInStock) {
+                throw new Error(`Not enough product stock`)
+            }
             await itemToUpdate.update({ quantity: newQuantityToAdd });
             await cart.increment({ totalPrice: (product.dataValues.price * quantity) });
             msg = `${quantity} product ${id} added succesfully to cart.`;
+
         } else {
+
+            newQuantityToRem = (itemToUpdate.dataValues.quantity - parseInt(quantity))
+            if (newQuantityToRem < 1) {
+                throw new Error(`There must be at least one product in the cart`)
+            }
             await itemToUpdate.update({ quantity: newQuantityToRem });
             await cart.decrement({ totalPrice: (product.dataValues.price * quantity) });
             msg = `${quantity} product ${id} removed succesfully of cart.`;
+
         }
 
         const newTotalPrice = await Cart.findByPk(parseInt(tokenCartId), { attributes: ["totalPrice"] })
@@ -171,10 +160,6 @@ const getCart = async (req, res) => {
 
 //* Empty cart
 const deleteCart = async (req, res) => {
-    const { idCart } = req.query;
-    if (!idCart) {
-        return res.status(400).json({ error: "The 'idCart' parameter is required." });
-    }
 
     try {
         let tokenCartId = getTokenCartId(req);
@@ -182,9 +167,11 @@ const deleteCart = async (req, res) => {
         await cart.removeProducts(cart.dataValues.Products);
         await Cart.update({ totalPrice: 0 }, { where: { id: parseInt(tokenCartId) } });
         res.status(200).json(cart);
+
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
+
 }
 
 module.exports = { getCart, addToCart, remToCart, deleteCart, quantityHandler }

@@ -1,5 +1,5 @@
 export enum TypeTagsEmun {
-  colors = "colors",
-  sizes = "sizes",
-  shoeLast = "shoeLast"
+  colors = "color",
+  sizes = "size",
+  shoeLast = "last"
 }

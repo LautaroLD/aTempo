@@ -1,3 +1,5 @@
+import { CartModel, CartProducts } from "./../../models/Cart";
+import { ProductInCart } from "./../../models/ProductInCart";
 import { LoginValues } from "../../models/LoginValues";
 import { getRequest, postRequest, putRequest } from "../../services/httpRequest";
 import { createSlice, Dispatch } from "@reduxjs/toolkit";
@@ -8,9 +10,9 @@ import {
   clearLocalStorage
 } from "../../utils/LocalStorageFunctions";
 import { SignUpValues } from "../../models/SignUpValues";
-import { User, UserDirection } from "../../models/User";
+import { UserDirection, UserInformationForm } from "../../models/User";
 import { ChangePasswords } from "../../models/Password";
-import { CartModel } from "../../models/Cart";
+import { RemoveProductCart } from "../../models/RemoveProductCart";
 
 export const initialAuth: InitialAuth = {
   token: "",
@@ -67,10 +69,11 @@ export const authSlice = createSlice({
     },
     setUserInformation: (state, action) => {
       state.user = {
+        ...state.user,
         name: action.payload.name,
         lastName: action.payload.lastName,
         documentId: action.payload.documentId,
-        birthday: action.payload.birthdate,
+        birthdate: action.payload.birthdate,
         createdAt: state.user.createdAt,
         updatedAt: state.user.updatedAt,
         deletedAt: state.user.deletedAt,
@@ -80,6 +83,7 @@ export const authSlice = createSlice({
     },
     setUserDirection: (state, action) => {
       state.user.Addresses = {
+        ...state.user.Addresses,
         id: action.payload.id,
         country: action.payload.country,
         state: action.payload.state,
@@ -89,18 +93,34 @@ export const authSlice = createSlice({
         zipCode: action.payload.zipCode
       };
     },
-    setCart: (state,action) => {
-      state.user.Cart = {
+    setCart: (state, action) => {
+      state.user.Cart.Products = {
         id: action.payload.id,
         totalPrice: action.payload.totalPrice,
         UserId: action.payload.UserId,
         Products: action.payload.Products
-      }
+      };
+    },
+    setProdToCart: (state, action) => {
+      state.user.Cart = {
+        Products: [...state.user.Cart.Products, action.payload.Products]
+      };
+    },
+    setCartProducts: (state, action) => {
+      state.user.cart.Products = action.payload.Products;
     }
   }
 });
 
-export const { setLogin, setLogout, setUserInformation, setUserDirection, setCart } = authSlice.actions;
+export const {
+  setLogin,
+  setLogout,
+  setUserInformation,
+  setUserDirection,
+  setCart,
+  setProdToCart,
+  setCartProducts
+} = authSlice.actions;
 
 export default authSlice.reducer;
 
@@ -120,18 +140,19 @@ export const loginUser = (dataLogin: LoginValues) => async (dispatch: Dispatch) 
   }
 };
 
-export const getCart = (idCart: string | number) => async (dispatch: Dispatch) => {
-  try {
-    const cart = await getRequest(`/cart?idCart=${idCart}`);
-    if (cart.length !== 0) {
-      dispatch(setCart(cart));
+export const removeProductOfCart =
+  (removeData: RemoveProductCart) => async (dispatch: Dispatch) => {
+    try {
+      const request = await postRequest(
+        removeData,
+        `/cart/remove?idProduct=${removeData.idProduct}&idCart=${removeData.idCart}&quantity=${removeData.quantity}`
+      );
+      return request;
+    } catch (error) {
+      const msgError = error as string;
+      return { login: false, msg: msgError.toString() };
     }
-    return cart
-  } catch (error) {
-    const msgError = error as string;
-    return { login: false, msg: msgError.toString() };
-  }
-}
+  };
 
 export const signUpUser = (dataSignUp: SignUpValues) => async () => {
   try {
@@ -143,31 +164,36 @@ export const signUpUser = (dataSignUp: SignUpValues) => async () => {
   }
 };
 
-export const updateUserInformation = (UserInformation: User) => async (dispatch: Dispatch) => {
-  try {
-    const update = await putRequest("/users/", UserInformation.id, UserInformation);
-    if (update) {
-      dispatch(setUserInformation(update.params));
-      const localStorageAuth = getLocalStorage("auth");
-      const auth = {
-        token: localStorageAuth.token,
-        user: {
-          ...localStorageAuth.user,
-          name: update.params.name,
-          lastName: update.params.lastName,
-          documentId: update.params.documentId,
-          birthdate: update.params.birthdate
-        }
-      };
-      setLocalStorage("auth", auth);
-      return "Perfil actualizado con éxito";
+export const updateUserInformation =
+  (UserInformation: UserInformationForm) => async (dispatch: Dispatch) => {
+    try {
+      const update = await putRequest("/users/", UserInformation.id, UserInformation);
+      console.log(update);
+      console.log(UserInformation);
+      
+      
+      if (update) {
+        dispatch(setUserInformation(update.params));
+        const localStorageAuth = getLocalStorage("auth");
+        const auth = {
+          ...localStorageAuth,
+          user: {
+            ...localStorageAuth.user,
+            name: update.params.name,
+            lastName: update.params.lastName,
+            documentId: update.params.documentId,
+            birthdate: update.params.birthdate
+          }
+        };
+        setLocalStorage("auth", auth);
+        return "Perfil actualizado con éxito";
+      }
+      return false;
+    } catch (error) {
+      const msgError = error as string;
+      return msgError.toString();
     }
-    return false;
-  } catch (error) {
-    const msgError = error as string;
-    return msgError.toString();
-  }
-};
+  };
 
 export const postUserDirection = (dataDirection: UserDirection) => async (dispatch: Dispatch) => {
   try {
@@ -175,18 +201,16 @@ export const postUserDirection = (dataDirection: UserDirection) => async (dispat
     dispatch(setUserDirection(newDirection.address));
     const localStorageAuth = getLocalStorage("auth");
     const auth = {
-      token: localStorageAuth.token,
+      ...localStorageAuth,
       user: {
         ...localStorageAuth.user,
-        Addresses: {
-          id: newDirection.address.id,
-          country: newDirection.address.country,
-          state: newDirection.address.state,
-          city: newDirection.address.city,
-          street: newDirection.address.street,
-          number: newDirection.address.number,
-          zipCode: newDirection.address.zipCode
-        }
+        id: newDirection.params.id,
+        country: newDirection.params.country,
+        state: newDirection.params.state,
+        city: newDirection.params.city,
+        street: newDirection.params.street,
+        number: newDirection.params.number,
+        zipCode: newDirection.params.zipCode
       }
     };
     setLocalStorage("auth", auth);
@@ -232,10 +256,36 @@ export const updateUserDirection = (dataDirection: UserDirection) => async (disp
 export const updateUserPassword = (dataUser: ChangePasswords) => async () => {
   try {
     const request = await putRequest(`/users/`, `${dataUser.id}/password`, dataUser);
-    console.log(request);
     return "Cambio de contraseña exitoso";
   } catch (error) {
     const msgError = error as string;
     return msgError.toString();
+  }
+};
+
+export const getCart = (idCart: string | number) => async (dispatch: Dispatch) => {
+  try {
+    const cart = await getRequest(`/cart?idCart=${idCart}`);
+    if (cart.length !== 0) {
+      dispatch(setCart(cart));
+    }
+    const localStorageAuth = getLocalStorage("auth");
+    localStorageAuth.user.Cart = cart;
+    setLocalStorage("auth", localStorageAuth);
+    return cart;
+  } catch (error) {
+    const msgError = error as string;
+    return { login: false, msg: msgError.toString() };
+  }
+};
+
+export const addToCart = (prodCart: ProductInCart) => async (dispatch: Dispatch) => {
+  try {
+    const cartProd = await postRequest(prodCart, `/cart/add`);
+
+    return cartProd.productAdded;
+  } catch (error) {
+    const msgError = error as string;
+    return { login: false, msg: msgError.toString() };
   }
 };

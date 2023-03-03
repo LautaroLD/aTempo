@@ -23,3 +23,12 @@ export type UserDirection = {
   number?: number;
   zipCode?: number;
 };
+
+export type UserInformationForm = {
+  email: string;
+  name: string;
+  lastName: string;
+  documentId?: number | string;
+  birthdate?: Date | string;
+  id?: string | number;
+};

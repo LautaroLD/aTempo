@@ -6,7 +6,7 @@ export type CartModel = {
 };
 
 export type CartProducts = {
-  id: string | number;
+  id: string;
   name: string;
   price: number;
   ProductsInCart: CartProductInformation;
@@ -14,7 +14,7 @@ export type CartProducts = {
   ProductImgs: CartProductImg[];
 };
 
-type CartProductInformation = {
+export type CartProductInformation = {
   id: string | number;
   name: string;
   quantity: number;
