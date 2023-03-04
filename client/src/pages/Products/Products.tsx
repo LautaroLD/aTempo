@@ -1,14 +1,11 @@
-import { useState, useEffect } from "react";
-import ProductList from "../../components/ProductList/ProductList";
-import FilterDropdown from "../../components/FilterDropdown/FilterDropdown";
+import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { AppDispatch, AppStore } from "../../app/store";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import ProductList from "../../components/ProductList/ProductList";
 import { getAllProducts } from "../../app/state/productsSlice";
+import { AppDispatch, AppStore } from "../../app/store";
 
 export default function Products() {
-  const [filtersOpen, setFiltersOpen] = useState<boolean>(false);
   const { state } = useLocation();
   const dispatch = useDispatch<AppDispatch>();
   const { list } = useSelector((store: AppStore) => store.products);
@@ -25,16 +22,7 @@ export default function Products() {
 
   return (
     <div>
-      {filtersOpen ? (
-        <FilterDropdown setFiltersOpen={setFiltersOpen} filtersOpen={filtersOpen} />
-      ) : (
-        <ProductList
-          inputSearch={input}
-          resultSearch={result}
-          setFiltersOpen={setFiltersOpen}
-          filtersOpen={filtersOpen}
-        />
-      )}
+      <ProductList inputSearch={input} resultSearch={result} />
     </div>
   );
 }
