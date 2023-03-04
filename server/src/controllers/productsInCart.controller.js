@@ -27,6 +27,7 @@ const addToCart = async (req, res) => {
             });
 
             await cart.increment({ totalPrice: (product.dataValues.price * quantity) });
+            await product.decrement({ quantityInStock: quantity });
             res.status(200).json({ message: "Added succesfully.", productAdded });
         } else {
             res
