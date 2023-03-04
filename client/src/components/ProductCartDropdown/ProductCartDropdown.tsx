@@ -2,7 +2,6 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { AppStore } from "../../app/store";
 import { CartModel, CartProducts } from "../../models/Cart";
-import { getLocalStorage } from "../../utils/LocalStorageFunctions";
 
 export default function ProductCartDropdown() {
   const user = useSelector((store: AppStore) => store.auth.user);

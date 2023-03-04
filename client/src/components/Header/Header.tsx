@@ -5,21 +5,18 @@ import { AppStore } from "../../app/store";
 import Navbar from "./Navbar/Navbar";
 import FormSearch from "./FormSearch/FormSearch";
 import UserDropMenu from "./UserDropMenu/UserDropMenu";
+import ProductCartDropdown from "../ProductCartDropdown/ProductCartDropdown";
 import { Icons } from "../../assets/icons/icons";
 import { BiMenu, BiSearch } from "react-icons/bi";
 import { BsHeart } from "react-icons/bs";
-import ProductCartDropdown from "../ProductCartDropdown/ProductCartDropdown";
-import { CartModel } from "../../models/Cart";
 
 export default function Header() {
   const { user, token } = useSelector((store: AppStore) => store.auth);
-  const UserCart: CartModel = useSelector((store: AppStore) => store.auth.user.Cart);
 
   const [isOpenSearch, setIsOpenSearch] = useState<boolean>(false);
   const [isOpenNavBar, setIsOpenNavBar] = useState<boolean>(false);
   const [isDesktopScreen, setIsDesktopScreen] = useState<boolean>(window.innerWidth >= 768);
   const [isOpenCartDropdown, setIsOpenCartDropdown] = useState<boolean>(false);
-  const [userCartProducts, setUserCartProducts] = useState<number>(0);
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -33,11 +30,13 @@ export default function Header() {
     window.addEventListener("resize", () => {
       setIsDesktopScreen(window.innerWidth >= 768);
     });
-  }, []);
 
-  useEffect(() => {
-    setUserCartProducts(UserCart?.Products?.length);
-  }, [UserCart]);
+    return () => {
+      window.removeEventListener("resize", () => {
+        setIsDesktopScreen(window.innerWidth >= 768);
+      });
+    };
+  }, []);
 
   if (isOpenNavBar && !isDesktopScreen) {
     document.body.style.overflow = "hidden";
