@@ -78,7 +78,10 @@ export default function Navbar({ openNavBar, openNavBarFunction, desktopScreen }
               </li>
             )}
             <li className="bottom__list__item item">
-              <Link className="item__link" to={user.name ? "/profile" : "/login"}>
+              <Link
+                className="item__link"
+                to={user.name ? (user.isAdmin ? "/admin" : "/profile") : "/login"}
+              >
                 {user.name ? (
                   <>
                     <FaUser className="item__link__icon" />

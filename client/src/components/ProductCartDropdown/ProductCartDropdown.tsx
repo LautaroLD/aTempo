@@ -1,18 +1,21 @@
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { AppStore } from "../../app/store";
-import { CartProducts } from "../../models/Cart";
+import { CartModel, CartProducts } from "../../models/Cart";
 import { getLocalStorage } from "../../utils/LocalStorageFunctions";
 
 export default function ProductCartDropdown() {
-  // const cart = useSelector((store: AppStore) => store.auth.user.Cart);
-  const auth = getLocalStorage("auth");
-  const cart = auth.user.Cart
+  const user = useSelector((store: AppStore) => store.auth.user);
+  const cart: CartModel = user.Cart.Products
+    ? user.Cart
+    : { id: "", UserId: "", totalPrice: "0", Products: [] };
+
   return (
     <div className="cartdropdown">
       <div className="cartdropdown__pendant"></div>
-      {cart.Products && cart.Products.length !== 0 &&
-        cart?.Products?.map((product: CartProducts) => {
+      {cart.Products &&
+        cart.Products?.length !== 0 &&
+        cart.Products?.map((product: CartProducts) => {
           return (
             <div key={product.id}>
               <div className="cartdropdown__header">

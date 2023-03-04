@@ -9,6 +9,9 @@ import { ToastContainer } from "react-toastify";
 
 const Spinner = lazy(() => import("../components/Spinner/Spinner"));
 const AdminDashboard = lazy(() => import("../pages/Private/Admin/AdminDashboard/AdminDashboard"));
+const CreateProduct = lazy(
+  () => import("../components/AdminPanelComponents/CreateProduct/CreateProduct")
+);
 const Home = lazy(() => import("../pages/Home/Home"));
 const LogIn = lazy(() => import("../pages/LogIn/LogIn"));
 const SignUp = lazy(() => import("../pages/SignUp/SignUp"));
@@ -39,6 +42,7 @@ export default function AppRoute() {
             </Route>
             <Route element={<RoleGuard rol={Roles.ADMIN} />}>
               <Route path={`${PrivateRoutes.ADMIN}/*`} element={<AdminDashboard />} />
+              <Route path={`${PrivateRoutes.ADMIN}/add`} element={<CreateProduct />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
