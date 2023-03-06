@@ -26,7 +26,8 @@ La app ofrece una amplia variedad de beneficios y ventajas tanto para los consum
         en cualquier momento del día, sin tener que salir de casa o ir a una tienda física.
 
       * Variedad de productos: las e-commerce suelen ofrecer una gran variedad de productos de 
-        diferentes marcas y categorías, lo que permite a los consumidores encontrar lo que necesitan fácilmente.
+        diferentes marcas y categorías, lo que permite a los consumidores encontrar lo que necesitan 
+        fácilmente.
 
       * Comparación de precios: los consumidores pueden comparar precios de diferentes productos 
         y vendedores para encontrar la mejor oferta.
