@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ProductsInCart } from "../../../models/ProductsInCart";
 import { TypeTagsEmun } from "../../../models/TypeTagsEmun";
 import { Tags } from "../../Tags/Tags";
 import { BsImageFill } from "react-icons/bs";
 import { AiOutlinePlus } from "react-icons/ai";
+import { toast } from "react-toastify";
 
 const colors = [
   { id: "456", name: "negro", value: "#000000" },
@@ -36,6 +37,8 @@ const sizes = [
 
 const CreateProduct = () => {
   const [productPic, setProductPic] = useState<FileList>();
+  const [images, setImages] = useState<Array<string>>([]);
+  const [notImages, setNotImages] = useState([...new Array(5)]);
   const [addProduct, setAddProduct] = useState<ProductsInCart>({
     ProductId: 0,
     quantity: 0,
@@ -43,6 +46,40 @@ const CreateProduct = () => {
     size: "",
     last: ""
   });
+
+  const uploadImageList = () => {
+    if (productPic) {
+      if (productPic?.length > 5) {
+        toast.error("El maximo es de 5 imagenes", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored"
+        });
+        return;
+      }
+
+      const imagesList = [] as Array<string>;
+
+      for (const img of productPic) {
+        imagesList.push(URL.createObjectURL(img));
+      }
+      setNotImages([...new Array(5 - imagesList.length)]);
+
+      setImages(imagesList);
+    }
+  };
+
+  useEffect(() => {
+    uploadImageList();
+
+    return () => {};
+  }, [productPic]);
+
   return (
     <div className="createProduct__container">
       <span className="createProduct__title">NUEVO PRODUCTO</span>
@@ -93,27 +130,27 @@ const CreateProduct = () => {
           addCart={addProduct}
           setAddCart={setAddProduct}
         />
-        <p className="form__title">Imagenes</p>
+
+        <p className="form__title">Imagenes (max 5)</p>
         <div className="images__container">
-          <div className="imgProd__container">
-            <BsImageFill className="imgProd__icon" />
-          </div>
-          <div className="imgProd__container">
-            <BsImageFill className="imgProd__icon" />
-          </div>
-          <div className="imgProd__container">
-            <BsImageFill className="imgProd__icon" />
-          </div>
-          <div className="imgProd__container">
-            <BsImageFill className="imgProd__icon" />
-          </div>
-          <div className="imgProd__container">
-            <BsImageFill className="imgProd__icon" />
-          </div>
+          {images.map((image, index) => {
+            return (
+              <div key={`image-${index}`} className="imgProd__container">
+                <img className="img__preview" src={image} />
+              </div>
+            );
+          })}
+          {notImages.map((image, index) => {
+            return (
+              <div key={`notImage-${index}`} className="imgProd__container">
+                <BsImageFill className="imgProd__icon" />
+              </div>
+            );
+          })}
           <div className="imgProd__container">
             <label className="imgProd__container">
               <div className="imgProd__button__text">
-                <AiOutlinePlus /> Agregar <br /> Producto
+                <AiOutlinePlus /> Agregar <br /> Imagen/es
               </div>
               <input
                 id="dropzone-file"
@@ -126,8 +163,8 @@ const CreateProduct = () => {
           </div>
         </div>
         <p className="form__title">Descripción</p>
-        <textarea />
-        <button>Guardar</button>
+        <textarea className="form__description_product" />
+        <button className="save__product">Guardar</button>
       </div>
     </div>
   );
