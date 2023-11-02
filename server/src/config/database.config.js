@@ -6,6 +6,7 @@ const username = process.env.DB_USER || 'root';
 const database = process.env.DB_NAME;
 const password = process.env.DB_PASS;
 const dialect = process.env.DB_TYPE;
+const logging = false;
 
 //Config seeds
 const seederStorage = 'sequelize';
@@ -16,12 +17,13 @@ const migrationStorage = 'sequelize';
 const migrationStorageTableName = 'migrations';
 
 
-module.exports ={
+module.exports = {
     host,
     username,
     database,
     password,
     dialect,
+    logging,
     seederStorage,
     seederStorageTableName,
     migrationStorage,

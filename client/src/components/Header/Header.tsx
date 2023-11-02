@@ -5,29 +5,37 @@ import { AppStore } from "../../app/store";
 import Navbar from "./Navbar/Navbar";
 import FormSearch from "./FormSearch/FormSearch";
 import UserDropMenu from "./UserDropMenu/UserDropMenu";
+import ProductCartDropdown from "../ProductCartDropdown/ProductCartDropdown";
 import { Icons } from "../../assets/icons/icons";
 import { BiMenu, BiSearch } from "react-icons/bi";
 import { BsHeart } from "react-icons/bs";
-import ProductCartDropdown from "../ProductCartDropdown/ProductCartDropdown";
 
 export default function Header() {
   const { user, token } = useSelector((store: AppStore) => store.auth);
 
   const [isOpenSearch, setIsOpenSearch] = useState<boolean>(false);
   const [isOpenNavBar, setIsOpenNavBar] = useState<boolean>(false);
-  const [isLogin, setIsLogin] = useState<boolean>(false);
   const [isDesktopScreen, setIsDesktopScreen] = useState<boolean>(window.innerWidth >= 768);
   const [isOpenCartDropdown, setIsOpenCartDropdown] = useState<boolean>(false);
+
   const navigate = useNavigate();
   const { pathname } = useLocation();
+
   useEffect(() => {
     setIsOpenNavBar(false);
     setIsOpenCartDropdown(false);
   }, [pathname]);
+
   useEffect(() => {
     window.addEventListener("resize", () => {
       setIsDesktopScreen(window.innerWidth >= 768);
     });
+
+    return () => {
+      window.removeEventListener("resize", () => {
+        setIsDesktopScreen(window.innerWidth >= 768);
+      });
+    };
   }, []);
 
   if (isOpenNavBar && !isDesktopScreen) {
@@ -78,8 +86,12 @@ export default function Header() {
                 isDesktopScreen ? setIsOpenCartDropdown(!isOpenCartDropdown) : navigate("/cart")
               }
             >
-              <div className="cart__number">
-                <p>+9</p>
+              <div className="cart__number" id="cart-icon">
+                {user.Cart.Products ? (
+                  <p>+{user.Cart.Products.length !== 0 ? user.Cart.Products.length : 0}</p>
+                ) : (
+                  <p>0</p>
+                )}
               </div>
               <img src={Icons.Cart} alt="" className="cart__img" />
               {isOpenCartDropdown && <ProductCartDropdown />}

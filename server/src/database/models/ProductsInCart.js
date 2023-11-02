@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     status: DataTypes.BOOLEAN,
     size: DataTypes.STRING,
     color: DataTypes.STRING,
-    last: DataTypes.STRING
+    last: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'ProductsInCart',

@@ -28,7 +28,7 @@ export const postRequest = async (dataObject: {}, endpoint: string) => {
   }
 };
 
-export const getRequest = async (endpoint: string) => {
+export const getRequest = async (endpoint: string | number) => {
   try {
     const { data } = await axios.get(URL + endpoint, {
       headers: {

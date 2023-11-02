@@ -1,0 +1,173 @@
+import { useEffect, useState } from "react";
+import { ProductsInCart } from "../../../models/ProductsInCart";
+import { TypeTagsEmun } from "../../../models/TypeTagsEmun";
+import { Tags } from "../../Tags/Tags";
+import { BsImageFill } from "react-icons/bs";
+import { AiOutlinePlus } from "react-icons/ai";
+import { toast } from "react-toastify";
+
+const colors = [
+  { id: "456", name: "negro", value: "#000000" },
+  { id: "457", name: "marron", value: "#D8BEAF" },
+  { id: "458", name: "rojo", value: "#DF3A01" },
+  { id: "459", name: "rosa", value: "#F5A9F2" },
+  { id: "460", name: "naranja", value: "#FF8000" },
+  { id: "461", name: "amarillo", value: "#FFFF00" }
+];
+
+const shoesLast = [
+  { id: "10", name: "R", value: "R" },
+  { id: "11", name: "A", value: "A" }
+];
+
+const sizes = [
+  { id: "256", name: "negro", value: "17" },
+  { id: "257", name: "marron", value: "17.5" },
+  { id: "258", name: "rojo", value: "18" },
+  { id: "259", name: "rosa", value: "18.5" },
+  { id: "260", name: "naranja", value: "19" },
+  { id: "261", name: "amarillo", value: "19.5" },
+  { id: "262", name: "naranja", value: "20" },
+  { id: "263", name: "amarillo", value: "20.5" },
+  { id: "264", name: "naranja", value: "21" },
+  { id: "265", name: "amarillo", value: "21.5" },
+  { id: "266", name: "naranja", value: "22" },
+  { id: "267", name: "amarillo", value: "22.5" }
+];
+
+const CreateProduct = () => {
+  const [productPic, setProductPic] = useState<FileList>();
+  const [images, setImages] = useState<Array<string>>([]);
+  const [notImages, setNotImages] = useState([...new Array(5)]);
+  const [addProduct, setAddProduct] = useState<ProductsInCart>({
+    ProductId: 0,
+    quantity: 0,
+    color: "",
+    size: "",
+    last: ""
+  });
+
+  const uploadImageList = () => {
+    if (productPic) {
+      if (productPic?.length > 5) {
+        toast.error("El maximo es de 5 imagenes", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored"
+        });
+        return;
+      }
+
+      const imagesList = [] as Array<string>;
+
+      for (const img of productPic) {
+        imagesList.push(URL.createObjectURL(img));
+      }
+      setNotImages([...new Array(5 - imagesList.length)]);
+
+      setImages(imagesList);
+    }
+  };
+
+  useEffect(() => {
+    uploadImageList();
+
+    return () => {};
+  }, [productPic]);
+
+  return (
+    <div className="createProduct__container">
+      <span className="createProduct__title">NUEVO PRODUCTO</span>
+      <div className="createProduct__options">
+        <div className="options__left__container">
+          <p className="form__title">Titulo</p>
+          <input type="text" />
+          <p className="form__title">Stock</p>
+          <input type="number" />
+          <p className="form__title">Precio</p>
+          <input type="text" />
+          <p className="form__title">Categoria</p>
+          <select name="categ" id="01">
+            <option value="all">todas las categorias</option>
+          </select>
+          <p className="form__title">Marcas</p>
+          <select name="categ" id="01">
+            <option value="all">todas las marcas</option>
+          </select>
+        </div>
+        <div className="options__right__container">
+          <div className="addCategory__container">
+            <p className="form__title">Categorias seleccionadas</p>
+          </div>
+          <p className="form__title">Horma</p>
+          <Tags
+            dataTag={shoesLast}
+            type={TypeTagsEmun.shoeLast}
+            addCart={addProduct}
+            setAddCart={setAddProduct}
+            title="Horma"
+          />
+          <p className="form__title">Talles</p>
+          <Tags
+            dataTag={sizes}
+            type={TypeTagsEmun.sizes}
+            addCart={addProduct}
+            setAddCart={setAddProduct}
+            multiSelect={true}
+          />
+        </div>
+      </div>
+      <div className="options__bottom_container">
+        <p className="form__title">Colores</p>
+        <Tags
+          dataTag={colors}
+          type={TypeTagsEmun.colors}
+          addCart={addProduct}
+          setAddCart={setAddProduct}
+        />
+
+        <p className="form__title">Imagenes (max 5)</p>
+        <div className="images__container">
+          {images.map((image, index) => {
+            return (
+              <div key={`image-${index}`} className="imgProd__container">
+                <img className="img__preview" src={image} />
+              </div>
+            );
+          })}
+          {notImages.map((image, index) => {
+            return (
+              <div key={`notImage-${index}`} className="imgProd__container">
+                <BsImageFill className="imgProd__icon" />
+              </div>
+            );
+          })}
+          <div className="imgProd__container">
+            <label className="imgProd__container">
+              <div className="imgProd__button__text">
+                <AiOutlinePlus /> Agregar <br /> Imagen/es
+              </div>
+              <input
+                id="dropzone-file"
+                type="file"
+                name="productPic"
+                multiple
+                onChange={e => setProductPic(e.target.files ? e.target.files : productPic)}
+              />
+            </label>
+          </div>
+        </div>
+        <p className="form__title">Descripción</p>
+        <textarea className="form__description_product" />
+        <button className="save__product">Guardar</button>
+      </div>
+    </div>
+  );
+};
+
+export default CreateProduct;

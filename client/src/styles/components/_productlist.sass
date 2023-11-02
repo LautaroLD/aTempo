@@ -1,9 +1,13 @@
 @import '../../styles/_variables'
 
+@mixin respond-to ()
+    @media only screen and (min-width: 550px)
+        @content
+
 .productlist
     display: flex
     flex-direction: column
-    flex-wrap: wrap
+    // flex-wrap: wrap
     width: 100%
     .productlist__text
         font-size: 1rem
@@ -20,20 +24,29 @@
         margin-bottom: 2rem
         align-self: start
         margin-left: 1rem
-    .productlist__btn
-        width: 90%
-        max-width: 23.0625rem
-        height: 2.5rem
-        text-align: center
-        align-self: center        
-        background: #E42E2E
-        border-radius: .4rem
-        border: none
-        color: #fff
-        font-size: 1.1rem
-        font-weight: 700
-        padding: 0
-        margin-bottom: .75rem
+    .container_filter_productList
+        display: flex
+        flex-direction: column
+        align-items: center
+        .container__button
+            display: flex
+            flex-direction: column
+            align-items: center
+            width: 90%
+            .productlist__btn
+                width: 90%
+                max-width: 23.0625rem
+                height: 2.5rem
+                text-align: center
+                align-self: center
+                background: #E42E2E
+                border-radius: .4rem
+                border: none
+                color: #fff
+                font-size: 1.1rem
+                font-weight: 700
+                padding: 0
+                margin-bottom: .75rem
     .productlist__text__pagination
         font-style: normal
         font-size: .75
@@ -52,7 +65,7 @@
         display: flex
         justify-content: center
         margin-bottom: .75rem
-        gap: .4rem 
+        gap: .4rem
         .productlist__pagination__btn
             display: flex
             justify-content: center
@@ -66,3 +79,22 @@
             font-size: .9rem
             font-weight: 400
             cursor: pointer
+
+@include respond-to ()
+    .productlist
+        .productlist__text__pagination
+            text-align: right
+            margin-right: 1rem
+            margin-bottom: 1rem
+        .container_filter_productList
+            flex-direction: row
+            align-items: flex-start
+            justify-content: start
+            .container__button
+                max-width: 24rem
+            .productlist__card__group
+                width: 100%
+                margin: 5px 10px 0 10px
+                max-width: none
+                justify-content: center
+                gap: 1rem

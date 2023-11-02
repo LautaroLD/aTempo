@@ -36,7 +36,7 @@ export default function UserDropMenu() {
               {isOpenUserMenu ? <BiChevronUp /> : <BiChevronDown />}
             </div>
             <div className="userDropMenu" hidden={!isOpenUserMenu}>
-              <Link to={"/"} className="userDropMenu__btn__primary">
+              <Link to={"/admin"} className="userDropMenu__btn__primary">
                 Panel de Productos
               </Link>
               <Link to={"/"} className="userDropMenu__btn">

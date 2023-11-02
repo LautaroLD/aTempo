@@ -31,13 +31,13 @@ app.use('/products', routerProduct);
 app.use('/users', routerUsers);
 app.use('/colors', routerColor);
 app.use('/mpago', checkoutRouter);
-app.use('/cart',routerCart);
-app.use('/size',routerSize);
+app.use('/cart', routerCart);
+app.use('/size', routerSize);
 
 app.use((req, res, next) => {
-    res.status(404).json({
-        status: '404',
-        description: 'page not found'
+    res.status(200).json({
+        status: '200',
+        description: 'Welcome to A-Tempo API'
     })
 });
 

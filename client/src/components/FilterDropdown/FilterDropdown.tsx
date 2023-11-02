@@ -93,7 +93,6 @@ type Properties = {
 const FilterDropdown = ({ setFiltersOpen, filtersOpen }: Props) => {
   const [show, setShow] = useState<Number | null>(null);
   const [filterOptions, setFilterOptions] = useState<Properties[]>([]);
-  console.log(filterOptions);
 
   const handleAddFilter = (item: Properties) => {
     const itemFinded = filterOptions.find((option: Properties) => option.name === item.name);

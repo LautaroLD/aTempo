@@ -9,6 +9,9 @@ import { ToastContainer } from "react-toastify";
 
 const Spinner = lazy(() => import("../components/Spinner/Spinner"));
 const AdminDashboard = lazy(() => import("../pages/Private/Admin/AdminDashboard/AdminDashboard"));
+const CreateProduct = lazy(
+  () => import("../components/AdminPanelComponents/CreateProduct/CreateProduct")
+);
 const Home = lazy(() => import("../pages/Home/Home"));
 const LogIn = lazy(() => import("../pages/LogIn/LogIn"));
 const SignUp = lazy(() => import("../pages/SignUp/SignUp"));
@@ -17,6 +20,7 @@ const Products = lazy(() => import("../pages/Products/Products"));
 const ProductDetail = lazy(() => import("../pages/ProductDetail/ProductDetail"));
 const Cart = lazy(() => import("../pages/Cart/Cart"));
 const NotFound = lazy(() => import("../pages/NotFound/NotFound"));
+const Success = lazy(() => import("../pages/Success/Success"));
 
 export default function AppRoute() {
   return (
@@ -26,6 +30,7 @@ export default function AppRoute() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/success" element={<Success />} />
             <Route path={PublicRoutes.PRODUCTS} element={<Products />} />
             <Route path={PublicRoutes.PRODUCTDETAIL} element={<ProductDetail />} />
             <Route element={<AuthGuard privateValidation={true} />}>
@@ -37,6 +42,7 @@ export default function AppRoute() {
             </Route>
             <Route element={<RoleGuard rol={Roles.ADMIN} />}>
               <Route path={`${PrivateRoutes.ADMIN}/*`} element={<AdminDashboard />} />
+              <Route path={`${PrivateRoutes.ADMIN}/add`} element={<CreateProduct />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
