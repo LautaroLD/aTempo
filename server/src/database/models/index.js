@@ -6,12 +6,9 @@ const Sequelize = require('sequelize');
 const basename = path.basename(__filename);
 const config = require('../../config/database.config');
 const db = {};
-
+console.log(config);
 //Crear conexion
-let sequelize = new Sequelize(config.database, config.username, config.password, {
-  dialect: 'mysql',
-  ...config
-});
+let sequelize = new Sequelize(config.database, config.username, config.password, config);
 
 //Asociaciones y vinculaciones
 fs
