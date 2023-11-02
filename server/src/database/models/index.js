@@ -8,7 +8,7 @@ const config = require('../../config/database.config');
 const db = {};
 
 //Crear conexion
-let sequelize = new Sequelize(config.database, config.username, config.password, config);
+let sequelize = new Sequelize(config.database, config.username, config.password, config.dialect);
 
 //Asociaciones y vinculaciones
 fs
