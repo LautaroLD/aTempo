@@ -9,7 +9,7 @@ const db = {};
 
 //Crear conexion
 let sequelize = new Sequelize(config.database, config.username, config.password, {
-  dialect: config.dialect
+  dialect: 'mysql'
 });
 
 //Asociaciones y vinculaciones
